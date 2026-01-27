@@ -25,7 +25,7 @@ class CSVCompileAdoc
 
   def preamble
     @adf.puts <<PREAMBLE
-= #{@proj} tables
+= #{@proj} に含まれる表
 WMO
 :toc:
 
@@ -39,16 +39,14 @@ PREAMBLE
     bn=File.basename(csvfnam)
     table=CSV.read(csvfnam,headers:true)
     if table.empty?
-      @adf.puts "=== file #{bn}"
-      @adf.puts "_(no rows)_"
-      @adf.puts ""
-      return
+      raise "empty file #{bn}"
     end
     headers=table.headers
     row1=table.first
     if headers[0]=='Title_en' and headers[1]=='SubTitle_en' then
-      @adf.puts "=== #{row1['Title_en']}"
+      @adf.puts "=== file #{bn}: #{row1['Title_en']}"
       @adf.puts "#{row1['SubTitle_en']}"
+      @adf.puts
     else
       @adf.puts "=== file #{bn}"
     end
