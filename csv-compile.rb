@@ -53,10 +53,25 @@ PREAMBLE
     when /^GRIB2_CodeFlag_4_2_(\d+)_(\d+)_CodeTable_en\.csv$/ then
       disc,categ=$1,$2
       "GRIB2: Code Table 4.2 / product discipline #{disc}, parameter category #{categ}"
+    when /^BUFRCREX_TableB_en_(\d+)\.csv$/ then
+      cls=$1
+      "BUFR4: Table B, Class #{cls}"
+    when /^(BUFR|CREX)_Table([AC])_en\.csv$/ then
+      cfm,tn=$1,$2
+      "BUFR4: #{cfm} Table #{tn}"
+    when /^(BUFR|CREX)_TableD_en_(\d+)\.csv$/ then
+      cfm,cls=$1,$2
+      "BUFR4: #{cfm} Table D, Class #{cls}"
     when /^BUFRCREX_CodeFlag_en_(\d+)\.csv$/ then
-      "BUFR4: CT #{format('%03u', $1.to_i)}"
+      "BUFR4: Class #{format('%02u', $1.to_i)} - BUFR/CREX table entries"
+    when /^COV\.csv$/ then
+      "CCT: Common Code Tables to Binary and Alphanumeric Codes"
+    when /^C(\d+)\.csv$/ then
+      tn=$1
+      tn=format('%u', tn.to_i)
+      "CCT: Common Code Table C-#{tn}"
     else
-      warn "unknown file pattern #{csvfnam}"
+      raise "unknown file pattern #{csvfnam}"
       csvfnam
     end
   end
