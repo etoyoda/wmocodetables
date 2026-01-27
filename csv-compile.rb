@@ -34,6 +34,33 @@ WMO
 PREAMBLE
   end
 
+  def decamel camel
+    camel.gsub(/(?<! )([A-Z][a-z]+)/) do
+      word=Regexp.last_match(1).to_s
+      " #{word}"
+    end
+  end
+
+  def csvtabname csvfnam
+    case csvfnam
+    when /^GRIB2_Template_(\d+)_(\d+)_(\w+)_en\.csv$/ then
+      sec,tnu,ttyp=$1,$2,$3
+      ttyp=decamel(ttyp)
+      "GRIB2: #{ttyp} #{sec}.#{tnu}"
+    when /^GRIB2_CodeFlag_(\d+)_(\d+)_(Code|Flag)Table_en\.csv$/ then
+      sec,tnu,ttyp=$1,$2,$3
+      "GRIB2: #{ttyp} Table #{sec}.#{tnu}"
+    when /^GRIB2_CodeFlag_4_2_(\d+)_(\d+)_CodeTable_en\.csv$/ then
+      disc,categ=$1,$2
+      "GRIB2: Code Table 4.2 / product discipline #{disc}, parameter category #{categ}"
+    when /^BUFRCREX_CodeFlag_en_(\d+)\.csv$/ then
+      "BUFR4: CT #{format('%03u', $1.to_i)}"
+    else
+      warn "unknown file pattern #{csvfnam}"
+      csvfnam
+    end
+  end
+
   def csvconv csvfnam
     lfirst=true
     bn=File.basename(csvfnam)
@@ -43,12 +70,13 @@ PREAMBLE
     end
     headers=table.headers
     row1=table.first
+    tabname=csvtabname(bn)
     if headers[0]=='Title_en' and headers[1]=='SubTitle_en' then
-      @adf.puts "=== file #{bn}: #{row1['Title_en']}"
+      @adf.puts "=== #{tabname} - #{row1['Title_en']}"
       @adf.puts "#{row1['SubTitle_en']}"
       @adf.puts
     else
-      @adf.puts "=== file #{bn}"
+      @adf.puts "=== #{tabname}"
     end
     cols=headers.reject{|h| h=='Title_en' or h=='SubTitle_en'}
     @adf.puts '[options="header"]'
