@@ -63,7 +63,7 @@ PREAMBLE
       cfm,cls=$1,$2
       "BUFR4: #{cfm} Table D, Class #{cls}"
     when /^BUFRCREX_CodeFlag_en_(\d+)\.csv$/ then
-      "BUFR4: Class #{format('%02u', $1.to_i)} - BUFR/CREX table entries"
+      "BUFR4: BUFR/CREX Code/Flag Table Class #{format('%02u', $1.to_i)}"
     when /^COV\.csv$/ then
       "CCT: Common Code Tables to Binary and Alphanumeric Codes"
     when /^C(\d+)\.csv$/ then
