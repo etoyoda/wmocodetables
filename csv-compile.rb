@@ -88,11 +88,11 @@ PREAMBLE
     when /^GRIB2_Template_(\d+)_(\d+)_(\w+)_en\.csv$/ then
       sec,tnu,ttyp=$1,$2,$3
       ttyp.gsub!(/[a-z]/,'')
-      format('G-%s%u.%05u', ttyp, sec.to_i, tnu.to_i)
+      format('G-%s%u-%05u', ttyp, sec.to_i, tnu.to_i)
     when /^GRIB2_CodeFlag_(\d+)_(\d+)_((Code|Flag)Table)_en\.csv$/ then
       sec,tnu,ttyp=$1,$2,$3
       ttyp.gsub!(/[a-z]/,'')
-      format('G-%s%u.%05u', ttyp, sec.to_i, tnu.to_i)
+      format('G-%s%u-%05u', ttyp, sec.to_i, tnu.to_i)
     when /^GRIB2_CodeFlag_4_2_(\d+)_(\d+)_CodeTable_en\.csv$/ then
       disc,categ=$1,$2
       format('G-CT4.2.%02u.%05u', disc.to_i, categ.to_i)
