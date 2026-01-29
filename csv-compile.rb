@@ -139,20 +139,22 @@ PREAMBLE
       nids=$1.split(/,/)
       raise "bn2 #{ids.inspect} #{nids.inspect}" unless ids.size == nids.size
       ids.size.times{|i|
-        footnotes[nids[i]]=ids[i]
-        links.push([nids[i],ids[i]])
+        text=nids[i]
+        aid="#{tabname}_n#{ids[i]}"
+        footnotes[text]=aid
+        links.push([aid,text])
       }
-      links.first.first.sub!(/^/,'(see Note ')
-      links.last.first.sub!(/$/,')')
+      links.first.last.sub!(/^/,'(see Note ')
+      links.last.last.sub!(/$/,')')
       links
     elsif row['codeTable'] then
       raise :unexpected unless /^G/===tabname
       sec,tno=row['codeTable'].split(/\./,2)
-      [cell,format("G-CT%u-%05u", sec.to_i, tno.to_i)]
+      [[format("G-CT%u-%05u", sec.to_i, tno.to_i),cell]]
     elsif row['flagTable'] then
       raise :unexpected unless /^G/===tabname
       sec,tno=row['flagTable'].split(/\./,2)
-      [cell,format("G-FT%u-%05u", sec.to_i, tno.to_i)]
+      [[format("G-FT%u-%05u", sec.to_i, tno.to_i),cell]]
     else
       nil
     end
@@ -209,7 +211,8 @@ PREAMBLE
           link=nil
         end
         if link then
-          link.each{|k,v| vals.push "|<<#{k},#{v}>>" }
+          vals.push '|'
+          link.each{|k,v| vals.push "<<#{k},#{v}>>" }
         else
           vals.push "|#{row[h]}"
         end
@@ -218,9 +221,11 @@ PREAMBLE
     }
     @adf.puts '|==='
     unless footnotes.empty? then
+      @adf.puts ''
       @adf.puts '脚注:'
       footnotes.each{|link,text|
-        @adf.puts "* [[#{link}]]#{text}"
+        @adf.puts ''
+        @adf.puts "[[#{text}]]#{link}"
       }
     end
     @adf.puts ''
