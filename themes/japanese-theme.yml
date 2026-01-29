@@ -1,0 +1,31 @@
+extends: default
+
+font:
+  catalog:
+    IPAexGothic:
+      normal: /usr/share/fonts/opentype/ipaexfont-gothic/ipaexg.ttf
+      bold: /usr/share/fonts/opentype/ipaexfont-gothic/ipaexg.ttf
+      italic: /usr/share/fonts/opentype/ipaexfont-gothic/ipaexg.ttf
+      bold_italic: /usr/share/fonts/opentype/ipaexfont-gothic/ipaexg.ttf
+    IPAexMincho:
+      normal: /usr/share/fonts/opentype/ipaexfont-mincho/ipaexm.ttf
+      bold: /usr/share/fonts/opentype/ipaexfont-mincho/ipaexm.ttf
+      italic: /usr/share/fonts/opentype/ipaexfont-mincho/ipaexm.ttf
+      bold_italic: /usr/share/fonts/opentype/ipaexfont-mincho/ipaexm.ttf
+  fallbacks:
+    - IPAexMincho
+    - IPAexGothic
+
+base:
+  font-family: IPAexMincho
+  line_height: 1.4
+
+heading:
+  font_family: IPAexGothic
+  margin_top: 1.4
+  margin_bottom: 0.8
+  line_height: 1.25
+
+table:
+  cell:
+    padding: [6, 8, 6, 8]
