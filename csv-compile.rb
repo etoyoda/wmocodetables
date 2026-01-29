@@ -218,7 +218,7 @@ PREAMBLE
     }
     @adf.puts '|==='
     unless footnotes.empty? then
-      @adf.puts ''
+      @adf.puts '脚注:'
       footnotes.each{|link,text|
         @adf.puts "* [[#{link}]]#{text}"
       }
