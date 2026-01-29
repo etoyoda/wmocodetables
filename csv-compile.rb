@@ -117,6 +117,21 @@ PREAMBLE
     end
   end
 
+  def mklink(tabname,row,localnotes)
+    if row['noteIDs'] then
+      nil
+    elsif row['codeTable'] then
+      raise :unexpected unless /^G/===tabname
+      sec,tno=row['codeTable'].split(/\./,2)
+      format("G-CT%u-%05u", sec.to_i, tno.to_i)
+    elsif row['flagTable'] then
+      raise :unexpected unless /^G/===tabname
+      sec,tno=row['flagTable'].split(/\./,2)
+      format("G-FT%u-%05u", sec.to_i, tno.to_i)
+    else nil
+    end
+  end
+
   def csvconv kwd, csvfnam, level=4
     lfirst=true
     bn=File.basename(csvfnam)
@@ -138,13 +153,15 @@ PREAMBLE
         table.each{|row| emptycol=false unless row['Value'].to_s.empty?}
         cols.push col unless emptycol
       when 'noteIDs','codeTable','flagTable' then
-        modeid=true
+        raise unless headers.include?('Note_en')
+        modeid='Note_en'
       when 'Status' then
         modestat=true
       else
         cols.push col
       end
     }
+    @adf.puts "[[#{tabname}]]"
     if modettl then
       row1=table.first
       @adf.puts "#{tabhead} #{tabname} - #{row1['Title_en']}"
@@ -156,11 +173,29 @@ PREAMBLE
     @adf.puts '[options="header"]'
     @adf.puts '|==='
     @adf.puts(cols.map{|h| "|#{h}"}.join(' '))
+    localnotes=Hash.new
     table.each{|row|
-      vals=cols.map{|h| "|#{row[h]}"}
+      vals=[]
+      cols.each{|h|
+        link=nil
+        if modeid==h then
+          link=mklink(tabname,row,localnotes)
+        end
+        if link then
+          vals.push "|<<#{link},#{row[h]}>>"
+        else
+          vals.push "|#{row[h]}"
+        end
+      }
       @adf.puts vals
     }
     @adf.puts '|==='
+    unless localnotes.empty? then
+      @adf.puts ''
+      localnotes.each{|link,text|
+        @adf.puts "* [[#{link}]]#{text}"
+      }
+    end
     @adf.puts ''
   end
 
