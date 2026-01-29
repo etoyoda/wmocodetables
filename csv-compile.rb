@@ -117,18 +117,44 @@ PREAMBLE
     end
   end
 
-  def mklink(tabname,row,localnotes)
+  def mklink(tabname,cell,row,footnotes)
+    if /^4\.\d+$/===row['noteIDs'] and row['codeTable'].nil? then
+      row['codeTable']=row['noteIDs']
+      row['noteIDs']=nil
+    end
+    if /^\(see/===row['noteIDs'] and row['Note_en'].nil? then
+      row['Note_en']=row['noteIDs']
+      row['noteIDs']=nil
+    end
     if row['noteIDs'] then
-      nil
+      links=[]
+      ids=row['noteIDs'].split(/,/)
+      cell=cell.dup
+      cell='(see Note 1)' if cell=='(see Note)'
+      cell='(see Note 1)' if cell=="(see Note and Code table 4.4)"
+      cell.gsub!(/ and /,',')
+      unless /[nN]otes? (\d+(, ?\d+)*)/ === cell
+        raise "bn1 #{row.inspect}"
+      end
+      nids=$1.split(/,/)
+      raise "bn2 #{ids.inspect} #{nids.inspect}" unless ids.size == nids.size
+      ids.size.times{|i|
+        footnotes[nids[i]]=ids[i]
+        links.push([nids[i],ids[i]])
+      }
+      links.first.first.sub!(/^/,'(see Note ')
+      links.last.first.sub!(/$/,')')
+      links
     elsif row['codeTable'] then
       raise :unexpected unless /^G/===tabname
       sec,tno=row['codeTable'].split(/\./,2)
-      format("G-CT%u-%05u", sec.to_i, tno.to_i)
+      [cell,format("G-CT%u-%05u", sec.to_i, tno.to_i)]
     elsif row['flagTable'] then
       raise :unexpected unless /^G/===tabname
       sec,tno=row['flagTable'].split(/\./,2)
-      format("G-FT%u-%05u", sec.to_i, tno.to_i)
-    else nil
+      [cell,format("G-FT%u-%05u", sec.to_i, tno.to_i)]
+    else
+      nil
     end
   end
 
@@ -153,7 +179,7 @@ PREAMBLE
         table.each{|row| emptycol=false unless row['Value'].to_s.empty?}
         cols.push col unless emptycol
       when 'noteIDs','codeTable','flagTable' then
-        raise unless headers.include?('Note_en')
+        raise :unexpected unless headers.include?('Note_en')
         modeid='Note_en'
       when 'Status' then
         modestat=true
@@ -173,16 +199,17 @@ PREAMBLE
     @adf.puts '[options="header"]'
     @adf.puts '|==='
     @adf.puts(cols.map{|h| "|#{h}"}.join(' '))
-    localnotes=Hash.new
+    footnotes=Hash.new
     table.each{|row|
       vals=[]
       cols.each{|h|
-        link=nil
         if modeid==h then
-          link=mklink(tabname,row,localnotes)
+          link=mklink(tabname,row[h],row,footnotes)
+        else
+          link=nil
         end
         if link then
-          vals.push "|<<#{link},#{row[h]}>>"
+          link.each{|k,v| vals.push "|<<#{k},#{v}>>" }
         else
           vals.push "|#{row[h]}"
         end
@@ -190,9 +217,9 @@ PREAMBLE
       @adf.puts vals
     }
     @adf.puts '|==='
-    unless localnotes.empty? then
+    unless footnotes.empty? then
       @adf.puts ''
-      localnotes.each{|link,text|
+      footnotes.each{|link,text|
         @adf.puts "* [[#{link}]]#{text}"
       }
     end
