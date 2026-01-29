@@ -95,7 +95,7 @@ PREAMBLE
       format('G-%s%u-%05u', ttyp, sec.to_i, tnu.to_i)
     when /^GRIB2_CodeFlag_4_2_(\d+)_(\d+)_CodeTable_en\.csv$/ then
       disc,categ=$1,$2
-      format('G-CT4.2.%02u.%05u', disc.to_i, categ.to_i)
+      format('G-CT4-2-%02u-%05u', disc.to_i, categ.to_i)
     when /^BUFRCREX_TableB_en_(\d+)\.csv$/ then
       cls=$1
       format('BC-B%03u', cls.to_i)
