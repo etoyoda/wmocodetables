@@ -114,7 +114,6 @@ PREAMBLE
       format('CCT-C%02u', tn.to_i)
     else
       raise "unknown file pattern #{csvfnam}"
-      csvfnam
     end
   end
 
@@ -126,17 +125,34 @@ PREAMBLE
       raise "empty file #{bn}"
     end
     tabhead=('=' * level)
-    headers=table.headers
-    row1=table.first
     tabname=csvtabname(bn)
-    if headers[0]=='Title_en' and headers[1]=='SubTitle_en' then
+    headers=table.headers
+    cols=[]
+    modettl=modeid=modestat=nil
+    headers.each {|col|
+      case col
+      when 'Title_en','SubTitle_en' then
+        modettl=true
+      when 'Value' then
+        emptycol=true
+        table.each{|row| emptycol=false unless row['Value'].to_s.empty?}
+        cols.push col unless emptycol
+      when 'noteIDs','codeTable','flagTable' then
+        modeid=true
+      when 'Status' then
+        modestat=true
+      else
+        cols.push col
+      end
+    }
+    if modettl then
+      row1=table.first
       @adf.puts "#{tabhead} #{tabname} - #{row1['Title_en']}"
       @adf.puts "#{row1['SubTitle_en']}"
       @adf.puts
     else
       @adf.puts "#{tabhead} #{tabname}"
     end
-    cols=headers.reject{|h| h=='Title_en' or h=='SubTitle_en'}
     @adf.puts '[options="header"]'
     @adf.puts '|==='
     @adf.puts(cols.map{|h| "|#{h}"}.join(' '))
