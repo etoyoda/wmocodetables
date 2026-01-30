@@ -15,6 +15,7 @@ class CSVCompileAdoc
       end
     end
     @csvdb=Hash.new
+    @notedb=Hash.new
   end
 
   def scandir
@@ -23,6 +24,10 @@ class CSVCompileAdoc
       Dir.glob(File.join(proj,'*.csv')).sort.each{|csvfnam|
         bn=File.basename(csvfnam)
         @csvdb[csvtabname(bn)]=csvfnam
+      }
+      warn "loading #{proj}/notes..."
+      Dir.glob(File.join(proj,'notes','*.csv')).each{|nfnam|
+        @notedb[nfnam]=CSV.read(nfnam,headers:true)
       }
     end
   end
@@ -240,14 +245,36 @@ PREAMBLE
     @adf.puts '|==='
     unless footnotes.empty? then
       @adf.puts ''
-      @adf.puts '脚注:'
+      @adf.puts '注:'
       footnotes.keys.sort.each{|notenum|
         text=footnotes[notenum]
+        rtext=note_resolve(text)
         @adf.puts ''
-        @adf.puts "[[#{text}]]#{notenum}: #{text}"
+        @adf.puts "[[#{text}]]#{notenum}: #{rtext}"
       }
     end
     @adf.puts ''
+  end
+
+  def note_resolve key
+    case key
+    when /^G-[CF]T\d-\d+_n(\d+)/ then
+      nid=$1
+      fn=@notedb.keys.find{|fnam| /GRIB.*\/CodeFlag_notes.csv/===fnam}
+      raise "{missing note file for G-CFT}" if fn.nil?
+      row=@notedb[fn].find{|row| row['noteID']==nid}
+      return "{missing G-CFT noteID #{nid}}" if row.nil?
+      return row['note']
+    when /^G-[A-Z]+T\d-\d+_n(\d+)/ then
+      nid=$1
+      fn=@notedb.keys.find{|fnam| /GRIB.*\/Template_notes.csv/===fnam}
+      raise "{missing note file for G-T}" if fn.nil?
+      row=@notedb[fn].find{|row| row['noteID']==nid}
+      return "{missing G-T noteID #{nid}}" if row.nil?
+      return row['note']
+    end
+    warn "unknown note key #{key}"
+    key
   end
 
 end
