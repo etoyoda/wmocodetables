@@ -189,9 +189,9 @@ PREAMBLE
         modettl=:class
       when 'Category','CategoryOfSequences_en' then
         modettl=:categ
-      when 'Value' then
+      when 'Value','UnitComments_en' then
         emptycol=true
-        table.each{|row| emptycol=false unless row['Value'].to_s.empty?}
+        table.each{|row| emptycol=false unless row[col].to_s.empty?}
         cols.push col unless emptycol
       when 'noteIDs','codeTable','flagTable' then
         raise :unexpected unless headers.include?('Note_en')
