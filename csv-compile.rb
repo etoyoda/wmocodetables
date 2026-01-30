@@ -177,9 +177,12 @@ PREAMBLE
     headers.each {|col|
       case col
       when 'Title_en','SubTitle_en' then
-        modettl=:title
+        # Category と Title_en が共存するのでとりあえず Category を優先させる
+        modettl=:title unless modettl
       when 'ClassNo','ClassName_en' then
         modettl=:class
+      when 'Category','CategoryOfSequences_en' then
+        modettl=:categ
       when 'Value' then
         emptycol=true
         table.each{|row| emptycol=false unless row['Value'].to_s.empty?}
@@ -204,6 +207,11 @@ PREAMBLE
       row1=table.first
       @adf.puts "#{tabhead} #{tabname} - Class #{row1['ClassNo']}"
       @adf.puts "#{row1['ClassName_en']}"
+      @adf.puts
+    when :categ then
+      row1=table.first
+      @adf.puts "#{tabhead} #{tabname} - Class #{row1['Category']}"
+      @adf.puts "#{row1['CategoryOfSequences_en']}"
       @adf.puts
     else
       @adf.puts "#{tabhead} #{tabname}"
