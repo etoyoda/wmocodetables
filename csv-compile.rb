@@ -177,7 +177,9 @@ PREAMBLE
     headers.each {|col|
       case col
       when 'Title_en','SubTitle_en' then
-        modettl=true
+        modettl=:title
+      when 'ClassNo','ClassName_en' then
+        modettl=:class
       when 'Value' then
         emptycol=true
         table.each{|row| emptycol=false unless row['Value'].to_s.empty?}
@@ -192,10 +194,16 @@ PREAMBLE
       end
     }
     @adf.puts "[[#{tabname}]]"
-    if modettl then
+    case modettl
+    when :title then
       row1=table.first
       @adf.puts "#{tabhead} #{tabname} - #{row1['Title_en']}"
       @adf.puts "#{row1['SubTitle_en']}"
+      @adf.puts
+    when :class then
+      row1=table.first
+      @adf.puts "#{tabhead} #{tabname} - Class #{row1['ClassNo']}"
+      @adf.puts "#{row1['ClassName_en']}"
       @adf.puts
     else
       @adf.puts "#{tabhead} #{tabname}"
