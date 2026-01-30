@@ -39,25 +39,27 @@ class CSVCompileAdoc
       adoc_preamble
       @adf.puts "== FM92 GRIB第2版 付表"
       @adf.puts "=== 第1節のテンプレート"
-      @csvdb.keys.grep(/^G-IT/).sort.each{|kwd| csvconv(kwd,@csvdb[kwd],4)}
+      @csvdb.keys.grep(/^G-T1/).sort.each{|kwd| csvconv(kwd,@csvdb[kwd],4)}
       @adf.puts "=== 第3節のテンプレート"
-      @csvdb.keys.grep(/^G-GDT/).sort.each{|kwd| csvconv(kwd,@csvdb[kwd],4)}
+      @csvdb.keys.grep(/^G-T3/).sort.each{|kwd| csvconv(kwd,@csvdb[kwd],4)}
       @adf.puts "=== 第4節のテンプレート"
-      @csvdb.keys.grep(/^G-PDT/).sort.each{|kwd| csvconv(kwd,@csvdb[kwd],4)}
+      @csvdb.keys.grep(/^G-T4/).sort.each{|kwd| csvconv(kwd,@csvdb[kwd],4)}
       @adf.puts "=== 第5節のテンプレート"
-      @csvdb.keys.grep(/^G-DRT/).sort.each{|kwd| csvconv(kwd,@csvdb[kwd],4)}
+      @csvdb.keys.grep(/^G-T5/).sort.each{|kwd| csvconv(kwd,@csvdb[kwd],4)}
       @adf.puts "=== 第7節のテンプレート"
-      @csvdb.keys.grep(/^G-DT/).sort.each{|kwd| csvconv(kwd,@csvdb[kwd],4)}
+      @csvdb.keys.grep(/^G-T7/).sort.each{|kwd| csvconv(kwd,@csvdb[kwd],4)}
       @adf.puts "=== 第1節の符号表およびフラグ表"
-      @csvdb.keys.grep(/^G-[CF]T1/).sort.each{|kwd| csvconv(kwd,@csvdb[kwd],4)}
+      @csvdb.keys.grep(/^G-CF1/).sort.each{|kwd| csvconv(kwd,@csvdb[kwd],4)}
       @adf.puts "=== 第3節の符号表およびフラグ表"
-      @csvdb.keys.grep(/^G-[CF]T3/).sort.each{|kwd| csvconv(kwd,@csvdb[kwd],4)}
-      @adf.puts "=== 第4節の符号表およびフラグ表"
-      @csvdb.keys.grep(/^G-[CF]T4/).sort.each{|kwd| csvconv(kwd,@csvdb[kwd],4)}
+      @csvdb.keys.grep(/^G-CF3/).sort.each{|kwd| csvconv(kwd,@csvdb[kwd],4)}
+      @adf.puts "=== 第4節の符号表およびフラグ表 (符号表4.2を除く)"
+      @csvdb.keys.grep(/^G-CF4/).sort.each{|kwd| csvconv(kwd,@csvdb[kwd],4)}
       @adf.puts "=== 第5節の符号表およびフラグ表"
-      @csvdb.keys.grep(/^G-[CF]T5/).sort.each{|kwd| csvconv(kwd,@csvdb[kwd],4)}
+      @csvdb.keys.grep(/^G-CF5/).sort.each{|kwd| csvconv(kwd,@csvdb[kwd],4)}
       @adf.puts "=== 第6節の符号表およびフラグ表"
-      @csvdb.keys.grep(/^G-[CF]T6/).sort.each{|kwd| csvconv(kwd,@csvdb[kwd],4)}
+      @csvdb.keys.grep(/^G-CF6/).sort.each{|kwd| csvconv(kwd,@csvdb[kwd],4)}
+      @adf.puts "=== 符号表4.2"
+      @csvdb.keys.grep(/^G-C42/).sort.each{|kwd| csvconv(kwd,@csvdb[kwd],4)}
       @adf.puts "== FM94 BUFR 付表"
       @adf.puts "=== BUFR表A"
       @csvdb.keys.grep(/^B-A/).sort.each{|kwd| csvconv(kwd,@csvdb[kwd],4)}
@@ -92,17 +94,16 @@ PREAMBLE
 
   def csvtabname csvfnam
     case csvfnam
-    when /^GRIB2_Template_(\d+)_(\d+)_(\w+)_en\.csv$/ then
+    when /^GRIB2_Template_(\d+)_(\d+)_\w+_en\.csv$/ then
+      sec,tnu=$1,$2
+      format('G-T%u-%05u', sec.to_i, tnu.to_i)
+    when /^GRIB2_CodeFlag_(\d+)_(\d+)_(Code|Flag)Table_en\.csv$/ then
       sec,tnu,ttyp=$1,$2,$3
       ttyp.gsub!(/[a-z]/,'')
-      format('G-%s%u-%05u', ttyp, sec.to_i, tnu.to_i)
-    when /^GRIB2_CodeFlag_(\d+)_(\d+)_((Code|Flag)Table)_en\.csv$/ then
-      sec,tnu,ttyp=$1,$2,$3
-      ttyp.gsub!(/[a-z]/,'')
-      format('G-%s%u-%05u', ttyp, sec.to_i, tnu.to_i)
+      format('G-CF%u-%05u-%s', sec.to_i, tnu.to_i, ttyp)
     when /^GRIB2_CodeFlag_4_2_(\d+)_(\d+)_CodeTable_en\.csv$/ then
       disc,categ=$1,$2
-      format('G-CT4-2-%02u-%05u', disc.to_i, categ.to_i)
+      format('G-C42-%02u-%05u', disc.to_i, categ.to_i)
     when /^BUFRCREX_TableB_en_(\d+)\.csv$/ then
       cls=$1
       format('BC-B%03u', cls.to_i)
@@ -258,14 +259,14 @@ PREAMBLE
 
   def note_resolve key
     case key
-    when /^G-[CF]T\d-\d+_n(\d+)/ then
+    when /^G-CF\d-\d+-[CF]_n(\d+)/ then
       nid=$1
       fn=@notedb.keys.find{|fnam| /GRIB.*\/CodeFlag_notes.csv/===fnam}
-      raise "{missing note file for G-CFT}" if fn.nil?
+      raise "{missing note file for G-CF}" if fn.nil?
       row=@notedb[fn].find{|row| row['noteID']==nid}
-      return "{missing G-CFT noteID #{nid}}" if row.nil?
+      return "{missing G-CF noteID #{nid}}" if row.nil?
       return row['note']
-    when /^G-[A-Z]+T\d-\d+_n(\d+)/ then
+    when /^G-T\d-\d+_n(\d+)/ then
       nid=$1
       fn=@notedb.keys.find{|fnam| /GRIB.*\/Template_notes.csv/===fnam}
       raise "{missing note file for G-T}" if fn.nil?
