@@ -158,11 +158,11 @@ PREAMBLE
     elsif row['codeTable'] then
       raise :unexpected unless /^G/===tabname
       sec,tno=row['codeTable'].split(/\./,2)
-      [[format("G-CT%u-%05u", sec.to_i, tno.to_i),cell]]
+      [[format("G-CF%u-%05u-C", sec.to_i, tno.to_i),cell]]
     elsif row['flagTable'] then
       raise :unexpected unless /^G/===tabname
       sec,tno=row['flagTable'].split(/\./,2)
-      [[format("G-FT%u-%05u", sec.to_i, tno.to_i),cell]]
+      [[format("G-CF%u-%05u-F", sec.to_i, tno.to_i),cell]]
     else
       nil
     end
