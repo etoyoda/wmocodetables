@@ -259,19 +259,47 @@ PREAMBLE
 
   def note_resolve key
     case key
-    when /^G-CF\d-\d+-[CF]_n(\d+)/ then
-      nid=$1
-      fn=@notedb.keys.find{|fnam| /GRIB.*\/CodeFlag_notes.csv/===fnam}
+    when /^G-(CF\d-\d+-[CF]|C42-\d+-\d+)_n(\d+)/ then
+      nid=$2
+      fn=@notedb.keys.find{|fnam| /GRIB.*\/CodeFlag_notes\.csv/===fnam}
       raise "{missing note file for G-CF}" if fn.nil?
       row=@notedb[fn].find{|row| row['noteID']==nid}
       return "{missing G-CF noteID #{nid}}" if row.nil?
       return row['note']
     when /^G-T\d-\d+_n(\d+)/ then
       nid=$1
-      fn=@notedb.keys.find{|fnam| /GRIB.*\/Template_notes.csv/===fnam}
+      fn=@notedb.keys.find{|fnam| /GRIB.*\/Template_notes\.csv/===fnam}
       raise "{missing note file for G-T}" if fn.nil?
       row=@notedb[fn].find{|row| row['noteID']==nid}
       return "{missing G-T noteID #{nid}}" if row.nil?
+      return row['note']
+    when /^BC-B\d+_n(\d+)/ then
+      nid=$1
+      fn=@notedb.keys.find{|fnam| /BUFR.*\/BUFRCREX_TableB_notes\.csv/===fnam}
+      raise "{missing note file for BC-B}" if fn.nil?
+      row=@notedb[fn].find{|row| row['noteID']==nid}
+      return "{missing BC-B noteID #{nid}}" if row.nil?
+      return row['note']
+    when /^B-C_n(\d+)/ then
+      nid=$1
+      fn=@notedb.keys.find{|fnam| /BUFR.*\/BUFR_TableC_notes\.csv/===fnam}
+      raise "{missing note file for B-C}" if fn.nil?
+      row=@notedb[fn].find{|row| row['noteID']==nid}
+      return "{missing B-C noteID #{nid}}" if row.nil?
+      return row['note']
+    when /^B-D\d+_n(\d+)/ then
+      nid=$1
+      fn=@notedb.keys.find{|fnam| /BUFR.*\/BUFR_TableD_notes\.csv/===fnam}
+      raise "{missing note file for B-D}" if fn.nil?
+      row=@notedb[fn].find{|row| row['noteID']==nid}
+      return "{missing B-D noteID #{nid}}" if row.nil?
+      return row['note']
+    when /^BC-CFT\d+_n(\d+)/ then
+      nid=$1
+      fn=@notedb.keys.find{|fnam| /BUFR.*\/BUFRCREX_CodeFlag_notes\.csv/===fnam}
+      raise "{missing note file for BC-CFT}" if fn.nil?
+      row=@notedb[fn].find{|row| row['noteID']==nid}
+      return "{missing BC-CFT noteID #{nid}}" if row.nil?
       return row['note']
     end
     warn "unknown note key #{key}"
