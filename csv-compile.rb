@@ -241,9 +241,10 @@ PREAMBLE
     unless footnotes.empty? then
       @adf.puts ''
       @adf.puts '脚注:'
-      footnotes.each{|link,text|
+      footnotes.keys.sort.each{|notenum|
+        text=footnotes[notenum]
         @adf.puts ''
-        @adf.puts "[[#{text}]]#{link}"
+        @adf.puts "[[#{text}]]#{notenum}: #{text}"
       }
     end
     @adf.puts ''
