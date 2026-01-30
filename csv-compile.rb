@@ -57,11 +57,13 @@ class CSVCompileAdoc
       @adf.puts "=== BUFR表A"
       @csvdb.keys.grep(/^B-A/).sort.each{|kwd| csvconv(kwd,@csvdb[kwd],4)}
       @adf.puts "=== BUFR/CREX表B"
-      @csvdb.keys.grep(/^BC-/).sort.each{|kwd| csvconv(kwd,@csvdb[kwd],4)}
+      @csvdb.keys.grep(/^BC-B/).sort.each{|kwd| csvconv(kwd,@csvdb[kwd],4)}
       @adf.puts "=== BUFR表C"
       @csvdb.keys.grep(/^B-C/).sort.each{|kwd| csvconv(kwd,@csvdb[kwd],4)}
       @adf.puts "=== BUFR表D"
       @csvdb.keys.grep(/^B-D/).sort.each{|kwd| csvconv(kwd,@csvdb[kwd],4)}
+      @adf.puts "=== BUFR/CREX符号表"
+      @csvdb.keys.grep(/^BC-C/).sort.each{|kwd| csvconv(kwd,@csvdb[kwd],4)}
       @adf.puts "== FM95 CREX 付表"
       @adf.puts "=== CREX表A"
       @csvdb.keys.grep(/^C-A/).sort.each{|kwd| csvconv(kwd,@csvdb[kwd],4)}
