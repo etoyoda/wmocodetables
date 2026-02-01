@@ -169,7 +169,6 @@ PREAMBLE
   end
 
   def csvconv kwd, csvfnam, level=4
-    lfirst=true
     bn=File.basename(csvfnam)
     table=CSV.read(csvfnam,headers:true)
     if table.empty?
