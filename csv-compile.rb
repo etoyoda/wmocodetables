@@ -178,7 +178,7 @@ PREAMBLE
     tabname=csvtabname(bn)
     headers=table.headers
     cols=[]
-    modettl=modeid=modestat=nil
+    modettl=modeid=modestat=modeent=nil
     headers.each {|col|
       case col
       when 'Title_en','SubTitle_en' then
@@ -197,6 +197,8 @@ PREAMBLE
         modeid='Note_en'
       when 'Status' then
         modestat=true
+      when 'EntryName_sub1_en','EntryName_sub2_en' then
+        modeent='EntryName_en'
       else
         cols.push col
       end
@@ -238,6 +240,11 @@ PREAMBLE
           link.each{|k,v| vals.push "<<#{k},#{v}>>" }
         else
           vals.push "|#{row[h]}"
+          if modeent==h then
+            ['EntryName_sub1_en','EntryName_sub2_en'].each{|k|
+              vals.push " (#{row[k]})" if row[k]
+            }
+          end
         end
       }
       @adf.puts vals
