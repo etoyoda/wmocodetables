@@ -257,50 +257,50 @@ PREAMBLE
   end
 
   def note_resolve key
-    case key
-    when /^G-(CF\d-\d+-[CF]|C42-\d+-\d+)_n(\d+)/ then
-      nid=$2
-      fn=@notedb.keys.find{|fnam| /GRIB.*\/CodeFlag_notes\.csv/===fnam}
-      raise "{missing note file for G-CF}" if fn.nil?
-      row=@notedb[fn].find{|row| row['noteID']==nid}
-      return "{missing G-CF noteID #{nid}}" if row.nil?
-      return row['note']
-    when /^G-T\d-\d+_n(\d+)/ then
-      nid=$1
-      fn=@notedb.keys.find{|fnam| /GRIB.*\/Template_notes\.csv/===fnam}
-      raise "{missing note file for G-T}" if fn.nil?
-      row=@notedb[fn].find{|row| row['noteID']==nid}
-      return "{missing G-T noteID #{nid}}" if row.nil?
-      return row['note']
-    when /^BC-B\d+_n(\d+)/ then
-      nid=$1
-      fn=@notedb.keys.find{|fnam| /BUFR.*\/BUFRCREX_TableB_notes\.csv/===fnam}
-      raise "{missing note file for BC-B}" if fn.nil?
-      row=@notedb[fn].find{|row| row['noteID']==nid}
-      return "{missing BC-B noteID #{nid}}" if row.nil?
-      return row['note']
-    when /^B-C_n(\d+)/ then
-      nid=$1
-      fn=@notedb.keys.find{|fnam| /BUFR.*\/BUFR_TableC_notes\.csv/===fnam}
-      raise "{missing note file for B-C}" if fn.nil?
-      row=@notedb[fn].find{|row| row['noteID']==nid}
-      return "{missing B-C noteID #{nid}}" if row.nil?
-      return row['note']
-    when /^B-D\d+_n(\d+)/ then
-      nid=$1
-      fn=@notedb.keys.find{|fnam| /BUFR.*\/BUFR_TableD_notes\.csv/===fnam}
-      raise "{missing note file for B-D}" if fn.nil?
-      row=@notedb[fn].find{|row| row['noteID']==nid}
-      return "{missing B-D noteID #{nid}}" if row.nil?
-      return row['note']
-    when /^BC-CFT\d+_n(\d+)/ then
-      nid=$1
-      fn=@notedb.keys.find{|fnam| /BUFR.*\/BUFRCREX_CodeFlag_notes\.csv/===fnam}
-      raise "{missing note file for BC-CFT}" if fn.nil?
-      row=@notedb[fn].find{|row| row['noteID']==nid}
-      return "{missing BC-CFT noteID #{nid}}" if row.nil?
-      return row['note']
+    rule = NOTE_RULES.find {|r| r.match?(key) }
+    return unknown_note_key(key) unless rule
+    tag, file_re, nid = rule.extract(key)
+    fetch_note(tag, file_re, nid)
+  end
+
+  NoteRule = Struct.new(:tag, :key_re, :nid_group, :file_re) do
+    def match?(key)
+      key_re.match?(key)
     end
+    def extract(key)
+      m=key_re.match(key)
+      [tag, file_re, m[nid_group]]
+    end
+  end
+
+  NOTE_RULES=[
+    NoteRule.new("G-CF", /^G-(?:CF\d-\d+-[CF]|C42-\d+-\d+)_n(\d+)/, 1,
+    /GRIB.*\/CodeFlag_notes\.csv$/),
+    NoteRule.new("G-T", /^G-T\d-\d+_n(\d+)/, 1,
+    /GRIB.*\/Template_notes\.csv$/),
+    NoteRule.new("BC-B", /^BC-B\d+_n(\d+)/, 1,
+    /BUFR.*\/BUFRCREX_TableB_notes\.csv$/),
+    NoteRule.new("B-C", /^B-C_n(\d+)/, 1,
+    /BUFR.*\/BUFR_TableC_notes\.csv$/),
+    NoteRule.new("B-D", /^B-D\d+_n(\d+)/, 1,
+    /BUFR.*\/BUFR_TableD_notes\.csv$/),
+    NoteRule.new("BC-CFT", /^BC-CFT\d+_n(\d+)/, 1,
+    /BUFR.*\/BUFRCREX_CodeFlag_notes\.csv$/),
+  ]
+
+  def fetch_note tag, file_re, nid
+    fn=note_file(file_re) or raise "{missing note file for #{tag}}"
+    row=@notedb[fn].find {|r| r["noteID"]==nid}
+    return "{missing #{tag} noteID #{nid}}" if row.nil?
+    row["note"]
+  end
+
+  def note_file file_re
+    @note_file_cache ||= {}
+    @note_file_cache[file_re] ||= @notedb.keys.find{|fnam| file_re===fnam}
+  end
+
+  def unknown_note_key key
     warn "unknown note key #{key}"
     key
   end
