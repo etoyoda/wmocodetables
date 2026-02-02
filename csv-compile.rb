@@ -36,60 +36,24 @@ class CSVCompileAdoc
     scandir
     File.open(@adfnam,'w:UTF-8') do |adf|
       @adf=adf
-      adoc_preamble
-      @adf.puts "== FM92 GRIB第2版 付表"
-      @adf.puts "=== 第1節のテンプレート"
-      @csvdb.keys.grep(/^G-T1/).sort.each{|kwd| csvconv(kwd,@csvdb[kwd],4)}
-      @adf.puts "=== 第3節のテンプレート"
-      @csvdb.keys.grep(/^G-T3/).sort.each{|kwd| csvconv(kwd,@csvdb[kwd],4)}
-      @adf.puts "=== 第4節のテンプレート"
-      @csvdb.keys.grep(/^G-T4/).sort.each{|kwd| csvconv(kwd,@csvdb[kwd],4)}
-      @adf.puts "=== 第5節のテンプレート"
-      @csvdb.keys.grep(/^G-T5/).sort.each{|kwd| csvconv(kwd,@csvdb[kwd],4)}
-      @adf.puts "=== 第7節のテンプレート"
-      @csvdb.keys.grep(/^G-T7/).sort.each{|kwd| csvconv(kwd,@csvdb[kwd],4)}
-      @adf.puts "=== 第1節の符号表およびフラグ表"
-      @csvdb.keys.grep(/^G-CF1/).sort.each{|kwd| csvconv(kwd,@csvdb[kwd],4)}
-      @adf.puts "=== 第3節の符号表およびフラグ表"
-      @csvdb.keys.grep(/^G-CF3/).sort.each{|kwd| csvconv(kwd,@csvdb[kwd],4)}
-      @adf.puts "=== 第4節の符号表およびフラグ表 (符号表4.2を除く)"
-      @csvdb.keys.grep(/^G-CF4/).sort.each{|kwd| csvconv(kwd,@csvdb[kwd],4)}
-      @adf.puts "=== 第5節の符号表およびフラグ表"
-      @csvdb.keys.grep(/^G-CF5/).sort.each{|kwd| csvconv(kwd,@csvdb[kwd],4)}
-      @adf.puts "=== 第6節の符号表およびフラグ表"
-      @csvdb.keys.grep(/^G-CF6/).sort.each{|kwd| csvconv(kwd,@csvdb[kwd],4)}
-      @adf.puts "=== 符号表4.2"
-      @csvdb.keys.grep(/^G-C42/).sort.each{|kwd| csvconv(kwd,@csvdb[kwd],4)}
-      @adf.puts "== FM94 BUFR 付表"
-      @adf.puts "=== BUFR表A"
-      @csvdb.keys.grep(/^B-A/).sort.each{|kwd| csvconv(kwd,@csvdb[kwd],4)}
-      @adf.puts "=== BUFR/CREX表B"
-      @csvdb.keys.grep(/^BC-B/).sort.each{|kwd| csvconv(kwd,@csvdb[kwd],4)}
-      @adf.puts "=== BUFR表C"
-      @csvdb.keys.grep(/^B-C/).sort.each{|kwd| csvconv(kwd,@csvdb[kwd],4)}
-      @adf.puts "=== BUFR表D"
-      @csvdb.keys.grep(/^B-D/).sort.each{|kwd| csvconv(kwd,@csvdb[kwd],4)}
-      @adf.puts "=== BUFR/CREX符号表"
-      @csvdb.keys.grep(/^BC-C/).sort.each{|kwd| csvconv(kwd,@csvdb[kwd],4)}
-      @adf.puts "== FM95 CREX 付表"
-      @adf.puts "=== CREX表A"
-      @csvdb.keys.grep(/^C-A/).sort.each{|kwd| csvconv(kwd,@csvdb[kwd],4)}
-      @adf.puts "=== CREX表C"
-      @csvdb.keys.grep(/^C-C/).sort.each{|kwd| csvconv(kwd,@csvdb[kwd],4)}
-      @adf.puts "=== CREX表D"
-      @csvdb.keys.grep(/^C-D/).sort.each{|kwd| csvconv(kwd,@csvdb[kwd],4)}
-      @adf.puts "== 共通符号表"
-      @csvdb.keys.grep(/^CCT-/).sort.each{|kwd| csvconv(kwd,@csvdb[kwd],3)}
+      topfnam='toppage-ja.txt'
+      File.open(topfnam,'r:UTF-8') { |topf|
+        topf.each{|line|
+          case line
+          when /^#c([34]) \/(.+)\// then
+            lev,re=$1,$2
+            lev=lev.to_i
+            re=Regexp.new(re)
+            @csvdb.keys.grep(re).sort.each{|kwd|
+              csvconv(kwd,@csvdb[kwd],lev)
+            }
+          else
+            @adf.puts line
+          end
+        }
+      }
     end
     warn "asciidoc output: #{@adfnam}"
-  end
-
-  def adoc_preamble
-    @adf.puts <<PREAMBLE
-= 国際気象通報式 付表
-:toc:
-
-PREAMBLE
   end
 
   def csvtabname csvfnam

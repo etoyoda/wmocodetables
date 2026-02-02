@@ -7,7 +7,7 @@ tdcf-tables.html: tdcf-tables.adoc
 
 tdcf-tables.adoc: csv-compile.rb
 	ruby csv-compile.rb GRIB2 BUFR4 CCT
-	test ! -f tdcf-tables.adoc.bak || diff -u tdcf-tables.adoc.bak tdcf-tables.adoc
+	test ! -f tdcf-tables.adoc.bak || diff -u tdcf-tables.adoc.bak tdcf-tables.adoc || (rm -f tdcf-tables.adoc ; false)
 	cp -f tdcf-tables.adoc tdcf-tables.adoc.bak
 
 tdcf-tables.pdf: tdcf-tables.adoc
