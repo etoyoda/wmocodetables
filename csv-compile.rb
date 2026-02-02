@@ -140,7 +140,7 @@ class CSVCompileAdoc
       ids.size.times{|i|
         text=nids[i]
         aid="#{tabname}_n#{ids[i]}"
-        footnotes[text]=aid
+        footnotes[Integer(text)]=aid
         links.push([aid,text])
       }
       links.first.last.sub!(/^/,'(see Note ')
