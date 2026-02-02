@@ -1,0 +1,21 @@
+Keyword,lang,Text
+^G-T1-(\d+),en,Identification Template 1.%u
+^G-T1-(\d+),ja,識別テンプレート1.%u
+OctetNo,en,Octet No
+OctetNo,ja,オクテット番号
+OctetCount,en,Octet Count
+OctetCount,ja,オクテット数
+Contents_en,en,Contents
+Contents_en,ja,内容
+Note_en,en,Note
+Note_en,ja,注
+^G-T3-(\d+),en,Grid Definition Template 3.%u
+^G-T3-(\d+),ja,格子系定義テンプレート3.%u
+^G-T4-(\d+),en,Product Definition Template 4.%u
+^G-T4-(\d+),ja,プロダクト定義テンプレート4.%u
+^G-T5-(\d+),en,Data Representation Template 5.%u
+^G-T5-(\d+),ja,資料表現テンプレート5.%u
+^G-T7-(\d+),en,Data Template 7.%u
+^G-T7-(\d+),ja,資料テンプレート7.%u
+^G-C42-(\d+)-(\d+),en,Code Table 4.2
+^G-C42-(\d+)-(\d+),en,符号表4.2
