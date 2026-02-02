@@ -17,5 +17,15 @@ Note_en,ja,注
 ^G-T5-(\d+),ja,資料表現テンプレート5.%u
 ^G-T7-(\d+),en,Data Template 7.%u
 ^G-T7-(\d+),ja,資料テンプレート7.%u
+^G-CF(\d)-(\d+)-C,en,Code Table %u.%u
+^G-CF(\d)-(\d+)-C,ja,符号表%u.%u
+^G-CF(\d)-(\d+)-F,en,Flag Table %u.%u
+^G-CF(\d)-(\d+)-F,ja,フラグ表%u.%u
 ^G-C42-(\d+)-(\d+),en,Code Table 4.2
-^G-C42-(\d+)-(\d+),en,符号表4.2
+^G-C42-(\d+)-(\d+),ja,符号表4.2
+CodeFlag,en,Code/Bit
+CodeFlag,ja,符号/ビット
+Value,en,Value
+Value,ja,値
+MeaningParameterDescription_en,en,Meaning
+MeaningParameterDescription_en,ja,意味
