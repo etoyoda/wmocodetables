@@ -33,6 +33,8 @@
 #c4 /^B-C/
 === BUFR表D
 #c4 /^B-D/
+=== BUFR/CREX符号表及びフラグ表
+#c4 /^BC-CFT/
 == FM95 CREX 付表
 === CREX表A
 #c4 /^C-A/
