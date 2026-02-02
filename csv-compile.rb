@@ -45,7 +45,7 @@ class CSVCompileAdoc
     end
   end
 
-  def viztab tabname
+  def vizpat tabname
     @patdb.each{|pat,txt|
       return format(txt,$1.to_i,$2.to_i) if pat===tabname
     }
@@ -208,18 +208,18 @@ class CSVCompileAdoc
     case modettl
     when :title then
       row1=table.first
-      sectl="#{viztab tabname} - #{row1['Title_en']}"
+      sectl="#{vizpat tabname} - #{row1['Title_en']}"
       subtl=row1['SubTitle_en']
     when :class then
       row1=table.first
-      sectl="#{viztab tabname} - Class #{row1['ClassNo']}"
+      sectl="#{vizpat tabname} - Class #{row1['ClassNo']}"
       subtl=row1['ClassName_en']
     when :categ then
       row1=table.first
-      sectl="#{viztab tabname} - Class #{row1['Category']}"
+      sectl="#{vizpat tabname} - Class #{row1['Category']}"
       subtl=row1['CategoryOfSequences_en']
     else
-      sectl=viztab(tabname)
+      sectl=vizpat(tabname)
       subtl=''
     end
     if modeseq
