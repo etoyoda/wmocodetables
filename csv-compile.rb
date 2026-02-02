@@ -132,6 +132,7 @@ class CSVCompileAdoc
     end
   end
 
+
   def csvconv kwd, csvfnam, level=4
     bn=File.basename(csvfnam)
     table=CSV.read(csvfnam,headers:true)
@@ -142,7 +143,7 @@ class CSVCompileAdoc
     tabname=csvtabname(bn)
     headers=table.headers
     cols=[]
-    modettl=modeid=modestat=modeent=nil
+    modettl=modeid=modestat=modeent=modeseq=nil
     headers.each {|col|
       case col
       when 'Title_en','SubTitle_en' then
@@ -163,6 +164,8 @@ class CSVCompileAdoc
         modestat=true
       when 'EntryName_sub1_en','EntryName_sub2_en' then
         modeent='EntryName_en'
+      when 'FXY1' then
+        modeseq='FXY1'
       else
         cols.push col
       end
@@ -187,11 +190,18 @@ class CSVCompileAdoc
     else
       @adf.puts "#{tabhead} #{tabname}"
     end
-    @adf.puts '[options="header"]'
+    @adf.puts "[cols=\"#{cols.size}\",options=\"header\"]"
     @adf.puts '|==='
     @adf.puts(cols.map{|h| "|#{h}"}.join(' '))
     footnotes=Hash.new
+    prev_seq=nil
     table.each{|row|
+      if modeseq and prev_seq != row[modeseq] then
+        nc=cols.size
+        tl=row['Title_en']
+        #@adf.puts "#{nc}+| **#{row[modeseq]} #{tl}** "
+        prev_seq=row[modeseq]
+      end
       vals=[]
       cols.each{|h|
         if modeid==h then
@@ -211,7 +221,7 @@ class CSVCompileAdoc
           end
         end
       }
-      @adf.puts vals
+      @adf.puts vals.join
     }
     @adf.puts '|==='
     unless footnotes.empty? then
