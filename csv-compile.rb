@@ -70,13 +70,13 @@ class CSVCompileAdoc
       format('G-C42-%02u-%05u', disc.to_i, categ.to_i)
     when /^BUFRCREX_TableB_en_(\d+)\.csv$/ then
       cls=$1
-      format('BC-B%03u', cls.to_i)
+      format('BC-B%02u', cls.to_i)
     when /^(BUFR|CREX)_Table([AC])_en\.csv$/ then
       cfm,tn=$1,$2
       format('%s-%s', cfm[0], tn[0])
     when /^(BUFR|CREX)_TableD_en_(\d+)\.csv$/ then
       cfm,cls=$1,$2
-      format('%s-D%03u', cfm[0], cls.to_i)
+      format('%s-D%02u', cfm[0], cls.to_i)
     when /^BUFRCREX_CodeFlag_en_(\d+)\.csv$/ then
       format('BC-CFT%02u', $1.to_i)
     when /^COV\.csv$/ then
