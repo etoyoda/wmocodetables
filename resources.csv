@@ -34,7 +34,7 @@ UnitComments_en,ja,単位
 ^B-A,en,BUFR Table A
 ^B-A,ja,BUFR表A
 CodeFigure,en,Code Figure
-CodeFigrue,ja,数字符号
+CodeFigure,ja,数字符号
 Meaning_en,en,Meaning
 Meaning_en,ja,意味
 ^BC-B(\d+),en,BUFR/CREX Table B - Class %u
@@ -43,3 +43,11 @@ FXY,en,FXY
 FXY,ja,FXY
 ElementName_en,en,Element Name
 ElementName_en,ja,要素名
+BUFR_Unit,en,BUFR Unit
+BUFR_Unit,ja,BUFR 単位
+BUFR_Scale,en,BUFR Scale
+BUFR_Scale,ja,BUFR 尺度
+BUFR_ReferenceValue,en,BUFR Ref Value
+BUFR_ReferenceValue,ja,BUFR 参照値
+BUFR_DataWidth_Bits,en,BUFR Data Width Bits
+BUFR_DataWidth_Bits,ja,BUFR 資料幅 ビット
