@@ -179,6 +179,11 @@ class CSVCompileAdoc
         cols.push col
       end
     }
+    if headers.include?('FXY') and headers.include?('ElementName_en') and
+    not headers.include?('BUFR_Unit') then
+      modeseq='FXY'
+      cols.shift(2)
+    end
     case modettl
     when :title then
       row1=table.first
@@ -206,7 +211,8 @@ class CSVCompileAdoc
     table.each{|row|
       if modeseq and prev_seq != row[modeseq] then
         seqname="#{tabname}_s#{row[modeseq]}"
-        seqtl="#{row[modeseq]} #{row['Title_en']}"
+        stlkey=if modeseq=='FXY1' then 'Title_en' else 'ElementName_en' end
+        seqtl="#{row[modeseq]} #{row[stlkey]}"
         @adf.puts "|===" if prev_seq
         table_header(level+1, seqname, seqtl, nil, cols)
         prev_seq=row[modeseq]
