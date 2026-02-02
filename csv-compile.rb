@@ -132,6 +132,15 @@ class CSVCompileAdoc
     end
   end
 
+  def table_header level, tabname, sectl, subtl, cols
+    @adf.puts "[[#{tabname}]]"
+    @adf.puts "#{'=' * level} #{sectl}"
+    @adf.puts subtl if subtl
+    @adf.puts ''
+    @adf.puts "[cols=\"#{cols.size}\",options=\"header\"]"
+    @adf.puts "|==="
+    @adf.puts(cols.map{|h| "|#{h}"}.join(' '))
+  end
 
   def csvconv kwd, csvfnam, level=4
     bn=File.basename(csvfnam)
@@ -139,7 +148,6 @@ class CSVCompileAdoc
     if table.empty?
       raise "empty file #{bn}"
     end
-    tabhead=('=' * level)
     tabname=csvtabname(bn)
     headers=table.headers
     cols=[]
@@ -170,29 +178,24 @@ class CSVCompileAdoc
         cols.push col
       end
     }
-    @adf.puts "[[#{tabname}]]"
     case modettl
     when :title then
       row1=table.first
-      @adf.puts "#{tabhead} #{tabname} - #{row1['Title_en']}"
-      @adf.puts "#{row1['SubTitle_en']}"
-      @adf.puts
+      sectl="#{tabname} - #{row1['Title_en']}"
+      subtl=row1['SubTitle_en']
     when :class then
       row1=table.first
-      @adf.puts "#{tabhead} #{tabname} - Class #{row1['ClassNo']}"
-      @adf.puts "#{row1['ClassName_en']}"
-      @adf.puts
+      sectl="#{tabname} - Class #{row1['ClassNo']}"
+      subtl=row1['ClassName_en']
     when :categ then
       row1=table.first
-      @adf.puts "#{tabhead} #{tabname} - Class #{row1['Category']}"
-      @adf.puts "#{row1['CategoryOfSequences_en']}"
-      @adf.puts
+      sectl="#{tabname} - Class #{row1['Category']}"
+      subtl=row1['CategoryOfSequences_en']
     else
-      @adf.puts "#{tabhead} #{tabname}"
+      sectl=tabname
+      subtl=''
     end
-    @adf.puts "[cols=\"#{cols.size}\",options=\"header\"]"
-    @adf.puts '|==='
-    @adf.puts(cols.map{|h| "|#{h}"}.join(' '))
+    table_header level, tabname, sectl, subtl, cols
     footnotes=Hash.new
     prev_seq=nil
     table.each{|row|
