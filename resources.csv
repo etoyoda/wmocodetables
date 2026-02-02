@@ -51,3 +51,33 @@ BUFR_ReferenceValue,en,BUFR Ref Value
 BUFR_ReferenceValue,ja,BUFR 参照値
 BUFR_DataWidth_Bits,en,BUFR Data Width Bits
 BUFR_DataWidth_Bits,ja,BUFR 資料幅 ビット
+CREX_Unit,en,CREX Unit
+CREX_Unit,ja,CREX 単位
+CREX_Scale,en,CREX Scale
+CREX_Scale,ja,CREX 尺度
+CREX_DataWidth_Char,en,CREX Data Width Char
+CREX_DataWidth_Char,ja,CREX 資料幅 文字
+^B-C,en,BUFR Table C
+^B-C,ja,BUFR表C
+OperatorName_en,en,Operator Name
+OperatorName_en,ja,操作子名
+OperationDefinition_en,en,Operator Definition
+OperationDefinition_en,ja,操作の定義
+^B-D(\d+),en,BUFR Table D - Category %02u
+^B-D(\d+),ja,BUFR表D - カテゴリー%02u
+FXY2,en,FXY
+FXY2,ja,表参照符
+ElementDescription_en,en,Element Description
+ElementDescription_en,ja,要素の記述
+EntryName_en,en,Meaning
+EntryName_en,ja,意味
+^BC-CFT(\d+),en,Code/Flag Tables for Class %02u Elements
+^BC-CFT(\d+),ja,クラス%02uの要素の符号表及びフラグ表
+^C-A,en,CREX Table A
+^C-A,ja,CREX表A
+^C-C,en,CREX Table C
+^C-C,ja,CREX表C
+^C-D(\d),en,CREX Table D - Category %02u
+^C-D(\d),ja,CREX表D - カテゴリー%02u
+^CCT-C(\d+),en,Common Code Table C-%u
+^CCT-C(\d+),ja,共通符号表C-%u
