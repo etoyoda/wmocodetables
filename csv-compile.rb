@@ -135,7 +135,7 @@ class CSVCompileAdoc
       unless /[nN]otes? (\d+(, ?\d+)*)/ === cell
         raise "bn1 #{row.inspect}"
       end
-      nids=$1.split(/,/)
+      nids=$1.split(/, ?/)
       raise "bn2 #{ids.inspect} #{nids.inspect}" unless ids.size == nids.size
       ids.size.times{|i|
         text=nids[i]
