@@ -53,6 +53,12 @@ class CSVCompileAdoc
     return tabname
   end
 
+  def vizkwd keyword
+    return @dictdb[keyword] if @dictdb.include?(keyword)
+    warn "unresolved keyword #{keyword}"
+    return keyword
+  end
+
   def run
     scandir
     File.open(@adfnam,'w:UTF-8') do |adf|
@@ -161,7 +167,7 @@ class CSVCompileAdoc
     return if cols.nil?
     @adf.puts "[cols=\"#{cols.size}\",options=\"header\"]"
     @adf.puts "|==="
-    @adf.puts(cols.map{|h| "|#{h}"}.join(' '))
+    @adf.puts(cols.map{|h| "|#{vizkwd h}"}.join(' '))
   end
 
   def csvconv kwd, csvfnam, level=4
