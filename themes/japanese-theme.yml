@@ -12,6 +12,11 @@ font:
       bold: /usr/share/fonts/opentype/ipaexfont-mincho/ipaexm.ttf
       italic: /usr/share/fonts/opentype/ipaexfont-mincho/ipaexm.ttf
       bold_italic: /usr/share/fonts/opentype/ipaexfont-mincho/ipaexm.ttf
+    M+ 1mn:
+      normal: /var/lib/gems/3.2.0/gems/asciidoctor-pdf-2.3.24/data/fonts/mplus1mn-regular-subset.ttf
+      bold: /var/lib/gems/3.2.0/gems/asciidoctor-pdf-2.3.24/data/fonts/mplus1mn-bold-subset.ttf
+      italic: /var/lib/gems/3.2.0/gems/asciidoctor-pdf-2.3.24/data/fonts/mplus1mn-italic-subset.ttf
+      bold_italic: /var/lib/gems/3.2.0/gems/asciidoctor-pdf-2.3.24/data/fonts/mplus1mn-bold_italic-subset.ttf
   fallbacks:
     - IPAexMincho
     - IPAexGothic
