@@ -29,3 +29,17 @@ Value,en,Value
 Value,ja,値
 MeaningParameterDescription_en,en,Meaning
 MeaningParameterDescription_en,ja,意味
+UnitComments_en,en,Units
+UnitComments_en,ja,単位
+^B-A,en,BUFR Table A
+^B-A,ja,BUFR表A
+CodeFigure,en,Code Figure
+CodeFigrue,ja,数字符号
+Meaning_en,en,Meaning
+Meaning_en,ja,意味
+^BC-B(\d+),en,BUFR/CREX Table B - Class %u
+^BC-B(\d+),ja,BUFR/CREX表B、クラス%u
+FXY,en,FXY
+FXY,ja,FXY
+ElementName_en,en,Element Name
+ElementName_en,ja,要素名
