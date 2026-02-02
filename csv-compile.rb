@@ -137,6 +137,7 @@ class CSVCompileAdoc
     @adf.puts "#{'=' * level} #{sectl}"
     @adf.puts subtl if subtl
     @adf.puts ''
+    return if cols.nil?
     @adf.puts "[cols=\"#{cols.size}\",options=\"header\"]"
     @adf.puts "|==="
     @adf.puts(cols.map{|h| "|#{h}"}.join(' '))
@@ -195,14 +196,19 @@ class CSVCompileAdoc
       sectl=tabname
       subtl=''
     end
-    table_header level, tabname, sectl, subtl, cols
+    if modeseq
+      table_header(level, tabname, sectl, subtl, nil)
+    else
+      table_header(level, tabname, sectl, subtl, cols)
+    end
     footnotes=Hash.new
     prev_seq=nil
     table.each{|row|
       if modeseq and prev_seq != row[modeseq] then
-        nc=cols.size
-        tl=row['Title_en']
-        #@adf.puts "#{nc}+| **#{row[modeseq]} #{tl}** "
+        seqname="#{tabname}_s#{row[modeseq]}"
+        seqtl="#{row[modeseq]} #{row['Title_en']}"
+        @adf.puts "|===" if prev_seq
+        table_header(level+1, seqname, seqtl, nil, cols)
         prev_seq=row[modeseq]
       end
       vals=[]
