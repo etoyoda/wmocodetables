@@ -8,14 +8,18 @@ class CSVCompileAdoc
     @adfnam='tdcf-tables.adoc'
     @adf=nil
     @projs=[]
+    @lang='ja'
     for arg in argv
       case arg
       when /^-o/ then @adfnam=$'
+      when /^-l/ then @lang=$'
       else @projs.push arg
       end
     end
     @csvdb=Hash.new
     @notedb=Hash.new
+    @dictdb=Hash.new
+    @patdb=Hash.new
   end
 
   def scandir
@@ -30,6 +34,23 @@ class CSVCompileAdoc
         @notedb[nfnam]=CSV.read(nfnam,headers:true)
       }
     end
+    fnam='resources.csv'
+    warn "loading #{fnam}..."
+    CSV.foreach(fnam,headers:true) do |row|
+      next unless row['lang']==@lang
+      kwd=row['Keyword']
+      txt=row['Text']
+      @dictdb[kwd]=txt
+      @patdb[Regexp.new(kwd)]=txt if /^\^/===kwd
+    end
+  end
+
+  def viztab tabname
+    @patdb.each{|pat,txt|
+      return format(txt,$1.to_i,$2.to_i) if pat===tabname
+    }
+    warn "unresolved table name #{tabname}"
+    return tabname
   end
 
   def run
@@ -187,18 +208,18 @@ class CSVCompileAdoc
     case modettl
     when :title then
       row1=table.first
-      sectl="#{tabname} - #{row1['Title_en']}"
+      sectl="#{viztab tabname} - #{row1['Title_en']}"
       subtl=row1['SubTitle_en']
     when :class then
       row1=table.first
-      sectl="#{tabname} - Class #{row1['ClassNo']}"
+      sectl="#{viztab tabname} - Class #{row1['ClassNo']}"
       subtl=row1['ClassName_en']
     when :categ then
       row1=table.first
-      sectl="#{tabname} - Class #{row1['Category']}"
+      sectl="#{viztab tabname} - Class #{row1['Category']}"
       subtl=row1['CategoryOfSequences_en']
     else
-      sectl=tabname
+      sectl=viztab(tabname)
       subtl=''
     end
     if modeseq
