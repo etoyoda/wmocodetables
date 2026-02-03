@@ -195,8 +195,26 @@ class CSVCompileAdoc
     when /^G-T(\d)-(\d+)/ then
       pkey=format('%u.%u',$1.to_i,$2.to_i)
       pat=/Template_table\.csv$/
+    when /^G-CF(\d)-(\d+)/ then
+      pkey=format('%u.%u.0.0',$1.to_i,$2.to_i)
+      pat=/CodeFlag_table\.csv$/
+    when /^G-C42-(\d+)-(\d+)/ then
+      pkey=format('4.2.%u.%u',$1.to_i,$2.to_i)
+      pat=/CodeFlag_table\.csv$/
+    when /^BC-B(\d+)/ then
+      pkey=format('%02u',$1.to_i)
+      pat=/BUFRCREX_TableB_table\.csv$/
+    when /^B-C/ then
+      pkey='BUFR Table C - Data description operators'
+      pat=/BUFR_TableC_table\.csv$/
+    when /^B-D(\d+)/ then
+      pkey=format('%02u',$1.to_i)
+      pat=/BUFR_TableD_table\.csv$/
+# pkeyの構造が違うのでこれはうまくいかない
+#    when /^BC-CFT(\d+)/ then
+#      pkey=format('%02u',$1.to_i)
+#      pat=/BUFRCREX_CodeFlag_table\.csv$/
     else
-      warn "add_table_notes #{tabname}"
       return
     end
     tabfn=@notedb.keys.find{|fn| pat===fn}
@@ -205,7 +223,7 @@ class CSVCompileAdoc
       noteid,notation=row['noteID'],row['notation']
       next if notation.nil? or notation=='n/a'
       linksym="#{tabname}_n#{noteid}"
-      warn "add_table_notes #{tabname} #{notation} #{linksym}"
+      #warn "add_table_notes #{tabname} #{notation} #{linksym}"
       footnotes[Integer(notation)]=linksym
     }
   end
