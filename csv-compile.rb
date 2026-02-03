@@ -117,58 +117,69 @@ class CSVCompileAdoc
   end
 
   def mklink!(tabname,cell,row,footnotes)
+=begin
     # ---begin WMO CSVの誤記修正 
     if /^4\.\d+$/===row['noteIDs'] and row['codeTable'].nil? then
       row['codeTable']=row['noteIDs']
       row['noteIDs']=nil
     end
-    if /^\(see/===row['noteIDs'] and row['Note_en'].nil? then
-      row['Note_en']=row['noteIDs']
+    if /^\(see/===row['noteIDs'] and cell.nil? then
+      cell=row['noteIDs']
       row['noteIDs']=nil
     end
+=end
     # ---誤記修正
     # ここが本体。textを左から分解して空になるまで解釈
-    text=row['Note_en'].dup
+    text=cell.to_s.dup
     ret=[]
     if text.sub!(/^\(flags - see /,'') then
-      ret.push(['(flags - see )', nil])
+      ret.push(['(flags - see ', nil])
     elsif text.sub!(/^ ?\([Ss]ee \t*/,'') then
-      ret.push(['(see )', nil])
-    else
-      raise text
+      ret.push(['(see ', nil])
+    elsif text.sub!(/^\((?=[CN])/, '') then
+      ret.push(['(see ', nil])
     end
     while not text.empty?
-      if text.sub!(/^(?: and )?Code table (\d)\.(\d+|PTN)/, '') then
-        raise :unexpected unless /^G/===tabname
+      if text.sub!(/^ and (?!\d)/, '') then
+        ret.push([' and ', nil])
+      elsif text.sub!(/^Code table (\d)\.(\d+|PTN)/, '') then
         cell,sec,tno=$&,$1,$2
+        raise :unexpected unless /^G/===tabname
         #sec,tno=row['codeTable'].split(/\./,2)
         ret.push([cell,format("G-CF%u-%05u-C", sec.to_i, tno.to_i)])
-      elsif text.sub!(/^(?: and )?Flag table (\d)\.(\d+)/, '') then
-        raise :unexpected unless /^G/===tabname
+      elsif text.sub!(/^Flag table (\d)\.(\d+)/, '') then
         cell,sec,tno=$&,$1,$2
+        raise :unexpected unless /^G/===tabname
         ret.push([cell,format("G-CF%u-%05u-F", sec.to_i, tno.to_i)])
-      elsif text.sub!(/^(?: and )?Common Code table  ?C[-\u{2013}](\d+)(?#
+      elsif text.sub!(/^Common Code table  ?C[-\u{2013}](\d+)(?#
       #?)(?: in Part C\/c\.)?/, '') then
-        cell=$&
-        ret.push([cell,nil])
-      elsif text.sub!(/^( and )?[Nn]otes? (\d+(?:, \d+)*(?: and \d+))/, '') then
-        amp,nsymstr=$1,$2
+        cell,tno=$&,$1
+        link=format('CCT-C%02u', tno.to_i)
+        ret.push([cell,link])
+      elsif text.sub!(/^[Nn]otes? (\d+(?:, \d+)*(?: and \d+)?)/, '') then
+        nsymstr=$1
         nsyms=nsymstr.split(/ and |, /)
-        ids=row['noteIDs'].split(/,/)
-        if nsyms.size != ids.size
-          raise "note num #{nsyms.inspect} #{ids.inspect}"
-        end
-        ret.push([' and ',nil]) if amp
+        ids=row['noteIDs'].to_s.split(/,/)
         ret.push(['Note ',nil])
-        ids.size.times{|i|
+        nsyms.size.times{|i|
           nsym=nsyms[i]
-          linksym="#{tabname}_n#{ids[i]}"
-          footnotes[Integer(nsym)]=linksym
-          ret.push([nsym,linksym])
+          if ids[i] then
+            linksym="#{tabname}_n#{ids[i]}"
+            footnotes[Integer(nsym)]=linksym
+            ret.push([nsym,linksym])
+          else
+            warn "missing note id for #{nsym} in #{tabname}"
+            ret.push([nsym,nil])
+          end
           ret.push([', ',nil])
         }
         ret.pop
-      elsif text.sub!(/^(?: and )?Note(?=\))/, '') then
+      elsif text.sub!(/^Note(?=\)| and)/, '') then
+        nid=row['noteIDs']
+        raise unless /^\d+$/===nid
+        linksym="#{tabname}_n#{nid}"
+        footnotes[0]=linksym
+        ret.push(['Note', linksym])
       elsif text.sub!(/^\) ?/, '') then
         ret.push([')', nil])
         break
@@ -311,6 +322,7 @@ class CSVCompileAdoc
       cols.each{|h|
         if modeid==h then
           link=mklink(tabname,row[h],row,footnotes)
+          warn(mklink!(tabname,row[h],row,Hash.new).inspect)
         else
           link=nil
         end
