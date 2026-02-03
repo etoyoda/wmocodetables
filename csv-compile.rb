@@ -124,7 +124,7 @@ class CSVCompileAdoc
     end
     if /^\(see/===row['noteIDs'] and cell.nil? then
       cell=row['noteIDs']
-      row['noteIDs']=nil
+      row['noteIDs']=row['UnitComments_en']
     end
     # ---誤記修正
     # ここが本体。textを左から分解して空になるまで解釈
@@ -186,49 +186,6 @@ class CSVCompileAdoc
       end
     end
     ret
-  end
-
-  def mklink!(tabname,cell,row,footnotes)
-    if /^4\.\d+$/===row['noteIDs'] and row['codeTable'].nil? then
-      row['codeTable']=row['noteIDs']
-      row['noteIDs']=nil
-    end
-    if /^\(see/===row['noteIDs'] and row['Note_en'].nil? then
-      row['Note_en']=row['noteIDs']
-      row['noteIDs']=nil
-    end
-    if row['noteIDs'] then
-      links=[]
-      ids=row['noteIDs'].split(/,/)
-      cell=cell.dup
-      cell='(see Note 1)' if cell=='(see Note)'
-      cell='(see Note 1)' if cell=="(see Note and Code table 4.4)"
-      cell.gsub!(/ and /,',')
-      unless /[nN]otes? (\d+(, ?\d+)*)/ === cell
-        raise "bn1 #{row.inspect}"
-      end
-      nids=$1.split(/, ?/)
-      raise "bn2 #{ids.inspect} #{nids.inspect}" unless ids.size == nids.size
-      ids.size.times{|i|
-        text=nids[i]
-        aid="#{tabname}_n#{ids[i]}"
-        footnotes[Integer(text)]=aid
-        links.push([aid,text])
-      }
-      links.first.last.sub!(/^/,'(see Note ')
-      links.last.last.sub!(/$/,')')
-      links
-    elsif row['codeTable'] then
-      raise :unexpected unless /^G/===tabname
-      sec,tno=row['codeTable'].split(/\./,2)
-      [[format("G-CF%u-%05u-C", sec.to_i, tno.to_i),cell]]
-    elsif row['flagTable'] then
-      raise :unexpected unless /^G/===tabname
-      sec,tno=row['flagTable'].split(/\./,2)
-      [[format("G-CF%u-%05u-F", sec.to_i, tno.to_i),cell]]
-    else
-      nil
-    end
   end
 
   def cols_spec tabname, cols
