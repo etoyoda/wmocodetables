@@ -188,6 +188,28 @@ class CSVCompileAdoc
     ret
   end
 
+  # 現在の表への脚注を保持するハッシュ footnotes に表全体にかかる脚注を追加する
+  def add_table_notes tabname, footnotes
+    pkey=pat=nil
+    case tabname
+    when /^G-T(\d)-(\d+)/ then
+      pkey=format('%u.%u',$1.to_i,$2.to_i)
+      pat=/Template_table\.csv$/
+    else
+      warn "add_table_notes #{tabname}"
+      return
+    end
+    tabfn=@notedb.keys.find{|fn| pat===fn}
+    @notedb[tabfn].each{|row|
+      next unless row.first[1]==pkey
+      noteid,notation=row['noteID'],row['notation']
+      next if notation.nil? or notation=='n/a'
+      linksym="#{tabname}_n#{noteid}"
+      warn "add_table_notes #{tabname} #{notation} #{linksym}"
+      footnotes[Integer(notation)]=linksym
+    }
+  end
+
   def cols_spec tabname, cols
     case tabname
     when /^G-T/ then
@@ -318,6 +340,7 @@ class CSVCompileAdoc
       @adf.puts vals.join
     }
     @adf.puts '|==='
+    add_table_notes(tabname, footnotes)
     unless footnotes.empty? then
       @adf.puts ''
       @adf.puts '注:'
