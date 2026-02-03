@@ -355,17 +355,17 @@ class CSVCompileAdoc
   # 注記テキストの探索先ファイル情報
   NOTE_RULES=[
     NoteRule.new("G-CF", /^G-(?:CF\d-\d+-[CF]|C42-\d+-\d+)_n(\d+)/, 1,
-    /GRIB.*\/CodeFlag_notes\.csv$/),
+    /CodeFlag_notes\.csv$/),
     NoteRule.new("G-T", /^G-T\d-\d+_n(\d+)/, 1,
-    /GRIB.*\/Template_notes\.csv$/),
+    /Template_notes\.csv$/),
     NoteRule.new("BC-B", /^BC-B\d+_n(\d+)/, 1,
-    /BUFR.*\/BUFRCREX_TableB_notes\.csv$/),
+    /BUFRCREX_TableB_notes\.csv$/),
     NoteRule.new("B-C", /^B-C_n(\d+)/, 1,
-    /BUFR.*\/BUFR_TableC_notes\.csv$/),
+    /BUFR_TableC_notes\.csv$/),
     NoteRule.new("B-D", /^B-D\d+_n(\d+)/, 1,
-    /BUFR.*\/BUFR_TableD_notes\.csv$/),
+    /BUFR_TableD_notes\.csv$/),
     NoteRule.new("BC-CFT", /^BC-CFT\d+_n(\d+)/, 1,
-    /BUFR.*\/BUFRCREX_CodeFlag_notes\.csv$/),
+    /BUFRCREX_CodeFlag_notes\.csv$/),
   ]
 
   def fetch_note tag, file_re, nid
