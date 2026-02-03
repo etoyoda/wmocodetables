@@ -332,6 +332,7 @@ class CSVCompileAdoc
     @adf.puts ''
   end
 
+  # 与えられたkeyに対応する注記テキストを検索して返す、入口メソッド
   def note_resolve key
     rule = NOTE_RULES.find {|r| r.match?(key) }
     return unknown_note_key(key) unless rule
@@ -339,16 +340,19 @@ class CSVCompileAdoc
     fetch_note(tag, file_re, nid)
   end
 
+  # 注記テキストの探索先ファイル情報を保持する構造体
   NoteRule = Struct.new(:tag, :key_re, :nid_group, :file_re) do
     def match?(key)
       key_re.match?(key)
     end
+    # 構造体の主要3要素を配列で返す
     def extract(key)
       m=key_re.match(key)
       [tag, file_re, m[nid_group]]
     end
   end
 
+  # 注記テキストの探索先ファイル情報
   NOTE_RULES=[
     NoteRule.new("G-CF", /^G-(?:CF\d-\d+-[CF]|C42-\d+-\d+)_n(\d+)/, 1,
     /GRIB.*\/CodeFlag_notes\.csv$/),
@@ -371,11 +375,14 @@ class CSVCompileAdoc
     row["note"]
   end
 
+  # @notedb のキーのうち、指定した正規表現にマッチするファイル名を1つ選び、
+  # キャッシュして返す
   def note_file file_re
     @note_file_cache ||= {}
     @note_file_cache[file_re] ||= @notedb.keys.find{|fnam| file_re===fnam}
   end
 
+  # 検索に失敗した場合にkeyそのものを返すフォールバック、この際メッセージを出す
   def unknown_note_key key
     warn "unknown note key #{key}"
     key
