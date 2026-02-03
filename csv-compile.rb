@@ -116,6 +116,69 @@ class CSVCompileAdoc
     end
   end
 
+  def mklink!(tabname,cell,row,footnotes)
+    # ---begin WMO CSVの誤記修正 
+    if /^4\.\d+$/===row['noteIDs'] and row['codeTable'].nil? then
+      row['codeTable']=row['noteIDs']
+      row['noteIDs']=nil
+    end
+    if /^\(see/===row['noteIDs'] and row['Note_en'].nil? then
+      row['Note_en']=row['noteIDs']
+      row['noteIDs']=nil
+    end
+    # ---誤記修正
+    # ここが本体。textを左から分解して空になるまで解釈
+    text=row['Note_en'].dup
+    ret=[]
+    if text.sub!(/^\(flags - see /,'') then
+      ret.push(['(flags - see )', nil])
+    elsif text.sub!(/^ ?\([Ss]ee \t*/,'') then
+      ret.push(['(see )', nil])
+    else
+      raise text
+    end
+    while not text.empty?
+      if text.sub!(/^(?: and )?Code table (\d)\.(\d+|PTN)/, '') then
+        raise :unexpected unless /^G/===tabname
+        cell,sec,tno=$&,$1,$2
+        #sec,tno=row['codeTable'].split(/\./,2)
+        ret.push([cell,format("G-CF%u-%05u-C", sec.to_i, tno.to_i)])
+      elsif text.sub!(/^(?: and )?Flag table (\d)\.(\d+)/, '') then
+        raise :unexpected unless /^G/===tabname
+        cell,sec,tno=$&,$1,$2
+        ret.push([cell,format("G-CF%u-%05u-F", sec.to_i, tno.to_i)])
+      elsif text.sub!(/^(?: and )?Common Code table  ?C[-\u{2013}](\d+)(?#
+      #?)(?: in Part C\/c\.)?/, '') then
+        cell=$&
+        ret.push([cell,nil])
+      elsif text.sub!(/^( and )?[Nn]otes? (\d+(?:, \d+)*(?: and \d+))/, '') then
+        amp,nsymstr=$1,$2
+        nsyms=nsymstr.split(/ and |, /)
+        ids=row['noteIDs'].split(/,/)
+        if nsyms.size != ids.size
+          raise "note num #{nsyms.inspect} #{ids.inspect}"
+        end
+        ret.push([' and ',nil]) if amp
+        ret.push(['Note ',nil])
+        ids.size.times{|i|
+          nsym=nsyms[i]
+          linksym="#{tabname}_n#{ids[i]}"
+          footnotes[Integer(nsym)]=linksym
+          ret.push([nsym,linksym])
+          ret.push([', ',nil])
+        }
+        ret.pop
+      elsif text.sub!(/^(?: and )?Note(?=\))/, '') then
+      elsif text.sub!(/^\) ?/, '') then
+        ret.push([')', nil])
+        break
+      else
+        raise "unsupported Note_en #{text.inspect}"
+      end
+    end
+    ret
+  end
+
   def mklink(tabname,cell,row,footnotes)
     if /^4\.\d+$/===row['noteIDs'] and row['codeTable'].nil? then
       row['codeTable']=row['noteIDs']
