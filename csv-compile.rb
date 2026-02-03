@@ -233,13 +233,34 @@ class CSVCompileAdoc
     end
   end
 
+  def cols_spec tabname, cols
+    case tabname
+    when /^G-T/ then
+      return cols.map{|h| if h=='Contents_en' then 3 else 1 end}.join(',')
+    when /^G-CF/ then
+      return cols.map{|h| if h=='MeaningParameterDescription_en' then 3 else 1 end}.join(',')
+    when /^[BC]-A/ then
+      return cols.map{|h| if h=='Meaning_en' then 3 else 1 end}.join(',')
+    when /^BC-B/ then
+      return cols.map{|h| if h=='ElementName_en' then 3 else 1 end}.join(',')
+    when /^[BC]-C/ then
+      return cols.map{|h| if h=='OperationDefinition_en' then 3 else 1 end}.join(',')
+    when /^[BC]-D/ then
+      return cols.map{|h| if h=='ElementName_en' then 3 else 1 end}.join(',')
+    when /^BC-CF/ then
+      return cols.map{|h| if h=='EntryName_en' then 3 else 1 end}.join(',')
+    end
+    format('%u',cols.size)
+  end
+
   def table_header level, tabname, sectl, subtl, cols
     @adf.puts "[[#{tabname}]]"
     @adf.puts "#{'=' * level} #{sectl}"
     @adf.puts subtl if subtl
     @adf.puts ''
     return if cols.nil?
-    @adf.puts "[cols=\"#{cols.size}\",options=\"header\"]"
+    scols=cols_spec(tabname,cols)
+    @adf.puts "[cols=\"#{scols}\",options=\"header\"]"
     @adf.puts "|==="
     @adf.puts(cols.map{|h| "|#{vizkwd h}"}.join(' '))
   end
@@ -322,7 +343,7 @@ class CSVCompileAdoc
       cols.each{|h|
         if modeid==h then
           link=mklink(tabname,row[h],row,footnotes)
-          warn(mklink!(tabname,row[h],row,Hash.new).inspect)
+          #warn(mklink!(tabname,row[h],row,Hash.new).inspect)
         else
           link=nil
         end
