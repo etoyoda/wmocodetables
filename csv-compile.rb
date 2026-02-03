@@ -116,8 +116,7 @@ class CSVCompileAdoc
     end
   end
 
-  def mklink!(tabname,cell,row,footnotes)
-=begin
+  def mklink(tabname,cell,row,footnotes)
     # ---begin WMO CSVの誤記修正 
     if /^4\.\d+$/===row['noteIDs'] and row['codeTable'].nil? then
       row['codeTable']=row['noteIDs']
@@ -127,7 +126,6 @@ class CSVCompileAdoc
       cell=row['noteIDs']
       row['noteIDs']=nil
     end
-=end
     # ---誤記修正
     # ここが本体。textを左から分解して空になるまで解釈
     text=cell.to_s.dup
@@ -190,7 +188,7 @@ class CSVCompileAdoc
     ret
   end
 
-  def mklink(tabname,cell,row,footnotes)
+  def mklink!(tabname,cell,row,footnotes)
     if /^4\.\d+$/===row['noteIDs'] and row['codeTable'].nil? then
       row['codeTable']=row['noteIDs']
       row['noteIDs']=nil
@@ -343,13 +341,14 @@ class CSVCompileAdoc
       cols.each{|h|
         if modeid==h then
           link=mklink(tabname,row[h],row,footnotes)
-          #warn(mklink!(tabname,row[h],row,Hash.new).inspect)
         else
           link=nil
         end
         if link then
           vals.push '|'
-          link.each{|k,v| vals.push "<<#{k},#{v}>>" }
+          link.each{|k,v|
+            vals.push(if v then "<<#{v},#{k}>>" else k end)
+          }
         else
           vals.push "|#{row[h]}"
           if modeent==h then
@@ -368,8 +367,9 @@ class CSVCompileAdoc
       footnotes.keys.sort.each{|notenum|
         text=footnotes[notenum]
         rtext=note_resolve(text)
+        midasi=if notenum.zero? then '' else format('%u/ ', notenum) end
         @adf.puts ''
-        @adf.puts "[[#{text}]]#{notenum}: #{rtext}"
+        @adf.puts "[[#{text}]]#{midasi}#{rtext}"
       }
     end
     @adf.puts ''
