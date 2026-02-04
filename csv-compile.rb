@@ -260,6 +260,9 @@ class CSVCompileAdoc
     @adf.puts(cols.map{|h| "|#{vizkwd h}"}.join(' '))
   end
 
+  TableType=Struct.new(:cols, :modettl, :modeid,
+    :modeent, :modeseq, :modestat)
+
   def csvconv kwd, csvfnam, level=4
     bn=File.basename(csvfnam)
     table=CSV.read(csvfnam,headers:true)
@@ -268,40 +271,40 @@ class CSVCompileAdoc
     end
     tabname=csvtabname(bn)
     headers=table.headers
-    cols=[]
-    modettl=modeid=modestat=modeent=modeseq=nil
+    tt=TableType.new
+    tt.cols=[]
     headers.each {|col|
       case col
       when 'Title_en','SubTitle_en' then
         # Category と Title_en が共存するのでとりあえず Category を優先させる
-        modettl=:title unless modettl
+        tt.modettl=:title unless tt.modettl
       when 'ClassNo','ClassName_en' then
-        modettl=:class
+        tt.modettl=:class
       when 'Category','CategoryOfSequences_en' then
-        modettl=:categ
+        tt.modettl=:categ
       when 'Value','UnitComments_en' then
         emptycol=true
         table.each{|row| emptycol=false unless row[col].to_s.empty?}
-        cols.push col unless emptycol
+        tt.cols.push col unless emptycol
       when 'noteIDs','codeTable','flagTable' then
         raise :unexpected unless headers.include?('Note_en')
-        modeid='Note_en'
+        tt.modeid='Note_en'
       when 'Status' then
-        modestat=true
+        tt.modestat=true
       when 'EntryName_sub1_en','EntryName_sub2_en' then
-        modeent='EntryName_en'
+        tt.modeent='EntryName_en'
       when 'FXY1' then
-        modeseq='FXY1'
+        tt.modeseq='FXY1'
       else
-        cols.push col
+        tt.cols.push col
       end
     }
     if headers.include?('FXY') and headers.include?('ElementName_en') and
     not headers.include?('BUFR_Unit') then
-      modeseq='FXY'
-      cols.shift(2)
+      tt.modeseq='FXY'
+      tt.cols.shift(2)
     end
-    case modettl
+    case tt.modettl
     when :title then
       row1=table.first
       sectl="#{vizpat tabname} - #{row1['Title_en']}"
@@ -318,25 +321,25 @@ class CSVCompileAdoc
       sectl=vizpat(tabname)
       subtl=''
     end
-    if modeseq
+    if tt.modeseq
       table_header(level, tabname, sectl, subtl, nil)
     else
-      table_header(level, tabname, sectl, subtl, cols)
+      table_header(level, tabname, sectl, subtl, tt.cols)
     end
     footnotes=Hash.new
     prev_seq=nil
     table.each{|row|
-      if modeseq and prev_seq != row[modeseq] then
-        seqname="#{tabname}_s#{row[modeseq]}"
-        stlkey=if modeseq=='FXY1' then 'Title_en' else 'ElementName_en' end
-        seqtl="#{row[modeseq]} #{row[stlkey]}"
+      if tt.modeseq and prev_seq != row[tt.modeseq] then
+        seqname="#{tabname}_s#{row[tt.modeseq]}"
+        stlkey=if tt.modeseq=='FXY1' then 'Title_en' else 'ElementName_en' end
+        seqtl="#{row[tt.modeseq]} #{row[stlkey]}"
         @adf.puts "|===" if prev_seq
-        table_header(level+1, seqname, seqtl, nil, cols)
-        prev_seq=row[modeseq]
+        table_header(level+1, seqname, seqtl, nil, tt.cols)
+        prev_seq=row[tt.modeseq]
       end
       vals=[]
-      cols.each{|h|
-        if modeid==h then
+      tt.cols.each{|h|
+        if tt.modeid==h then
           link=mklink(tabname,row[h],row,footnotes)
         else
           link=nil
@@ -348,7 +351,7 @@ class CSVCompileAdoc
           }
         else
           vals.push "|#{row[h]}"
-          if modeent==h then
+          if tt.modeent==h then
             ['EntryName_sub1_en','EntryName_sub2_en'].each{|k|
               vals.push " (#{row[k]})" if row[k]
             }
