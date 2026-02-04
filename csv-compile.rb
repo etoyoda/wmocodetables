@@ -429,7 +429,10 @@ class CSVCompileAdoc
   def fetch_note tag, file_re, nid
     fn=note_file(file_re) or raise "{missing note file for #{tag}}"
     row=@notedb[fn].find {|r| r["noteID"]==nid}
-    return "{missing #{tag} noteID #{nid}}" if row.nil?
+    if row.nil? then
+      warn(msg="{missing #{tag} noteID #{nid}}")
+      return msg
+    end
     row["note"]
   end
 
