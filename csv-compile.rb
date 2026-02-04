@@ -378,7 +378,7 @@ class CSVCompileAdoc
     add_table_notes(tabsym, footnotes)
     unless footnotes.empty? then
       @adf.puts ''
-      @adf.puts '注:'
+      @adf.puts "#{vizkwd 'Note_en'}:"
       footnotes.keys.sort.each{|notenum|
         text=footnotes[notenum]
         rtext=note_resolve(text)
