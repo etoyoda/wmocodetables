@@ -27,7 +27,7 @@ class CSVCompileAdoc
       warn "scanning #{proj}..."
       Dir.glob(File.join(proj,'*.csv')).sort.each{|csvfnam|
         bn=File.basename(csvfnam)
-        @csvdb[csvtabname(bn)]=csvfnam
+        @csvdb[csvfnam_to_tabsym(bn)]=csvfnam
       }
       warn "loading #{proj}/notes..."
       Dir.glob(File.join(proj,'notes','*.csv')).each{|nfnam|
@@ -83,7 +83,7 @@ class CSVCompileAdoc
     warn "asciidoc output: #{@adfnam}"
   end
 
-  def csvtabname csvfnam
+  def csvfnam_to_tabsym csvfnam
     case csvfnam
     when /^GRIB2_Template_(\d+)_(\d+)_\w+_en\.csv$/ then
       sec,tnu=$1,$2
@@ -307,7 +307,7 @@ class CSVCompileAdoc
     if table.empty?
       raise "empty file #{bn}"
     end
-    tabsym=csvtabname(bn)
+    tabsym=csvfnam_to_tabsym(bn)
     tt=analyze_headers(table)
     case tt.modettl
     when :title then
