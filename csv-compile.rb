@@ -248,16 +248,28 @@ class CSVCompileAdoc
     format('%u',cols.size)
   end
 
-  def table_header level, tabsym, sectl, subtl, cols
+  def emit_section_header level, tabsym, sectl, subtl
     @adf.puts "[[#{tabsym}]]"
     @adf.puts "#{'=' * level} #{sectl}"
     @adf.puts subtl if subtl
     @adf.puts ''
-    return if cols.nil?
+  end
+
+  def begin_table tabsym, cols
     scols=cols_spec(tabsym,cols)
     @adf.puts "[cols=\"#{scols}\",options=\"header\"]"
     @adf.puts "|==="
     @adf.puts(cols.map{|h| "|#{vizkwd h}"}.join(' '))
+  end
+
+  def end_table
+    @adf.puts "|==="
+  end
+
+  def table_header level, tabsym, sectl, subtl, cols
+    emit_section_header level, tabsym, sectl, subtl
+    return if cols.nil?
+    begin_table tabsym, cols
   end
 
   TableType=Struct.new(:cols, :modettl, :modeid,
@@ -338,7 +350,7 @@ class CSVCompileAdoc
         seqname="#{tabsym}_s#{row[tt.modeseq]}"
         stlkey=if tt.modeseq=='FXY1' then 'Title_en' else 'ElementName_en' end
         seqtl="#{row[tt.modeseq]} #{row[stlkey]}"
-        @adf.puts "|===" if prev_seq
+        end_table if prev_seq
         table_header(level+1, seqname, seqtl, nil, tt.cols)
         prev_seq=row[tt.modeseq]
       end
@@ -365,7 +377,7 @@ class CSVCompileAdoc
       }
       @adf.puts vals.join
     }
-    @adf.puts '|==='
+    end_table
     add_table_notes(tabsym, footnotes)
     unless footnotes.empty? then
       @adf.puts ''
