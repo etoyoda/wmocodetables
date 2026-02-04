@@ -20,6 +20,7 @@ class CSVCompileAdoc
     @notedb=Hash.new
     @dictdb=Hash.new
     @patdb=Hash.new
+    @in_adoc_tab=nil
   end
 
   def scandir
@@ -256,6 +257,8 @@ class CSVCompileAdoc
   end
 
   def begin_table tabsym, cols
+    raise 'begin_table in table' if @in_adoc_table
+    @in_adoc_table=true
     scols=cols_spec(tabsym,cols)
     @adf.puts "[cols=\"#{scols}\",options=\"header\"]"
     @adf.puts "|==="
@@ -263,6 +266,8 @@ class CSVCompileAdoc
   end
 
   def end_table
+    raise 'end_table out of table' if not @in_adoc_table
+    @in_adoc_table=false
     @adf.puts "|==="
   end
 
