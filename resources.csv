@@ -81,3 +81,103 @@ EntryName_en,ja,意味
 ^C-D(\d),ja,CREX表D - カテゴリー%02u
 ^CCT-C(\d+),en,Common Code Table C-%u
 ^CCT-C(\d+),ja,共通符号表C-%u
+GRIB version number,en,GRIB version number
+GRIB version number,ja,GRIBバージョン番号
+BUFR version number,en,BUFR version number
+BUFR version number,ja,BUFRバージョン番号
+CREX version number,en,CREX version number
+CREX version number,ja,CREXバージョン番号
+Effective date,en,Effective date
+Effective date,ja,実施日
+CodeFigureForF1F2,en,Code figure for F1F2
+CodeFigureForF1F2,ja,数字符号 F1F2
+CodeFigureForF3F3F3,en,Code figure for F3F3F3
+CodeFigureForF3F3F3,ja,数字符号 F3F3F3
+Octet5GRIB1_Octet6BUFR3,en,Octet5 GRIB1 Octet6 BUFR3
+Octet5GRIB1_Octet6BUFR3,ja,GRIB第1版第1節第5オクテット BUFR第1節第6オクテット
+OriginatingGeneratingCentres_en,en,Originating/Generating Centres
+OriginatingGeneratingCentres_en,ja,作成中枢
+DateOfAssignment_en,en,Date of Assignment
+DateOfAssignment_en,ja,数字符号の割当日
+CodeFigureForrara,en,Code figure for rara
+CodeFigureForrara,ja,数字符号rara
+CodeFigureForsasa,en,Code figure for sasa
+CodeFigureForsasa,ja,数字符号sasa
+Code figure for BUFR,en,Code figure for BUFR
+Code figure for BUFR,ja,数字符号BUFR
+RadiosondeSoundingSystemUsed_en,en,Radiosonde sounding system used
+RadiosondeSoundingSystemUsed_en,ja,ラジオゾンデ/観測システム
+CodeFigureForIXIIXIX,en,Code figure for IXIIXIX
+CodeFigureForIXIIXIX,ja,数字符号IXIIXIX
+Code figure for BUFR,en,Code figure for BUFR
+Code figure for BUFR,ja,数字符号BUFR
+InstrumentMakeAndType_en,en,Instrument make and type
+InstrumentMakeAndType_en,ja,観測機器
+EquationCoefficients_a,en,Equation coefficients a
+EquationCoefficients_a,ja,水深換算式の係数a
+EquationCoefficients_b,en,Equation coefficients b
+EquationCoefficients_b,ja,水深換算式の係数b
+CodeFigureForXRXR,en,Code figure for XRXR
+CodeFigureForXRXR,ja,数字符号XRXR
+Code figure for BUFR,en,Code figure for BUFR
+Code figure for BUFR,ja,数字符号BUFR
+CodeFigureForI6I6I6,en,Code figure for I6I6I6
+CodeFigureForI6I6I6,ja,数字符号I6I6I6
+Code figure for BUFR,ja,数字符号BUFR
+Code figure for BUFR,en,Code figure for BUFR
+CodeFigureForGRIB2,en,Code figure for GRIB2
+CodeFigureForGRIB2,ja,数字符号GRIB2
+SatelliteName_en,en,Satellite name
+SatelliteName_en,ja,衛星の名称
+UnitType,en,Unit type
+UnitType,ja,UnitType
+Meaning,en,Meaning
+Meaning,ja,意味
+conventional,en,conventional
+conventional,ja,慣習的な 略語
+IA5-ASCII,en,IA5/ASCII
+IA5-ASCII,ja,IA5/ASCII 略語
+ITA2,en,ITA2
+ITA2,ja,ITA2 略語
+SIDefinition,en,SI definition
+SIDefinition,ja,SI基本単位による定義
+Code figure for sasa,en,Code figure for sasa
+Code figure for sasa,ja,数字符号sasa
+CodeFigureForBUFR,en,Code figure for BUFR
+CodeFigureForBUFR,ja,数字符号BUFR
+TrackingTechniquesStatusOfSystemUsed_en,en,Tracking techniques/status of system used
+TrackingTechniquesStatusOfSystemUsed_en,ja,トラッキング法/システムの状態
+Code,en,Code
+Code,ja,数字符号
+Agency_en,en,Agency
+Agency_en,ja,機関
+Type_en,en,Type
+Type_en,ja,種類
+InstrumentShortName_en,en,Instrument short name
+InstrumentShortName_en,ja,測器の略称
+InstrumentLongName_en,en,Instrument long name
+InstrumentLongName_en,ja,測器の名称
+CREX2,en,CREX2
+CREX2,ja,CREX第2版第1節3群
+GRIB2_BUFR4,en,GRIB2 BUFR4
+GRIB2_BUFR4,ja,GRIB第2版第1節第6-7オクテット BUFR第4版第1節第5-6オクテット
+OriginatingGeneratingCentre_en,en,Originating/Generating centre
+OriginatingGeneratingCentre_en,ja,作成中枢
+CodeFigure_OriginatingCentres,en,Originating centres / Code figure
+CodeFigure_OriginatingCentres,ja,作成中枢 数字符号
+Name_OriginatingCentres_en,en,Originating centres / Name
+Name_OriginatingCentres_en,ja,作成中枢 名称
+CodeFigure_SubCentres,en,SubCentres / Code figure
+CodeFigure_SubCentres,ja,副中枢 数字符号
+Name_SubCentres_en,en,SubCentres / Name
+Name_SubCentres_en,ja,副中枢 名称
+CodeFigure_DataCategories,en,Data categories / Code figure
+CodeFigure_DataCategories,ja,資料のカテゴリー 数字符号
+Name_DataCategories_en,en,Data categories / Name
+Name_DataCategories_en,ja,資料のカテゴリー 名称
+CodeFigure_InternationalDataSubcategories,en,International Data Subcategories / Code figure
+CodeFigure_InternationalDataSubcategories,ja,国際資料副カテゴリー 数字符号
+Name_InternationalDataSubcategories_en,en,International data subcategories / Name
+Name_InternationalDataSubcategories_en,ja,国際資料副カテゴリー 名称
+ChemicalFormula,en,Chemical formula
+ChemicalFormula,ja,化学式
