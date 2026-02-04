@@ -45,12 +45,12 @@ class CSVCompileAdoc
     end
   end
 
-  def vizpat tabname
+  def vizpat tabsym
     @patdb.each{|pat,txt|
-      return format(txt,$1.to_i,$2.to_i) if pat===tabname
+      return format(txt,$1.to_i,$2.to_i) if pat===tabsym
     }
-    warn "unresolved table name #{tabname}"
-    return tabname
+    warn "unresolved table name #{tabsym}"
+    return tabsym
   end
 
   def vizkwd keyword
@@ -116,7 +116,7 @@ class CSVCompileAdoc
     end
   end
 
-  def mklink(tabname,cell,row,footnotes)
+  def mklink(tabsym,cell,row,footnotes)
     # ---begin WMO CSVの誤記修正 
     if /^4\.\d+$/===row['noteIDs'] and row['codeTable'].nil? then
       row['codeTable']=row['noteIDs']
@@ -142,12 +142,12 @@ class CSVCompileAdoc
         ret.push([' and ', nil])
       elsif text.sub!(/^Code table (\d)\.(\d+|PTN)/, '') then
         cell,sec,tno=$&,$1,$2
-        raise :unexpected unless /^G/===tabname
+        raise :unexpected unless /^G/===tabsym
         #sec,tno=row['codeTable'].split(/\./,2)
         ret.push([cell,format("G-CF%u-%05u-C", sec.to_i, tno.to_i)])
       elsif text.sub!(/^Flag table (\d)\.(\d+)/, '') then
         cell,sec,tno=$&,$1,$2
-        raise :unexpected unless /^G/===tabname
+        raise :unexpected unless /^G/===tabsym
         ret.push([cell,format("G-CF%u-%05u-F", sec.to_i, tno.to_i)])
       elsif text.sub!(/^Common Code table  ?C[-\u{2013}](\d+)(?#
       #?)(?: in Part C\/c\.)?/, '') then
@@ -162,11 +162,11 @@ class CSVCompileAdoc
         nsyms.size.times{|i|
           nsym=nsyms[i]
           if ids[i] then
-            linksym="#{tabname}_n#{ids[i]}"
+            linksym="#{tabsym}_n#{ids[i]}"
             footnotes[Integer(nsym)]=linksym
             ret.push([nsym,linksym])
           else
-            warn "missing note id for #{nsym} in #{tabname}"
+            warn "missing note id for #{nsym} in #{tabsym}"
             ret.push([nsym,nil])
           end
           ret.push([', ',nil])
@@ -175,7 +175,7 @@ class CSVCompileAdoc
       elsif text.sub!(/^Note(?=\)| and)/, '') then
         nid=row['noteIDs']
         raise unless /^\d+$/===nid
-        linksym="#{tabname}_n#{nid}"
+        linksym="#{tabsym}_n#{nid}"
         footnotes[0]=linksym
         ret.push(['Note', linksym])
       elsif text.sub!(/^\) ?/, '') then
@@ -189,9 +189,9 @@ class CSVCompileAdoc
   end
 
   # 現在の表への脚注を保持するハッシュ footnotes に表全体にかかる脚注を追加する
-  def add_table_notes tabname, footnotes
+  def add_table_notes tabsym, footnotes
     pkey=pat=nil
-    case tabname
+    case tabsym
     when /^G-T(\d)-(\d+)/ then
       pkey=format('%u.%u',$1.to_i,$2.to_i)
       pat=/Template_table\.csv$/
@@ -222,14 +222,14 @@ class CSVCompileAdoc
       next unless row.first[1]==pkey
       noteid,notation=row['noteID'],row['notation']
       next if notation.nil? or notation=='n/a'
-      linksym="#{tabname}_n#{noteid}"
-      #warn "add_table_notes #{tabname} #{notation} #{linksym}"
+      linksym="#{tabsym}_n#{noteid}"
+      #warn "add_table_notes #{tabsym} #{notation} #{linksym}"
       footnotes[Integer(notation)]=linksym
     }
   end
 
-  def cols_spec tabname, cols
-    case tabname
+  def cols_spec tabsym, cols
+    case tabsym
     when /^G-T/ then
       return cols.map{|h| if h=='Contents_en' then 3 else 1 end}.join(',')
     when /^G-CF/ then
@@ -248,13 +248,13 @@ class CSVCompileAdoc
     format('%u',cols.size)
   end
 
-  def table_header level, tabname, sectl, subtl, cols
-    @adf.puts "[[#{tabname}]]"
+  def table_header level, tabsym, sectl, subtl, cols
+    @adf.puts "[[#{tabsym}]]"
     @adf.puts "#{'=' * level} #{sectl}"
     @adf.puts subtl if subtl
     @adf.puts ''
     return if cols.nil?
-    scols=cols_spec(tabname,cols)
+    scols=cols_spec(tabsym,cols)
     @adf.puts "[cols=\"#{scols}\",options=\"header\"]"
     @adf.puts "|==="
     @adf.puts(cols.map{|h| "|#{vizkwd h}"}.join(' '))
@@ -307,35 +307,35 @@ class CSVCompileAdoc
     if table.empty?
       raise "empty file #{bn}"
     end
-    tabname=csvtabname(bn)
+    tabsym=csvtabname(bn)
     tt=analyze_headers(table)
     case tt.modettl
     when :title then
       row1=table.first
-      sectl="#{vizpat tabname} - #{row1['Title_en']}"
+      sectl="#{vizpat tabsym} - #{row1['Title_en']}"
       subtl=row1['SubTitle_en']
     when :class then
       row1=table.first
-      sectl="#{vizpat tabname} - Class #{row1['ClassNo']}"
+      sectl="#{vizpat tabsym} - Class #{row1['ClassNo']}"
       subtl=row1['ClassName_en']
     when :categ then
       row1=table.first
-      sectl="#{vizpat tabname} - Class #{row1['Category']}"
+      sectl="#{vizpat tabsym} - Class #{row1['Category']}"
       subtl=row1['CategoryOfSequences_en']
     else
-      sectl=vizpat(tabname)
+      sectl=vizpat(tabsym)
       subtl=''
     end
     if tt.modeseq
-      table_header(level, tabname, sectl, subtl, nil)
+      table_header(level, tabsym, sectl, subtl, nil)
     else
-      table_header(level, tabname, sectl, subtl, tt.cols)
+      table_header(level, tabsym, sectl, subtl, tt.cols)
     end
     footnotes=Hash.new
     prev_seq=nil
     table.each{|row|
       if tt.modeseq and prev_seq != row[tt.modeseq] then
-        seqname="#{tabname}_s#{row[tt.modeseq]}"
+        seqname="#{tabsym}_s#{row[tt.modeseq]}"
         stlkey=if tt.modeseq=='FXY1' then 'Title_en' else 'ElementName_en' end
         seqtl="#{row[tt.modeseq]} #{row[stlkey]}"
         @adf.puts "|===" if prev_seq
@@ -345,7 +345,7 @@ class CSVCompileAdoc
       vals=[]
       tt.cols.each{|h|
         if tt.modeid==h then
-          link=mklink(tabname,row[h],row,footnotes)
+          link=mklink(tabsym,row[h],row,footnotes)
         else
           link=nil
         end
@@ -366,7 +366,7 @@ class CSVCompileAdoc
       @adf.puts vals.join
     }
     @adf.puts '|==='
-    add_table_notes(tabname, footnotes)
+    add_table_notes(tabsym, footnotes)
     unless footnotes.empty? then
       @adf.puts ''
       @adf.puts '注:'
