@@ -266,12 +266,6 @@ class CSVCompileAdoc
     @adf.puts "|==="
   end
 
-  def table_header level, tabsym, sectl, subtl, cols
-    emit_section_header level, tabsym, sectl, subtl
-    return if cols.nil?
-    begin_table tabsym, cols
-  end
-
   TableType=Struct.new(:cols, :modettl, :modeid,
     :modeent, :modeseq, :modestat)
 
@@ -338,11 +332,8 @@ class CSVCompileAdoc
       sectl=vizpat(tabsym)
       subtl=''
     end
-    if tt.modeseq
-      table_header(level, tabsym, sectl, subtl, nil)
-    else
-      table_header(level, tabsym, sectl, subtl, tt.cols)
-    end
+    emit_section_header(level, tabsym, sectl, subtl)
+    begin_table(tabsym, tt.cols) unless tt.modeseq
     footnotes=Hash.new
     prev_seq=nil
     table.each{|row|
@@ -351,7 +342,8 @@ class CSVCompileAdoc
         stlkey=if tt.modeseq=='FXY1' then 'Title_en' else 'ElementName_en' end
         seqtl="#{row[tt.modeseq]} #{row[stlkey]}"
         end_table if prev_seq
-        table_header(level+1, seqname, seqtl, nil, tt.cols)
+        emit_section_header(level+1, seqname, seqtl, nil)
+        begin_table(seqname, tt.cols)
         prev_seq=row[tt.modeseq]
       end
       vals=[]
