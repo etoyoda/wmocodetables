@@ -278,7 +278,7 @@ class CSVCompileAdoc
         tt.modettl=:categ
       when 'Value','UnitComments_en' then
         emptycol=true
-        table.each{|row| emptycol=false unless row[col].to_s.empty?}
+        table.each{|row| emptycol=false if row[col]}
         tt.cols.push col unless emptycol
       when 'noteIDs','codeTable','flagTable' then
         raise :unexpected unless headers.include?('Note_en')
@@ -308,7 +308,6 @@ class CSVCompileAdoc
       raise "empty file #{bn}"
     end
     tabname=csvtabname(bn)
-    headers=table.headers
     tt=analyze_headers(table)
     case tt.modettl
     when :title then
