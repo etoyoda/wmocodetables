@@ -263,13 +263,7 @@ class CSVCompileAdoc
   TableType=Struct.new(:cols, :modettl, :modeid,
     :modeent, :modeseq, :modestat)
 
-  def csvconv kwd, csvfnam, level=4
-    bn=File.basename(csvfnam)
-    table=CSV.read(csvfnam,headers:true)
-    if table.empty?
-      raise "empty file #{bn}"
-    end
-    tabname=csvtabname(bn)
+  def analyze_headers(table)
     headers=table.headers
     tt=TableType.new
     tt.cols=[]
@@ -304,6 +298,18 @@ class CSVCompileAdoc
       tt.modeseq='FXY'
       tt.cols.shift(2)
     end
+    return tt
+  end
+
+  def csvconv kwd, csvfnam, level=4
+    bn=File.basename(csvfnam)
+    table=CSV.read(csvfnam,headers:true)
+    if table.empty?
+      raise "empty file #{bn}"
+    end
+    tabname=csvtabname(bn)
+    headers=table.headers
+    tt=analyze_headers(table)
     case tt.modettl
     when :title then
       row1=table.first
