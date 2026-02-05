@@ -89,20 +89,20 @@ CREX version number,en,CREX version number
 CREX version number,ja,CREXバージョン番号
 Effective date,en,Effective date
 Effective date,ja,実施日
-CodeFigureForF1F2,en,Code figure for F1F2
-CodeFigureForF1F2,ja,数字符号 F1F2
-CodeFigureForF3F3F3,en,Code figure for F3F3F3
-CodeFigureForF3F3F3,ja,数字符号 F3F3F3
+CodeFigureForF1F2,en,Code figure for F\u{2081}F\u{2082}
+CodeFigureForF1F2,ja,数字符号 F\u2081F\u{2082}
+CodeFigureForF3F3F3,en,Code figure for F\u{2083}F\u{2083}F\u{2083}
+CodeFigureForF3F3F3,ja,数字符号 F\u{2083}F\u{2083}F\u{2083}
 Octet5GRIB1_Octet6BUFR3,en,Octet5 GRIB1 Octet6 BUFR3
 Octet5GRIB1_Octet6BUFR3,ja,GRIB第1版第1節第5オクテット BUFR第1節第6オクテット
 OriginatingGeneratingCentres_en,en,Originating/Generating Centres
 OriginatingGeneratingCentres_en,ja,作成中枢
 DateOfAssignment_en,en,Date of Assignment
 DateOfAssignment_en,ja,数字符号の割当日
-CodeFigureForrara,en,Code figure for rara
-CodeFigureForrara,ja,数字符号rara
-CodeFigureForsasa,en,Code figure for sasa
-CodeFigureForsasa,ja,数字符号sasa
+CodeFigureForrara,en,Code figure for r\u{2090}r\u{2090}
+CodeFigureForrara,ja,数字符号r\u{2090}r\u{2090}
+CodeFigureForsasa,en,Code figure for s\u{2090}s\u{2090}
+CodeFigureForsasa,ja,数字符号s\u{2090}s\u{2090}
 Code figure for BUFR,en,Code figure for BUFR
 Code figure for BUFR,ja,数字符号BUFR
 RadiosondeSoundingSystemUsed_en,en,Radiosonde sounding system used
@@ -121,8 +121,8 @@ CodeFigureForXRXR,en,Code figure for XRXR
 CodeFigureForXRXR,ja,数字符号XRXR
 Code figure for BUFR,en,Code figure for BUFR
 Code figure for BUFR,ja,数字符号BUFR
-CodeFigureForI6I6I6,en,Code figure for I6I6I6
-CodeFigureForI6I6I6,ja,数字符号I6I6I6
+CodeFigureForI6I6I6,en,Code figure for I\u{2086}I\u{2086}I\u{2086}
+CodeFigureForI6I6I6,ja,数字符号I\u{2086}I\u{2086}I\u{2086}
 Code figure for BUFR,ja,数字符号BUFR
 Code figure for BUFR,en,Code figure for BUFR
 CodeFigureForGRIB2,en,Code figure for GRIB2
@@ -141,8 +141,8 @@ ITA2,en,ITA2
 ITA2,ja,ITA2 略語
 SIDefinition,en,SI definition
 SIDefinition,ja,SI基本単位による定義
-Code figure for sasa,en,Code figure for sasa
-Code figure for sasa,ja,数字符号sasa
+Code figure for sasa,en,Code figure for s\u{2090}s\u{2090}
+Code figure for sasa,ja,数字符号s\u{2090}s\u{2090}
 CodeFigureForBUFR,en,Code figure for BUFR
 CodeFigureForBUFR,ja,数字符号BUFR
 TrackingTechniquesStatusOfSystemUsed_en,en,Tracking techniques/status of system used

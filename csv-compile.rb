@@ -23,6 +23,14 @@ class CSVCompileAdoc
     @in_adoc_tab=nil
   end
 
+  def unicode_unescape txt
+      txt.gsub(/\\u\{([0-9A-Fa-f\s]+)\}|\\u([0-9A-Fa-f]{4})/) do
+        hexes = $1 ? $1.split : [$2]
+        warn "unicode #{hexes.inspect}"
+        hexes.map { |h| h.to_i(16).chr(Encoding::UTF_8) }.join
+      end
+  end
+
   def scandir
     for proj in @projs
       warn "scanning #{proj}..."
@@ -40,7 +48,8 @@ class CSVCompileAdoc
     CSV.foreach(fnam,headers:true) do |row|
       next unless row['lang']==@lang
       kwd=row['Keyword']
-      txt=row['Text']
+      txt=unicode_unescape(row['Text'])
+      # unicode escapes
       @dictdb[kwd]=txt
       @patdb[Regexp.new(kwd)]=txt if /^\^/===kwd
     end
