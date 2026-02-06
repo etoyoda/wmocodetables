@@ -26,7 +26,6 @@ class CSVCompileAdoc
   def unicode_unescape txt
       txt.gsub(/\\u\{([0-9A-Fa-f\s]+)\}|\\u([0-9A-Fa-f]{4})/) do
         hexes = $1 ? $1.split : [$2]
-        warn "unicode #{hexes.inspect}"
         hexes.map { |h| h.to_i(16).chr(Encoding::UTF_8) }.join
       end
   end
@@ -127,17 +126,6 @@ class CSVCompileAdoc
   end
 
   def mklink(tabsym,cell,row,footnotes)
-    # ---begin WMO CSVの誤記修正 
-    if /^4\.\d+$/===row['noteIDs'] and row['codeTable'].nil? then
-      row['codeTable']=row['noteIDs']
-      row['noteIDs']=nil
-    end
-    if /^\(see/===row['noteIDs'] and cell.nil? then
-      cell=row['noteIDs']
-      row['noteIDs']=row['UnitComments_en']
-    end
-    # ---誤記修正
-    # ここが本体。textを左から分解して空になるまで解釈
     text=cell.to_s.dup
     ret=[]
     if text.sub!(/^\(flags - see /,'') then
@@ -151,10 +139,10 @@ class CSVCompileAdoc
       if text.sub!(/^ and (?!\d)/, '') then
         ret.push([' and ', nil])
       elsif text.sub!(/^Code table (\d)\.(\d+|PTN)/, '') then
-        cell,sec,tno=$&,$1,$2
+        a,sec,tno=$&,$1,$2
         raise :unexpected unless /^G/===tabsym
         #sec,tno=row['codeTable'].split(/\./,2)
-        ret.push([cell,format("G-CF%u-%05u-C", sec.to_i, tno.to_i)])
+        ret.push([a,format("G-CF%u-%05u-C", sec.to_i, tno.to_i)])
       elsif text.sub!(/^Flag table (\d)\.(\d+)/, '') then
         cell,sec,tno=$&,$1,$2
         raise :unexpected unless /^G/===tabsym
@@ -167,7 +155,7 @@ class CSVCompileAdoc
       elsif text.sub!(/^[Nn]otes? (\d+(?:, \d+)*(?: and \d+)?)/, '') then
         nsymstr=$1
         nsyms=nsymstr.split(/ and |, /)
-        ids=row['noteIDs'].to_s.split(/,/)
+        ids=(row['noteIDs']||row['NoteID']).to_s.split(/,/)
         ret.push(['Note ',nil])
         nsyms.size.times{|i|
           nsym=nsyms[i]
@@ -281,9 +269,9 @@ class CSVCompileAdoc
   end
 
   TableType=Struct.new(:cols, :modettl, :modeid,
-    :modeent, :modeseq, :modestat)
+    :modeent, :modeseq, :modestat, :coltg)
 
-  def analyze_headers(table)
+  def analyze_headers(table,tabsym)
     headers=table.headers
     tt=TableType.new
     tt.cols=[]
@@ -300,9 +288,12 @@ class CSVCompileAdoc
         emptycol=true
         table.each{|row| emptycol=false if row[col]}
         tt.cols.push col unless emptycol
-      when 'noteIDs','codeTable','flagTable' then
+      when 'Note_en','noteIDs','codeTable','flagTable' then
         raise :unexpected unless headers.include?('Note_en')
         tt.modeid='Note_en'
+      when 'Note','NoteID' then
+        raise :unexpected unless headers.include?('Note')
+        tt.modeid='Note'
       when 'Status' then
         tt.modestat=true
       when 'EntryName_sub1_en','EntryName_sub2_en' then
@@ -313,6 +304,17 @@ class CSVCompileAdoc
         tt.cols.push col
       end
     }
+    if tt.modeid then
+      tt.coltg= case tabsym
+        when /^G-T/ then 'Contents_en'
+        when /^G-(C42|CF)/ then 'MeaningParameterDescription_en'
+        when /^(BC-B|[BC]-D)/ then 'ElementName_en'
+        when /^BC-CFT/ then 'EntryName_en' 
+        when /^[BC]-C/ then 'OperatorName_en'
+        when /^CCT-C06/ then 'Meaning'
+        else raise "#{tabsym} - #{headers.inspect}"
+        end
+    end
     if headers.include?('FXY') and headers.include?('ElementName_en') and
     not headers.include?('BUFR_Unit') then
       tt.modeseq='FXY'
@@ -328,7 +330,7 @@ class CSVCompileAdoc
       raise "empty file #{bn}"
     end
     tabsym=csvfnam_to_tabsym(bn)
-    tt=analyze_headers(table)
+    tt=analyze_headers(table,tabsym)
     case tt.modettl
     when :title then
       row1=table.first
@@ -362,24 +364,23 @@ class CSVCompileAdoc
       end
       vals=[]
       tt.cols.each{|h|
-        if tt.modeid==h then
-          link=mklink(tabsym,row[h],row,footnotes)
-        else
-          link=nil
-        end
-        if link then
-          vals.push '|'
-          link.each{|k,v|
-            vals.push(if v then "<<#{v},#{k}>>" else k end)
+        # 列内容の印字（基本動作）
+        vals.push "|#{row[h]}"
+        # modeentフラグの注記を付加
+        if tt.modeent==h then
+          ['EntryName_sub1_en','EntryName_sub2_en'].each{|k|
+            vals.push " (#{row[k]})" if row[k]
           }
-        else
-          vals.push "|#{row[h]}"
-          if tt.modeent==h then
-            ['EntryName_sub1_en','EntryName_sub2_en'].each{|k|
-              vals.push " (#{row[k]})" if row[k]
+        end
+        if tt.coltg==h then
+          link=mklink(tabsym,row[tt.modeid],row,footnotes)
+          if link then
+            link.each{|k,v|
+              vals.push(if v then "<<#{v},#{k}>>" else k end)
             }
           end
         end
+
       }
       @adf.puts vals.join
     }
