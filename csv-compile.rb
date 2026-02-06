@@ -208,6 +208,9 @@ class CSVCompileAdoc
     when /^B-D(\d+)/ then
       pkey=format('%02u',$1.to_i)
       pat=/BUFR_TableD_table\.csv$/
+    when /^CCT-C(\d+)/ then
+      pkey=format('%02u',$1.to_i)
+      pat=/CCT_table\.csv$/
 # pkeyの構造が違うのでこれはうまくいかない
 #    when /^BC-CFT(\d+)/ then
 #      pkey=format('%02u',$1.to_i)
