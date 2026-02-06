@@ -435,6 +435,8 @@ class CSVCompileAdoc
     /BUFR_TableD_notes\.csv$/),
     NoteRule.new("BC-CFT", /^BC-CFT\d+_n(\d+)/, 1,
     /BUFRCREX_CodeFlag_notes\.csv$/),
+    NoteRule.new("CCT-C", /^CCT-C\d+_n(\d+)/, 1,
+    /CCT_notes\.csv$/)
   ]
 
   def fetch_note tag, file_re, nid
