@@ -1,6 +1,6 @@
 require 'csv'
 
-# Note_en の
+# 注釈とそれをつける列の対応をチェックするスクリプト
 
   def csvfnam_to_tabsym csvfnam
     case csvfnam
@@ -43,10 +43,15 @@ Dir.glob('{GRIB2,BUFR4,CCT}/*.csv').each{|cfnam|
     elsif f.include?('Note') then 'Note'
     else nil
     end
+  next if nkey.nil?
   dkey = case tabsym
     when /^G-T/ then 'Contents_en'
     when /^G-(C42|CF)/ then 'MeaningParameterDescription_en'
-    else raise tabsym
+    when /^(BC-B|[BC]-D)/ then 'ElementName_en'
+    when /^BC-CFT/ then 'EntryName_en' 
+    when /^[BC]-C/ then 'OperatorName_en'
+    when /^CCT-C06/ then 'Meaning'
+    else raise "#{tabsym} - #{f.inspect}"
     end
   raise unless f.include?(dkey)
   p [tabsym, nkey, dkey]
