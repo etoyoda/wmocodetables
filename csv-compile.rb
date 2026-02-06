@@ -229,15 +229,23 @@ class CSVCompileAdoc
   def cols_spec tabsym, cols
     case tabsym
     when /^G-T/ then
-      return cols.map{|h| if h=='Contents_en' then 3 else 1 end}.join(',')
+      return cols.map{|h| if h=='Contents_en' then 4 else 1 end}.join(',')
     when /^G-CF/ then
+      return cols.map{|h| if h=='MeaningParameterDescription_en' then 4 else 1 end}.join(',')
+    when /^G-C42/ then
       return cols.map{|h| if h=='MeaningParameterDescription_en' then 3 else 1 end}.join(',')
     when /^[BC]-A/ then
       return cols.map{|h| if h=='Meaning_en' then 3 else 1 end}.join(',')
     when /^BC-B/ then
-      return cols.map{|h| if h=='ElementName_en' then 3 else 1 end}.join(',')
+      return cols.map{|h| case h
+      when 'FXY' then 4
+      when 'ElementName_en' then 9
+      else 3 end}.join(',')
     when /^[BC]-C/ then
-      return cols.map{|h| if h=='OperationDefinition_en' then 3 else 1 end}.join(',')
+      return cols.map{|h| case h
+      when 'OperatorName_en' then 4
+      when 'OperationDefinition_en' then 9
+      else 2 end}.join(',')
     when /^[BC]-D/ then
       return cols.map{|h| if h=='ElementName_en' then 3 else 1 end}.join(',')
     when /^BC-CF/ then
