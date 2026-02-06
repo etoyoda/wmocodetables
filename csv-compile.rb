@@ -83,6 +83,12 @@ class CSVCompileAdoc
             @csvdb.keys.grep(re).sort.each{|kwd|
               csvconv(kwd,@csvdb[kwd],lev)
             }
+          when /^#tn (\S+)/ then
+            fn=Hash.new
+            arg=$1
+            warn "#tn #{arg}"
+            add_table_notes(arg,fn)
+            flush_footnotes(fn)
           else
             @adf.puts line
           end
@@ -195,6 +201,8 @@ class CSVCompileAdoc
       pat=/Template_table\.csv$/
     when /^G-CF(\d)-(\d+)/ then
       pkey=format('%u.%u.0.0',$1.to_i,$2.to_i)
+      # hack
+      pkey='4.2' if /^4\.2\./===pkey
       pat=/CodeFlag_table\.csv$/
     when /^G-C42-(\d+)-(\d+)/ then
       pkey=format('4.2.%u.%u',$1.to_i,$2.to_i)
@@ -398,6 +406,10 @@ class CSVCompileAdoc
     }
     end_table
     add_table_notes(tabsym, footnotes)
+    flush_footnotes(footnotes)
+  end
+  
+  def flush_footnotes(footnotes)
     unless footnotes.empty? then
       @adf.puts ''
       @adf.puts "#{vizkwd 'Note_en'}:"
