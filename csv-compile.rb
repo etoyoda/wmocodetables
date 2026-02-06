@@ -375,6 +375,7 @@ class CSVCompileAdoc
         if tt.coltg==h then
           link=mklink(tabsym,row[tt.modeid],row,footnotes)
           if link then
+            vals.push(' ')
             link.each{|k,v|
               vals.push(if v then "<<#{v},#{k}>>" else k end)
             }
