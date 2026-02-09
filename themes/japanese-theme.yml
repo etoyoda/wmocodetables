@@ -17,9 +17,15 @@ font:
       bold: /var/lib/gems/3.2.0/gems/asciidoctor-pdf-2.3.24/data/fonts/mplus1mn-bold-subset.ttf
       italic: /var/lib/gems/3.2.0/gems/asciidoctor-pdf-2.3.24/data/fonts/mplus1mn-italic-subset.ttf
       bold_italic: /var/lib/gems/3.2.0/gems/asciidoctor-pdf-2.3.24/data/fonts/mplus1mn-bold_italic-subset.ttf
+    noto sans subset:
+      bold: /var/lib/gems/3.2.0/gems/asciidoctor-pdf-2.3.24/data/fonts/notosans-bold-subset.ttf
+      bold_italic: /var/lib/gems/3.2.0/gems/asciidoctor-pdf-2.3.24/data/fonts/notosans-bold_italic-subset.ttf
+      italic: /var/lib/gems/3.2.0/gems/asciidoctor-pdf-2.3.24/data/fonts/notosans-italic-subset.ttf
+      normal: /var/lib/gems/3.2.0/gems/asciidoctor-pdf-2.3.24/data/fonts/notosans-regular-subset.ttf
   fallbacks:
     - IPAexMincho
     - IPAexGothic
+    - noto sans subset
 
 base:
   font-family: IPAexMincho
