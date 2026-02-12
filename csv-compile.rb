@@ -372,6 +372,7 @@ class CSVCompileAdoc
       begin_table(tabsym, tt.cols) 
     end
     footnotes=Hash.new
+    seqname=nil
     prev_seq=nil
     table.each{|row|
       if tt.modeseq and prev_seq != row[tt.modeseq] then
@@ -398,7 +399,8 @@ class CSVCompileAdoc
           }
         end
         if tt.coltg==h then
-          link=mklink(tabsym,row[tt.modeid],row,footnotes)
+          ts=seqname ? seqname : tabsym
+          link=mklink(ts,row[tt.modeid],row,footnotes)
           if link then
             vals.push(' ')
             link.each{|k,v|
