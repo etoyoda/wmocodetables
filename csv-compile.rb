@@ -89,6 +89,7 @@ class CSVCompileAdoc
             warn "#tn #{arg}"
             add_table_notes(arg,fn)
             flush_footnotes(fn)
+            fn=nil
           else
             @adf.puts line
           end
@@ -219,10 +220,9 @@ class CSVCompileAdoc
     when /^CCT-C(\d+)/ then
       pkey=format('%02u',$1.to_i)
       pat=/CCT_table\.csv$/
-# pkeyの構造が違うのでこれはうまくいかない
-#    when /^BC-CFT(\d+)/ then
-#      pkey=format('%02u',$1.to_i)
-#      pat=/BUFRCREX_CodeFlag_table\.csv$/
+    when /^BC-CFT(\d+)_s(\d)(\d\d)(\d\d\d)/ then
+      pkey=format('%01u %02u %03u',$2.to_i,$3.to_i,$4.to_i)
+      pat=/BUFRCREX_CodeFlag_table\.csv$/
     else
       return
     end
@@ -368,7 +368,9 @@ class CSVCompileAdoc
       subtl=''
     end
     emit_section_header(level, tabsym, sectl, subtl)
-    begin_table(tabsym, tt.cols) unless tt.modeseq
+    unless tt.modeseq
+      begin_table(tabsym, tt.cols) 
+    end
     footnotes=Hash.new
     prev_seq=nil
     table.each{|row|
@@ -376,7 +378,11 @@ class CSVCompileAdoc
         seqname="#{tabsym}_s#{row[tt.modeseq]}"
         stlkey=if tt.modeseq=='FXY1' then 'Title_en' else 'ElementName_en' end
         seqtl="#{row[tt.modeseq]} #{row[stlkey]}"
-        end_table if prev_seq
+        if prev_seq then
+          end_table
+          flush_footnotes(footnotes)
+        end
+        add_table_notes(seqname, footnotes)
         emit_section_header(level+1, seqname, seqtl, nil)
         begin_table(seqname, tt.cols)
         prev_seq=row[tt.modeseq]
@@ -421,6 +427,7 @@ class CSVCompileAdoc
         @adf.puts "[[#{text}]]#{midasi}#{rtext}"
       }
     end
+    footnotes.clear
     @adf.puts ''
   end
 
@@ -454,9 +461,9 @@ class CSVCompileAdoc
     /BUFRCREX_TableB_notes\.csv$/),
     NoteRule.new("B-C", /^B-C_n(\d+)/, 1,
     /BUFR_TableC_notes\.csv$/),
-    NoteRule.new("B-D", /^B-D\d+_n(\d+)/, 1,
+    NoteRule.new("B-D", /^B-D\d+(?:_s\d+)?_n(\d+)/, 1,
     /BUFR_TableD_notes\.csv$/),
-    NoteRule.new("BC-CFT", /^BC-CFT\d+_n(\d+)/, 1,
+    NoteRule.new("BC-CFT", /^BC-CFT\d+(?:_s\d+)?_n(\d+)/, 1,
     /BUFRCREX_CodeFlag_notes\.csv$/),
     NoteRule.new("CCT-C", /^CCT-C\d+_n(\d+)/, 1,
     /CCT_notes\.csv$/)
