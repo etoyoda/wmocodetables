@@ -21,6 +21,7 @@ class CSVCompileAdoc
     @dictdb=Hash.new
     @patdb=Hash.new
     @in_adoc_tab=nil
+    @fixdb=nil
   end
 
   def unicode_unescape txt
@@ -31,6 +32,7 @@ class CSVCompileAdoc
   end
 
   def scandir
+    load_fixwmo_csv
     for proj in @projs
       warn "scanning #{proj}..."
       Dir.glob(File.join(proj,'*.csv')).sort.each{|csvfnam|
@@ -40,8 +42,13 @@ class CSVCompileAdoc
       warn "loading #{proj}/notes..."
       Dir.glob(File.join(proj,'notes','*.csv')).each{|nfnam|
         @notedb[nfnam]=CSV.read(nfnam,headers:true)
+        apply_fixdb(File.basename(nfnam),@notedb[nfnam])
       }
     end
+    load_resources_csv
+  end
+
+  def load_resources_csv
     fnam='resources.csv'
     warn "loading #{fnam}..."
     CSV.foreach(fnam,headers:true) do |row|
@@ -52,6 +59,25 @@ class CSVCompileAdoc
       @dictdb[kwd]=txt
       @patdb[Regexp.new(kwd)]=txt if /^\^/===kwd
     end
+  end
+
+  def load_fixwmo_csv
+    fnam='fixwmo.csv'
+    warn "loading #{fnam}..."
+    @fixdb=CSV.read(fnam,headers:true)
+  end
+
+  def apply_fixdb(bn,table)
+    @fixdb.each{|fix|
+      next unless fix['csvName']==bn
+      table.each{|row|
+        next unless row[fix['keyField']]===fix['keyValue']
+        tf=fix['targetField']
+        next unless row[tf]===fix['ifMatch']
+        warn "fix #{bn} #{fix['keyField']}=#{fix['keyValue']} #{tf}:=#{fix['replace']}"
+        row[tf]=fix['replace']
+      }
+    }
   end
 
   def vizpat tabsym
@@ -350,6 +376,7 @@ class CSVCompileAdoc
     if table.empty?
       raise "empty file #{bn}"
     end
+    apply_fixdb(bn,table)
     tabsym=csvfnam_to_tabsym(bn)
     tt=analyze_headers(table,tabsym)
     case tt.modettl
