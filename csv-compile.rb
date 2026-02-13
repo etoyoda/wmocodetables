@@ -289,6 +289,17 @@ class CSVCompileAdoc
       return cols.map{|h| if h=='ElementName_en' then 3 else 1 end}.join(',')
     when /^BC-CF/ then
       return cols.map{|h| if h=='EntryName_en' then 3 else 1 end}.join(',')
+    when /^CCT-C02/ then return "2,1,1,3"
+    when /^CCT-C06/ then return "1,2,3,1,1,1,1"
+    when /^CCT-C08/ then return "1,1,3,1,4"
+    when /^CCT-C/ then
+      return cols.map{|h|
+        case h
+        when 'Effective date' then 2
+        when /_en$/ then 4
+        else 1
+        end
+      }.join(',')
     end
     format('%u',cols.size)
   end
