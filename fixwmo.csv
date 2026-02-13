@@ -3,3 +3,4 @@ GRIB2_Template_3_0_GridDefinitionTemplate_en.csv,OctetNo,51-54,noteIDs,,9
 GRIB2_Template_3_61_GridDefinitionTemplate_en.csv,OctetNo,109-112,noteIDs,,50
 GRIB2_Template_3_150_GridDefinitionTemplate_en.csv,OctetNo,32-35,noteIDs,197a,166
 GRIB2_Template_3_150_GridDefinitionTemplate_en.csv,OctetNo,36-39,noteIDs,197b,167
+Template_table.csv,templateNo,7.1,noteID,135,134
