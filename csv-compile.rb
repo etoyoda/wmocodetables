@@ -171,7 +171,10 @@ class CSVCompileAdoc
             footnotes[Integer(nsym)]=linksym
             ret.push([nsym,linksym])
           else
-            warn "missing note id for #{nsym} in #{tabsym}"
+            msg="missing note id for #{nsym} in #{tabsym}"
+            # バグ35解決までの暫定処置
+            msg+=' (known issue #35)' if /^C/===tabsym
+            warn msg
             ret.push([nsym,nil])
           end
           ret.push([', ',nil])
