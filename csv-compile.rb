@@ -86,7 +86,6 @@ class CSVCompileAdoc
           when /^#tn (\S+)/ then
             fn=Hash.new
             arg=$1
-            warn "#tn #{arg}"
             add_table_notes(arg,fn)
             flush_footnotes(fn)
             fn=nil
