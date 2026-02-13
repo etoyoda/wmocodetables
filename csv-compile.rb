@@ -381,7 +381,7 @@ class CSVCompileAdoc
         seqtl="#{row[tt.modeseq]} #{row[stlkey]}"
         if prev_seq then
           end_table
-          flush_footnotes(footnotes)
+          flush_footnotes(footnotes) if /^BC-CFT/===tabsym
         end
         add_table_notes(seqname, footnotes)
         emit_section_header(level+1, seqname, seqtl, nil)
@@ -399,7 +399,8 @@ class CSVCompileAdoc
           }
         end
         if tt.coltg==h then
-          ts=seqname ? seqname : tabsym
+          ts=tabsym
+          ts=seqname if seqname and /^BC-CFT/===tabsym
           link=mklink(ts,row[tt.modeid],row,footnotes)
           if link then
             vals.push(' ')
