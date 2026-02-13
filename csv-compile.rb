@@ -433,7 +433,9 @@ class CSVCompileAdoc
       vals=[]
       tt.cols.each{|h|
         # 列内容の印字（基本動作）
-        vals.push "|#{row[h]}"
+        txt=row[h]
+        txt="`#{txt}`" if /^(IA5-ASCII|ITA2)$/===h and not txt.nil?
+        vals.push "|#{txt}"
         # modeentフラグの注記を付加
         if tt.modeent==h then
           ['EntryName_sub1_en','EntryName_sub2_en'].each{|k|
