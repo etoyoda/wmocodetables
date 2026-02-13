@@ -290,7 +290,7 @@ class CSVCompileAdoc
     when /^BC-CF/ then
       return cols.map{|h| if h=='EntryName_en' then 3 else 1 end}.join(',')
     when /^CCT-C02/ then return "2,1,1,3"
-    when /^CCT-C06/ then return "1,2,3,1,1,1,1"
+    when /^CCT-C06/ then return "1,3,1,1,1,1"
     when /^CCT-C08/ then return "1,1,3,1,4"
     when /^CCT-C/ then
       return cols.map{|h|
@@ -358,6 +358,8 @@ class CSVCompileAdoc
         tt.modeent='EntryName_en'
       when 'FXY1' then
         tt.modeseq='FXY1'
+      when 'UnitType' then
+        tt.modeseq='UnitType'
       else
         tt.cols.push col
       end
@@ -416,7 +418,7 @@ class CSVCompileAdoc
     prev_seq=nil
     table.each{|row|
       if tt.modeseq and prev_seq != row[tt.modeseq] then
-        seqname="#{tabsym}_s#{row[tt.modeseq]}"
+        seqname="#{tabsym}_s#{row[tt.modeseq].gsub(/\s/,'')}"
         stlkey=if tt.modeseq=='FXY1' then 'Title_en' else 'ElementName_en' end
         seqtl="#{row[tt.modeseq]} #{row[stlkey]}"
         if prev_seq then
