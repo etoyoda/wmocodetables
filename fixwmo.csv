@@ -5,3 +5,9 @@ GRIB2_Template_3_150_GridDefinitionTemplate_en.csv,OctetNo,32-35,noteIDs,197a,16
 GRIB2_Template_3_150_GridDefinitionTemplate_en.csv,OctetNo,36-39,noteIDs,197b,167
 Template_table.csv,templateNo,7.1,noteID,135,134
 C06.csv,CodeFigure,038,conventional,Ω,Ω
+C06.csv,CodeFigure,060,conventional,˚C,°Ｃ
+C06.csv,CodeFigure,110,conventional,˚,°
+C06.csv,CodeFigure,320,conventional,˚,°
+C06.csv,CodeFigure,350,conventional,˚C,°Ｃ
+C06.csv,CodeFigure,351,conventional,˚C/m,°Ｃ/m
+C06.csv,CodeFigure,352,conventional,˚C/100 m,°Ｃ/100 m 

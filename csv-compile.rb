@@ -435,6 +435,7 @@ class CSVCompileAdoc
         # 列内容の印字（基本動作）
         txt=row[h]
         txt="`#{txt}`" if /^(IA5-ASCII|ITA2)$/===h and not txt.nil?
+        txt.sub!(/$/, ' ') if 'conventional'===h
         vals.push "|#{txt}"
         # modeentフラグの注記を付加
         if tt.modeent==h then
