@@ -1,0 +1,31 @@
+= TDCF通報式WMO CSV表の処理
+:toc:
+:usc: _
+
+== WMOのファイル構造
+=== レポジトリ
+次の3つ
+
+* https://github.com/wmo-im/GRIB2
+* https://github.com/wmo-im/BUFR4 (CREXを含む)
+* https://github.com/wmo-im/CCT
+
+それぞれ次のファイルが置かれる:
+
+* 直下 *`.csv` - 表本体
+* `notes/`*`_notes.csv` - 注釈番号から注釈文を与える
+* `notes/`*`_table.csv` - 表のエントリではなく表全体にかかる注を記載
+
+現状次のブランチが見られる:
+
+* `main` - 現行最新通報式
+* `FT2026-1` - 照会中ファストトラック
+* `FT2025-2` (削除済み) - 前回のファストトラック
+
+== ファイル名
+
+* `GRIB2/GRIB2_CodeFlag{usc}__a{usc}b__{usc}CodeTable{usc}en.csv` - 符号表__a__._b_
+* `GRIB2/GRIB2_CodeFlag{usc}__a{usc}b__{usc}FlagTable{usc}en.csv` - フラグ表__a__._b_
+* `GRIB2/GRIB2_CodeFlag{usc}4{usc}2{usc}__c{usc}d__{usc}CodeTable{usc}en.csv` - 符号表4.2分野__c__カテゴリ__d__
+* `GRIB2/GRIB2_Template{usc}1{usc}__b__{usc}IdentificationTemplate_en.csv` - 識別テンプレート1.__b__
+* GRIB2/GRIB2_Template_3_j_GridDefinitionTemplate_en.csv

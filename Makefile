@@ -1,4 +1,4 @@
-all: tdcf-tables.html
+all: tdcf-tables.html process.html
 
 pdf: tdcf-tables.pdf
 
@@ -12,3 +12,6 @@ tdcf-tables.adoc: csv-compile.rb toppage-ja.txt resources.csv fixwmo.csv
 
 tdcf-tables.pdf: tdcf-tables.adoc
 	asciidoctor-pdf -a pdf-theme=themes/japanese-theme.yml -a lang=ja tdcf-tables.adoc
+
+process.html: process.adoc
+	asciidoctor process.adoc
