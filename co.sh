@@ -7,8 +7,6 @@ if [ X"${dir}" = X"." ]; then
   dir=$(pwd)
 fi
 
-ftname='FT2026-1'
-
 for rep in GRIB2 BUFR4 CCT
 do
   cd ${dir}
@@ -20,7 +18,10 @@ do
   fi
   cd ${dir}
   cd ${rep}
-  if [ ! -d ../${rep}-${ftname} ]; then
-    git worktree add ../${rep}-${ftname} origin/${ftname}
-  fi
+  for ftname in FT2026-1 
+  do
+    if [ ! -d ../${rep}-${ftname} ]; then
+      git worktree add ../${rep}-${ftname} origin/${ftname}
+    fi
+  done
 done
