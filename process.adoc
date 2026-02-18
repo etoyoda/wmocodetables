@@ -16,16 +16,17 @@
 * `FT2026-1` - 照会中ファストトラック
 * `FT2025-2` (削除済み) - 前回のファストトラック
 
-=== ファイル名
+=== GRIB2符号表
 
-==== GRIB2符号表
 * `GRIB2/GRIB2_CodeFlag`{usc}__s{usc}n__``{usc}CodeTable{usc}en.csv`` - 符号表__s__._n_
 * `GRIB2/GRIB2_CodeFlag`{usc}__s{usc}n__``{usc}FlagTable{usc}en.csv`` - フラグ表__s__._n_
-* `GRIB2/GRIB2_CodeFlag`{usc}4{usc}2{usc}__d{usc}k__``{usc}CodeTable{usc}en.csv`` - 符号表4.2分野__d__カテゴリ__k__
+* `GRIB2/GRIB2_CodeFlag`{usc}4{usc}2{usc}__d{usc}k__``{usc}CodeTable{usc}en.csv`` - 符号表4.2に限り、分野__d__カテゴリ__k__ で別ファイルになっている
 * `GRIB2/notes/CodeFlag_notes.csv` - 注釈番号から注釈文を与える
 * `GRIB2/notes/CodeFlag_table.csv` - 表のエントリではなく表全体にかかる注を記載
 
-==== GRIB2テンプレート
+ここで節番号 _s_ = 1,3,4,5,7; 表番号 _n_ = 0..65535; 分野番号 _d_ = 0..255; カテゴリ番号 _k_ = 0..255 である。
+
+=== GRIB2テンプレート
 * `GRIB2/GRIB2_Template{usc}1`{usc}__n__{usc}``IdentificationTemplate_en.csv`` - 識別テンプレート1.__n__
 * `GRIB2/GRIB2_Template{usc}3`{usc}__n__{usc}``GridDefinitionTemplate_en.csv`` - 格子系定義テンプレート3.__n__
 * `GRIB2/GRIB2_Template_4`{usc}__n__{usc}``ProductDefinitionTemplate_en.csv`` - プロダクト定義テンプレート4.__n__
@@ -34,26 +35,26 @@
 * `GRIB2/notes/Template_notes.csv` - 注釈番号から注釈文を与える
 * `GRIB2/notes/Template_table.csv` - 表のエントリではなく表全体にかかる注を記載
 
-==== BUFR/CREX符号表
+=== BUFR/CREX符号表
 
 * `BUFR4/BUFRCREX_CodeFlag_en`{usc}__k__``.csv`` - 符号・フラグ表第 _k_ クラス
 * `BUFR4/notes/BUFRCREX_CodeFlag_notes.csv` - 注釈番号から注釈文を与える
 * `BUFR4/notes/BUFRCREX_CodeFlag_table.csv` - 表のエントリではなく表全体にかかる注を記載
 
-==== BUFR/CREX表A
+=== BUFR/CREX表A
 
 * `BUFR4/BUFR_TableA_en.csv` - BUFR表A本体
 * `BUFR4/CREX_TableA_en.csv` - CREX表A本体
 
 表Aに注釈ファイルはない。
 
-==== BUFR/CREX表B
+=== BUFR/CREX表B
 
 * `BUFR4/BUFRCREX_TableB_en`{usc}__xx__``.csv`` - BUFR/CREX表B第 _xx_ クラス
 * `BUFR4/notes/BUFRCREX_TableB_notes.csv` - 注釈番号から注釈文を与える
 * `BUFR4/notes/BUFRCREX_TableB_table.csv` - 表のエントリではなく表全体にかかる注を記載
 
-==== BUFR/CREX表C
+=== BUFR/CREX表C
 
 * `BUFR4/BUFR_TableC_en.csv` - BUFR表C本体
 * `BUFR4/CREX_TableC_en.csv` - CREX表C本体
@@ -62,7 +63,7 @@
 
 CREX表Cの注釈文情報は欠けている。それどころかCREX表Cに注釈番号列noteIDsが欠けている。
 
-==== BUFR/CREX表D
+=== BUFR/CREX表D
 
 * `BUFR4/BUFR_TableD_en`{usc}__xx__``.csv`` - BUFR表D第 _xx_ クラス
 * `BUFR4/CREX_TableD_en`{usc}__xx__``.csv`` - CREX表D第 _xx_ クラス
@@ -71,7 +72,7 @@ CREX表Cの注釈文情報は欠けている。それどころかCREX表Cに注�
 
 CREX表Dの注釈文情報は欠けている。それどころかCREX表Dに注釈番号列noteIDsが欠けている。
 
-==== 共通符号表
+=== 共通符号表
 
 * `CCT/COV.csv` - 共通符号表一覧
 * `CCT/C`__cc__``.csv`` - 共通符号表 C-_cc_
@@ -79,3 +80,5 @@ CREX表Dの注釈文情報は欠けている。それどころかCREX表Dに注�
 * `CCT/notes/CCT_table.csv` - 表のエントリではなく表全体にかかる注を記載
 
 共通符号表は _cc_ によりカラム構造が異なる。
+
+
