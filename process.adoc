@@ -26,6 +26,21 @@
 
 ここで節番号 _s_ = 1,3,4,5,7; 表番号 _n_ = 0以上の整数(現行規定は336まで使用); 分野番号 _d_ = 0..255 (符号表0.0); カテゴリ番号 _k_ = 0..255 (符号表4.1)である。
 
+符号表は次のフィールドを持つ。
+
+|===
+|列名 |意味
+|Title_en |表の標題(全行共通)
+|SubTitle_en |表の副題(全行共通、符号表4.2で非空白)
+|CodeFlag |「数字符号」または「ビット」
+|Value |「値」。フラグ表で使用
+|MeaningParameterDescription_en |意味
+|Note_en |注記表示(非空白の場合、通報式文書では意味に続けてこのテキストを表示する)
+|noteIDs |注釈番号
+|UnitComments_en |「単位」。符号表4.2で使用
+|Status |状態
+|===
+
 === GRIB2テンプレート
 * `GRIB2/GRIB2_Template{usc}1`{usc}__t__{usc}``IdentificationTemplate_en.csv`` - 識別テンプレート1.__t__
 * `GRIB2/GRIB2_Template{usc}3`{usc}__t__{usc}``GridDefinitionTemplate_en.csv`` - 格子系定義テンプレート3.__t__
