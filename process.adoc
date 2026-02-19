@@ -113,13 +113,12 @@ noteIDs, codeTable, flagTable は表示テキストではなくリンクを指�
 <<Status,Statusは表示に反映しない(後述)>>ので、
 結局OctetNo, OctetCount, Contents_en, Note_en が表示されることになる。
 
-テンプレートはTDCFでいう表の一部だが、
-行の順序に意味があって入れ替えはできないので、
-コッドの正規形の表ではない。
+テンプレートはコッドの正規形の表ではない。
+TDCFでいう表の一部だが、
+行の順序に意味があるからである。
 しかしながら、OctetNo列は単調増加するので、
-区別できない行が複数登場することはない。
-加えて、テンプレートは実装上の負担が大きいので、
-運用開始後に訂正ではない一部変更は想定しなくていいだろう。
+差分がテンプレートの一部だけとなることが仮にあっても
+変更位置が判読不能となることはない。
 
 === BUFR/CREX符号表
 
@@ -128,6 +127,21 @@ noteIDs, codeTable, flagTable は表示テキストではなくリンクを指�
 * `BUFR4/notes/BUFRCREX_CodeFlag_table.csv` - 表のエントリではなく表全体にかかる注を記載
 
 ここでクラス番号 _xx_ = 00..63 である。
+
+符号・フラグ表本体は次の列を持つ:
+
+|===
+|列名 |名称・用法 
+|FXY | 
+|ElementName_en | 
+|CodeFigure | 
+|EntryName_en | 
+|EntryName_sub1_en | 
+|EntryName_sub2_en | 
+|Note_en | 
+|noteIDs | 
+|Status | 
+|===
 
 === BUFR/CREX表A
 
