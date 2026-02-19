@@ -3,7 +3,7 @@ all: tdcf-tables.html process.html
 pdf: tdcf-tables.pdf
 
 tdcf-tables.html: tdcf-tables.adoc
-	asciidoctor tdcf-tables.adoc
+	asciidoctor -a lang=ja tdcf-tables.adoc
 
 tdcf-tables.adoc: csv-compile.rb toppage-ja.txt resources.csv fixwmo.csv
 	ruby csv-compile.rb GRIB2 BUFR4 CCT
@@ -14,4 +14,4 @@ tdcf-tables.pdf: tdcf-tables.adoc
 	asciidoctor-pdf -a pdf-theme=themes/japanese-theme.yml -a lang=ja tdcf-tables.adoc
 
 process.html: process.adoc
-	asciidoctor process.adoc
+	asciidoctor -a lang=ja process.adoc
