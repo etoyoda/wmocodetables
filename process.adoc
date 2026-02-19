@@ -41,9 +41,9 @@
 |Status |状態
 |===
 
-このStatus欄は後述するが無視してもよい。
-全行共通のTitle_en,SubTitle_enを除いて
-通報式文書ではCodeFlag,Value,MeaningParameterDescription_en+Note_enの
+<<Status,Statusは表示に反映しない(後述)>>ので、
+全行共通のTitle_en, SubTitle_enを除いて
+通報式文書ではCodeFlag, Value, MeaningParameterDescription_en+Note_enの
 3列の表が書かれることになる。
 
 notes/CodeFlag_notes.csv は次のフィールドを持つ:
@@ -108,6 +108,10 @@ notes/CodeFlag_table.csvのエントリが欠けている表があるので、
 |Status | 状態
 |===
 
+Title_enは表の冒頭に表示する文字列であり、
+noteIDs, codeTable, flagTable は表示テキストではなくリンクを指示する。
+<<Status,Statusは表示に反映しない(後述)>>ので、
+結局OctetNo, OctetCount, Contents_en, Note_en が表示されることになる。
 
 === BUFR/CREX符号表
 
@@ -161,4 +165,26 @@ CREX表Dの注釈文情報は欠けている。それどころかCREX表Dに注�
 ここで表番号 _cc_ = 00,01,...,08,11,...,14 である。
 共通符号表は _cc_ によりカラム構造が異なる。
 
+== 処理概観
 
+[[Status]]
+=== Status列の扱い
+
+多くの表にStatus列がある。その意味は次のとおり
+
+* Operational - 現用の通報式
+* Deprecated - 現用の通報式だが、廃止予定と宣言
+* Experimental - 通報式には掲載するが、バリデーションが未了との注記を付す
+* Extension - CCT C-14 で使われる。現用通報式には掲載されていない。
+
+なお、次の品質的問題がある。
+
+* 一部空欄になっている場合がある。
+  CCT C-06 では Operational と解せばよいが
+  GRIB2テンプレート3.1000 は Experimental とすべきだろう。
+  機械的解釈を避けて脱字として処理すべき。
+* Operational は様々な typo がある（Oprational, Operatonal,
+  Operationaal など、また前後にスペース付加も)
+
+処理としては、 Deprecated のある行に注記を付加し、
+Extension のある行を削除するのだろう。
