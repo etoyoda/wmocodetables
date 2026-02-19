@@ -41,6 +41,11 @@
 |Status |状態
 |===
 
+このStatus欄は後述するが無視してもよい。
+全行共通のTitle_en,SubTitle_enを除いて
+通報式文書ではCodeFlag,Value,MeaningParameterDescription_en+Note_enの
+3列の表が書かれることになる。
+
 notes/CodeFlag_notes.csv は次のフィールドを持つ:
 
 |===
@@ -60,7 +65,8 @@ notes/CodeFlag_table.csv は次のフィールドを持つ:
 |notation |注記表示
 |===
 
-CSVファイル名に分野番号__d__やカテゴリ番号__k__を欠く表のtableNo列は、
+表版号tableNo列は、
+CSVファイル名に分野番号__d__やカテゴリ番号__k__を欠く表については
 たとえば符号表1.2であれば「1.2.0.0」のようにゼロを補う。
 符号表4.2については「4.2.0.1」のように非零数が入る。
 不規則なのは符号表4.1で、CSVファイルは一体だが、
@@ -86,6 +92,22 @@ notes/CodeFlag_table.csvのエントリが欠けている表があるので、
 * `GRIB2/notes/Template_table.csv` - 表のエントリではなく表全体にかかる注を記載
 
 ここでテンプレート番号 _t_ = 0..65535 である。
+
+テンプレート本体は次のフィールドを持つ:
+
+|===
+|列名 |名称・用法 
+|Title_en |表の標題(全行共通)
+|OctetNo | オクテット番号(複数ならばハイフンで範囲を示す)
+|OctetCount | オクテット数
+|Contents_en | 内容
+|Note_en |注記表示(非空白の場合、意味に続けて表示)
+|noteIDs |注釈番号(コンマ区切り数字列,CodeFlag_notes.csvを参照)
+|codeTable | 注記が符号表を参照する場合の符号表番号
+|flagTable | 注記がフラグ表を参照する場合のフラグ表番号
+|Status | 状態
+|===
+
 
 === BUFR/CREX符号表
 
