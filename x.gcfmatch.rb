@@ -16,5 +16,7 @@ csvs=Dir.glob(File.join(basedir,'GRIB2_CodeFlag_*.csv')).map{|fn|
   a.join('.')
 }.sort
 
+puts "= only in notes/CodeFlag_table.csv:"
 p tables-csvs
+puts "= only GRIB2_CodeFlag_*.csv present:"
 p csvs-tables
