@@ -15,3 +15,6 @@ tdcf-tables.pdf: tdcf-tables.adoc
 
 process.html: process.adoc
 	asciidoctor -a lang=ja process.adoc
+
+process.pdf: process.adoc
+	asciidoctor-pdf -a pdf-theme=themes/japanese-theme.yml -a lang=ja process.adoc
