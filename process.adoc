@@ -120,6 +120,18 @@ TDCFでいう表の一部だが、
 差分がテンプレートの一部だけとなることが仮にあっても
 変更位置が判読不能となることはない。
 
+`GRIB2/notes/Template_table.csv` は次の構造を持つ:
+
+|===
+|列名 |名称・用法 
+|templateNo | 
+|templateName | 
+|noteID | 
+|notation | 
+|===
+
+列templateNoは「3.0」「4.6」などの _s.t_ 形式の文字列である。
+
 === BUFR/CREX符号表
 
 * `BUFR4/BUFRCREX_CodeFlag_en`{usc}__xx__``.csv`` - 符号・フラグ表第 _xx_ クラス
