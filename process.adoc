@@ -43,9 +43,9 @@ GRIB2 の符号表(code table) は次のCSVに格納されている:
 |Status |状態
 |===
 
+全行共通のTitle_en, SubTitle_en は表の上枠外に表示されるもので、
 <<Status,Statusは表示に反映しない(後述)>>ので、
-全行共通のTitle_en, SubTitle_enを除いて
-通報式文書ではCodeFlag, Value, MeaningParameterDescription_en+Note_enの
+通報式文書ではCodeFlag, Value, および MeaningParameterDescription_en+Note_enの
 3列の表が書かれることになる。
 
 notes/CodeFlag_notes.csv は次のフィールドを持つ:
@@ -122,6 +122,7 @@ TDCFでいう表の一部だが、
 差分がテンプレートの一部だけとなることが仮にあっても
 変更位置が判読不能となることはない。
 
+`GRIB2/notes/Template_notes.csv` は GRIB2符号表・・フラグ表と同じ構造。
 `GRIB2/notes/Template_table.csv` は次の構造を持つ:
 
 |===
