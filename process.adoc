@@ -170,9 +170,11 @@ FXY列が異なる行は別の表に属する。
 ElemetName_en列は表の標題である。
 
 EntryName_sub1_en及びEntryName_sub2_en列はさまざまな使い方がされる:
+
 * 0 08 043 (化学的または物理的成分の種類) ではEntryName_sub1_en及びEntryName_sub2_enが化学式及びCAS番号を補足的に与える
 * 0 20 003 (現在天気) ではEntryName_enがユニークではなく、EntryName_sub1_enが小分類
 * 0 20 034 (海氷の密度) ではEntryName_sub1_en及びEntryName_sub2_enが使用上欠かせない大分類を与える
+
 これらすべての視覚的表示方法を再現することは高コストなので、EntryName_sub1_en及びEntryName_sub2_enを括弧書きしてEntryName_enに書き加えるのが現実的と思われる。
 
 //HEAD
