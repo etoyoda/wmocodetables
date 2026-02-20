@@ -10,13 +10,15 @@
 * https://github.com/wmo-im/BUFR4 (CREXを含む)
 * https://github.com/wmo-im/CCT
 
-ブランチ:
+ブランチの使い方:
 
 * `main` - 現行最新通報式
 * `FT2026-1` - 照会中ファストトラック
 * `FT2025-2` (削除済み) - 前回のファストトラック
 
 === GRIB2符号表
+
+GRIB2 の符号表(code table) は次のCSVに格納されている:
 
 * `GRIB2/GRIB2_CodeFlag`{usc}__s{usc}n__``{usc}CodeTable{usc}en.csv`` - 符号表__s__._n_
 * `GRIB2/GRIB2_CodeFlag`{usc}__s{usc}n__``{usc}FlagTable{usc}en.csv`` - フラグ表__s__._n_
@@ -124,10 +126,10 @@ TDCFでいう表の一部だが、
 
 |===
 |列名 |名称・用法 
-|templateNo | 
-|templateName | 
-|noteID | 
-|notation | 
+|templateNo | テンプレート番号（__s.t__形式）
+|templateName | テンプレート標題
+|noteID |注釈番号(表本体から参照するキー)
+|note |注釈文字列
 |===
 
 列templateNoは「3.0」「4.6」などの _s.t_ 形式の文字列である。
