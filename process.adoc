@@ -76,13 +76,12 @@ CSVファイル名に分野番号__d__やカテゴリ番号__k__を欠く表に�
 通報式の文書では符号表4.1は__d__毎に、
 符号表4.2は__(d,k)__毎に表が分けられそれぞれに注がついている。
 
-表の標題と副題について重複した情報源がある。
-どちらを採るべきかと考えるとき、
-notes/CodeFlag_table.csvのエントリと
-表本体のCSVファイルのリストを比較すると、
-現時点では表本体のCSVがあって
-notes/CodeFlag_table.csvのエントリが欠けている表があるので、
-各表本体のTitle_en,SubTitle_en欄を用いるしかない。
+表の標題と副題については重複した情報源があるように見える:
+表本体の Title_en, SubTitle_en 列と、
+notes/CodeFlag_table.csv の tableName, subTableName 列である。
+これらを比較すると、表本体の CSV ファイルが存在するのに、
+notes/CodeFlag_table.csv にエントリが欠けているものがあるので、
+Title_en, SubTitle_en 列を用いるべきである。
 
 === GRIB2テンプレート
 * `GRIB2/GRIB2_Template{usc}1`{usc}__t__{usc}``IdentificationTemplate_en.csv`` - 識別テンプレート1.__t__
@@ -134,6 +133,13 @@ TDCFでいう表の一部だが、
 |===
 
 列templateNoは「3.0」「4.6」などの _s.t_ 形式の文字列である。
+
+テンプレートの標題と副題については重複した情報源があるように見える:
+表本体の Title_en 列と、
+notes/Template_table.csv の templateName 列である。
+これらを比較すると、表本体の CSV ファイルが存在するのに、
+notes/Template_table.csv にエントリが欠けているものがあるので、
+Title_en 列を用いるべきである。
 
 === BUFR/CREX符号表
 
