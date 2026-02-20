@@ -34,7 +34,7 @@ GRIB2 の符号表(code table) は次のCSVに格納されている:
 |列名 |名称・用法
 |Title_en |表の標題(全行共通)
 |SubTitle_en |表の副題(全行共通、符号表4.1及び4.2で非空白)
-|CodeFlag |「数字符号」または「ビット」
+|CodeFlag |「数字符号」またはフラグ表の場合は「ビット」
 |Value |「値」。フラグ表で非空白
 |MeaningParameterDescription_en |意味
 |Note_en |注記表示(非空白の場合、意味に続けて表示)
@@ -103,7 +103,7 @@ Title_en, SubTitle_en 列を用いるべきである。
 |OctetCount | オクテット数
 |Contents_en | 内容
 |Note_en |注記表示(非空白の場合、意味に続けて表示)
-|noteIDs |注釈番号(コンマ区切り数字列,CodeFlag_notes.csvを参照)
+|noteIDs |注釈番号(コンマ区切り数字列,Template_notes.csvを参照)
 |codeTable | 注記が符号表を参照する場合の符号表番号
 |flagTable | 注記がフラグ表を参照する場合のフラグ表番号
 |Status | 状態
@@ -121,7 +121,7 @@ TDCFでいう表の一部だが、
 差分がテンプレートの一部だけとなることが仮にあっても
 変更位置が判読不能となることはない。
 
-`GRIB2/notes/Template_notes.csv` は GRIB2符号表・・フラグ表と同じ構造。
+`GRIB2/notes/Template_notes.csv` は GRIB2符号表・フラグ表と同じ構造。
 `GRIB2/notes/Template_table.csv` は次の構造を持つ:
 
 |===
@@ -153,16 +153,25 @@ Title_en 列を用いるべきである。
 
 |===
 |列名 |名称・用法 
-|FXY | 
-|ElementName_en | 
-|CodeFigure | 
-|EntryName_en | 
-|EntryName_sub1_en | 
-|EntryName_sub2_en | 
-|Note_en | 
-|noteIDs | 
-|Status | 
+|FXY | 表参照符(要素を識別するキー)
+|ElementName_en | 要素名
+|CodeFigure | 「数字符号」またはフラグ表の場合は「ビット」
+|EntryName_en | 値の意味
+|EntryName_sub1_en | 値の意味の補足1
+|EntryName_sub2_en | 値の意味の補足2
+|Note_en |注記表示(非空白の場合、意味に続けて表示)
+|noteIDs |注釈番号(コンマ区切り数字列,Template_notes.csvを参照)
+|Status | 状態
 |===
+
+BUFR/CREXの符号・フラグ表は、単一のCSVファイルに多数の表が詰め込まれている。
+FXY及びElementName_en列が同じ行が複数並んでいて、これが1つの表である。
+FXY列が異なる行は別の表に属する。
+ElemetName_en列は表の標題である。
+
+
+
+//HEAD
 
 === BUFR/CREX表A
 
