@@ -30,7 +30,7 @@ GRIB2 の符号表(code table) は次のCSVに格納されている:
 
 ここで節(section)番号 _s_ = 1,3,4,5,7; 表番号 _n_ = 0以上の整数(現行規定は336まで使用); 分野(discipline)番号 _d_ = 0..255 (符号表0.0); カテゴリ番号 _k_ = 0..255 (符号表4.1)である。
 
-==== 表本体CSVの構造
+==== CSVの構造
 
 符号表は次のフィールドを持つ:
 
@@ -54,7 +54,7 @@ GRIB2 の符号表(code table) は次のCSVに格納されている:
 書かれる。
 
 [[GCFNN]]
-==== 注釈リストCSVの構造
+==== 注釈CSVの構造
 
 notes/CodeFlag_notes.csv は次のフィールドを持つ:
 
@@ -105,7 +105,7 @@ Title_en, SubTitle_en 列を用いるべきである。
 
 ここでテンプレート番号 _t_ = 0..65535 である。
 
-==== テンプレート本体CSVの構造
+==== CSVの構造
 テンプレート本体は次のフィールドを持つ:
 
 |===
@@ -137,8 +137,8 @@ noteIDs, codeTable, flagTable は表示されずリンクを
 差分として表示されたとしても、変更の位置が判読不能となることはない。
 
 [[GTNN]]
-==== 注釈リストCSVの構造
-`GRIB2/notes/Template_notes.csv` は<<GCFNN>>と同様。
+==== 注釈CSVの構造
+`GRIB2/notes/Template_notes.csv` は<<GCFNN,GRIB2符号表の注釈CSV>>と同様。
 
 ==== 表注釈CSVの構造
 `GRIB2/notes/Template_table.csv` は次の構造を持つ:
@@ -169,6 +169,8 @@ Title_en列を用いるべきである。
 
 ここでクラス番号 _xx_ = 00..63 である。
 
+==== CSVの構造
+
 符号・フラグ表本体は次の列を持つ:
 
 |===
@@ -185,17 +187,29 @@ Title_en列を用いるべきである。
 |===
 
 BUFR/CREXの符号・フラグ表は、単一のCSVファイルに多数の表が詰め込まれている。
-FXY及びElementName_en列が同じ行が複数並んでいて、これが1つの表である。
-FXY列が異なる行は別の表に属する。
+FXY及び  
+ElementName_en列が同じ行が複数並んでいて、これが1つの表である。
+FXY列が異なる行は別の表に
+属する。
 ElemetName_en列は表の標題である。
 
 EntryName_sub1_en及びEntryName_sub2_en列はさまざまな使い方がされる:
 
-* 0 08 043 (化学的または物理的成分の種類) ではEntryName_sub1_en及びEntryName_sub2_enが化学式及びCAS番号を補足的に与える
-* 0 20 003 (現在天気) ではEntryName_enがユニークではなく、EntryName_sub1_enが小分類
-* 0 20 034 (海氷の密度) ではEntryName_sub1_en及びEntryName_sub2_enが使用上欠かせない大分類を与える
+* 0 08 043 (化学的または物理的成分の種類) ではEntryName_sub1_en及び  
+  EntryName_sub2_enが化学式及びCAS番号を補足的に与える
+* 0 20 003 (現在天気) ではEntryName_enが大分類（複数の行で同じ値）で
+  通報式文書では複数行をカッコで結んで表示され、
+  EntryName_sub1_enが
+  小分類となっている
+* 0 20 034 (海氷の密度) ではEntryName_sub1_enが中分類、
+  EntryName_sub2_enが大分類で、
+  通報式文書ではそれぞれ複数行をカッコで結んで表示される
 
 これらすべての視覚的表示方法を再現することは高コストなので、EntryName_sub1_en及びEntryName_sub2_enを括弧書きしてEntryName_enに書き加えるのが現実的と思われる。
+
+==== 注釈CSVの構造
+
+==== 表注釈CSVの構造
 
 //HEAD
 
