@@ -171,6 +171,11 @@ CodeFlag_table.csvには分野番号 _d_ ごとに別の行が与えられてい
 本表は注釈番号を解釈する
 ためだけに用いるべきである。
 
+本表では同一のtableNoの行が複数あることに注意。
+GRIB符号・フラグ表 _s.n.d.k_ を出力するとき、
+各行に付された注釈に加えて、本表をスキャンしてすべての注釈を列挙して、
+注記表示番号順に表示する。
+
 [[GT]]
 === GRIB2テンプレート
 * `GRIB2/GRIB2_Template{usc}1`{usc}__t__{usc}``IdentificationTemplate_en.csv`` - 識別テンプレート1.__t__
@@ -229,8 +234,8 @@ Statusは表示に反映しない<<Status,(後述)>>。
 |列名 |名称・用法 
 |templateNo | テンプレート番号（__s.t__形式）
 |templateName | テンプレート標題
-|noteID |注釈番号(表本体から参照するキー)
-|note |注釈文字列
+|noteID |注釈番号(Template_notes.csvを参照)
+|notation |注記表示番号
 |===
 
 列templateNoは「3.0」「4.6」などの _s.t_ 形式の文字列である。
@@ -240,6 +245,11 @@ Statusは表示に反映しない<<Status,(後述)>>。
 本表は注釈番号を
 解釈するため
 だけに用いるべきである。
+
+本表では同一のtemplateNoの行が複数あることに注意。
+GRIBテンプレート _s.t_ を出力するとき、
+各行に付された注釈に加えて、本表をスキャンしてすべての注釈を列挙して、
+注記表示番号順に表示する。
 
 [[BCF]]
 === BUFR/CREX符号表
@@ -293,7 +303,8 @@ EntryName_sub1_en及びEntryName_sub2_en列はさまざまな使い方がされ�
 
 [[BCFNN]]
 ==== 注釈CSVの構造
-`BUFR4/notes/BUFRCREX_CodeFlag_notes.csv` の構造は<<GCFNN,GRIB2符号表の注釈CSV>>と同様。
+`BUFR4/notes/BUFRCREX_CodeFlag_notes.csv` の構造は
+<<GCFNN,GRIB2符号表の注釈CSV>>と同様。
 
 [[BCFNT]]
 ==== 表注釈CSVの構造
@@ -324,6 +335,11 @@ EntryName_sub1_en及びEntryName_sub2_en列はさまざまな使い方がされ�
 注釈番号を解釈するため
 だけに本表を用いるならば
 スラッシュ区切り構文を処理しなくても問題ない。
+
+本表では同一のtableNoの行が複数あることに注意。
+BUFR/CREX符号・フラグ表のうち、記述子 _F XX YYY_ の表を出力するとき、
+各行に付された注釈に加えて、本表をスキャンしてすべての注釈を列挙して、
+注記表示番号順に表示する。
 
 [[BCA]]
 === BUFR/CREX表A
@@ -393,11 +409,31 @@ FXY, ElementName_en
 (<<parsingNotes,後述>>のように解析・リンク化したNote_enを連結)
 に続いて BUFR_Unit から CREX_DataWidth_Char 列までが表示される。
 
+[[BCBNN]]
 ==== 注釈CSVの構造
 
-//HEAD
+`BUFR4/notes/BUFRCREX_TableB_notes.csv` の構造は
+<<GCFNN,GRIB2符号表の注釈CSV>>と同様。
+
+[[BCBNT]]
 ==== 表注釈CSVの構造
 
+`BUFR4/notes/BUFRCREX_TableB_table.csv` は次の列を持つ:
+
+|===
+|列名 |名称・用法 
+|tableNo |表番号(クラス番号 _XX_ )
+|tableName |表の標題
+|noteID |注釈番号(BUFRCREX_TableB_notes.csvを参照)
+|notation |注記表示
+|===
+
+本表では同一のtableNoの行が複数あることに注意。
+BUFR/CREX表Bのうち、クラス _XX_ の表を出力するとき、
+各行に付された注釈に加えて、本表をスキャンしてすべての注釈を列挙して、
+注記表示番号順に表示する。
+
+//HEAD
 === BUFR/CREX表C
 
 * `BUFR4/BUFR_TableC_en.csv` - BUFR表C本体
