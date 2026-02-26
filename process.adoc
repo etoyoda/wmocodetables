@@ -104,28 +104,29 @@ GRIB2 の符号表(code table) は次のCSVに格納されている:
 
 ここで節(section)番号 _s_ = 1,3,4,5,7; 表番号 _n_ = 0以上の整数(現行規定は336まで使用); 分野(discipline)番号 _d_ = 0..255 (符号表0.0); カテゴリ番号 _k_ = 0..255 (符号表4.1)である。
 
-[[GCFCSV]]
+[[GCFcsv]]
 ==== CSVの構造
 
 符号表は次のフィールドを持つ:
 
 |===
 |列名 |名称・用法
-|Title_en |表の標題(全行共通)
-|SubTitle_en |表の副題(全行共通、符号表4.1及び4.2で非空白)
+|Title_en |表の標題(全行同一)
+|SubTitle_en |表の副題(全行同一、符号表4.1及び4.2で非空白)
 |CodeFlag |「数字符号」またはフラグ表の場合は「ビット」
 |Value |「値」。フラグ表で非空白
 |MeaningParameterDescription_en |意味
-|Note_en |注記表示(非空白の場合、意味に続けて表示)
+|Note_en |注記表示(非空白の場合、前列に続けて表示)
 |noteIDs |注釈番号(コンマ区切り数字列,CodeFlag_notes.csvを参照)
 |UnitComments_en |「単位」。符号表4.2で使用
 |Status |状態
 |===
 
-全行共通のTitle_en, SubTitle_en は表の上枠外に表示されるもので、
-<<Status,Statusは表示に反映しない(後述)>>。
-結局、CodeFlag, Value, およびMeaningParameterDescription_en+Note_enの
-3列が通報式の文書に  
+全行同一のTitle_en, SubTitle_en は表の上枠外に表示されるもので、
+Statusは表示に反映しない<<Status,(後述)>>。
+結局、CodeFlag, Value, およびMeaningParameterDescription_en
+(<<parsingNotes,後述>>のように解析・リンク化したNote_enを連結)
+の3個列が通報式の文書に  
 書かれる。
 
 [[GCFNN]]
@@ -182,17 +183,17 @@ CodeFlag_table.csvには分野番号 _d_ ごとに別の行が与えられてい
 
 ここでテンプレート番号 _t_ = 0..65535 である。
 
-[[GTCSV]]
+[[GTcsv]]
 ==== CSVの構造
 テンプレート本体は次のフィールドを持つ:
 
 |===
 |列名 |名称・用法 
-|Title_en |表の標題(全行共通)
+|Title_en |表の標題(全行同一)
 |OctetNo | オクテット番号(複数ならばハイフンで範囲を示す)
 |OctetCount | オクテット数
 |Contents_en | 内容
-|Note_en |注記表示(非空白の場合、意味に続けて表示)
+|Note_en |注記表示(非空白の場合、前列に続けて表示)
 |noteIDs |注釈番号(コンマ区切り数字列,Template_notes.csvを参照)
 |codeTable | 注記が符号表を参照する場合の符号表番号
 |flagTable | 注記がフラグ表を参照する場合のフラグ表番号
@@ -202,8 +203,10 @@ CodeFlag_table.csvには分野番号 _d_ ごとに別の行が与えられてい
 Title_enは表の冒頭に表示する文字列であり、  
 noteIDs, codeTable, flagTable は表示されずリンクを  
 指示する。
-<<Status,Statusは表示に反映しない(後述)>>。
-結局 OctetNo, OctetCount, Contents_en, Note_en が
+Statusは表示に反映しない<<Status,(後述)>>。
+結局 OctetNo, OctetCount, Contents_en
+(<<parsingNotes,後述>>のように解析・リンク化したNote_enを連結)
+の3列が
 表示されることになる。
 
 テンプレートは関係データベースの関係(relation)とみなすことはできない。
@@ -238,6 +241,7 @@ noteIDs, codeTable, flagTable は表示されずリンクを
 解釈するため
 だけに用いるべきである。
 
+[[BCF]]
 === BUFR/CREX符号表
 
 * `BUFR4/BUFRCREX_CodeFlag_en`{usc}__XX__``.csv`` - 符号・フラグ表第 _XX_ クラス
@@ -246,6 +250,7 @@ noteIDs, codeTable, flagTable は表示されずリンクを
 
 ここでクラス番号 _XX_ = 00..63 である。
 
+[[BCFcsv]]
 ==== CSVの構造
 
 符号・フラグ表本体は次の列を持つ:
@@ -258,7 +263,7 @@ noteIDs, codeTable, flagTable は表示されずリンクを
 |EntryName_en | 値の意味
 |EntryName_sub1_en | 値の意味の補足1
 |EntryName_sub2_en | 値の意味の補足2
-|Note_en |注記表示(非空白の場合、意味に続けて表示)
+|Note_en |注記表示(非空白の場合、値の意味に続けて表示)
 |noteIDs |注釈番号(コンマ区切り数字列,Template_notes.csvを参照)
 |Status | 状態
 |===
@@ -268,8 +273,9 @@ FXY及び
 ElementName_en列が同じ行が複数並んでいて、これが1つの表である。
 FXY列が異なる行は別の表に
 属する。
-ElemetName_en列は表の標題である。
-<<Status,Statusは表示に反映しない(後述)>>。
+ElemetName_en列は表の標題として用いる
+(<<parsingNotes,後述>>のように解析・リンク化したNote_enを連結)。
+Statusは表示に反映しない<<Status,(後述)>>。
 
 EntryName_sub1_en及びEntryName_sub2_en列はさまざまな使い方がされる:
 
@@ -285,9 +291,11 @@ EntryName_sub1_en及びEntryName_sub2_en列はさまざまな使い方がされ�
 
 これらすべての視覚的表示方法を再現することは高コストなので、EntryName_sub1_en及びEntryName_sub2_enを括弧書きしてEntryName_enに書き加えるのが現実的と思われる。
 
+[[BCFNN]]
 ==== 注釈CSVの構造
 `BUFR4/notes/BUFRCREX_CodeFlag_notes.csv` の構造は<<GCFNN,GRIB2符号表の注釈CSV>>と同様。
 
+[[BCFNT]]
 ==== 表注釈CSVの構造
 `BUFR4/notes/BUFRCREX_CodeFlag_table.csv` は次の列を持つ:
 
@@ -317,6 +325,7 @@ EntryName_sub1_en及びEntryName_sub2_en列はさまざまな使い方がされ�
 だけに本表を用いるならば
 スラッシュ区切り構文を処理しなくても問題ない。
 
+[[BCA]]
 === BUFR/CREX表A
 
 * `BUFR4/BUFR_TableA_en.csv` - BUFR表A本体
@@ -324,6 +333,7 @@ EntryName_sub1_en及びEntryName_sub2_en列はさまざまな使い方がされ�
 
 表Aに注釈ファイルはない。
 
+[[BCAcsv]]
 ==== CSVの構造
 
 BUFR表A本体およびCREX表A本体は次の列を持つ:
@@ -338,12 +348,11 @@ BUFR表A本体およびCREX表A本体は次の列を持つ:
 数字符号は表Bのクラスである。原則として数値ひとつだが、
 102-239 及び 240-254 は範囲表記で
 書かれている。
-<<Status,Statusは表示に反映しない(後述)>>。
+Statusは表示に反映しない<<Status,(後述)>>。
 
 CREX表A/Bにはクラス14,15,32を欠くので2つの表は別になっている。
 
-//HEAD
-
+[[BCB]]
 === BUFR/CREX表B
 
 * `BUFR4/BUFRCREX_TableB_en`{usc}__XX__``.csv`` - BUFR/CREX表B第 _XX_ クラス
@@ -351,6 +360,43 @@ CREX表A/Bにはクラス14,15,32を欠くので2つの表は別になってい�
 * `BUFR4/notes/BUFRCREX_TableB_table.csv` - 表のエントリではなく表全体にかかる注を記載
 
 ここでクラス番号 _XX_ = 00..63 である。
+
+[[BCBcsv]]
+==== CSVの構造
+
+BUFR/CREX表BのCSVは長すぎるのでクラス番号 _XX_ によって分割されている。
+各CSVは次の列を持つ:
+
+|===
+|列名 |名称・用法 
+|ClassNo | クラス番号 _XX_
+|ClassName_en | クラス名称
+|FXY | 表参照符 _FXY_
+|ElementName_en | 要素名
+|BUFR_Unit | BUFRの単位
+|BUFR_Scale | BUFRの尺度
+|BUFR_ReferenceValue | BUFRの参照値
+|BUFR_DataWidth_Bits | BUFRのビット幅
+|CREX_Unit | CREXの単位
+|CREX_Scale | CREXの尺度
+|CREX_DataWidth_Char | CREXの文字数
+|Note_en |注記表示(非空白の場合、要素名に続けて表示)
+|noteIDs |注釈番号(コンマ区切り数字列,BUFRCREX_CodeFlag_notes.csvを参照)
+|Status |状態
+|===
+
+ClassNo および ClassName_en 列はクラス内で全行同一である。
+クラスごとに分割表示する際に題字として用いる。
+Statusは表示に反映しない<<Status,(後述)>>。
+通報式文書の表では
+FXY, ElementName_en
+(<<parsingNotes,後述>>のように解析・リンク化したNote_enを連結)
+に続いて BUFR_Unit から CREX_DataWidth_Char 列までが表示される。
+
+==== 注釈CSVの構造
+
+//HEAD
+==== 表注釈CSVの構造
 
 === BUFR/CREX表C
 
@@ -360,6 +406,10 @@ CREX表A/Bにはクラス14,15,32を欠くので2つの表は別になってい�
 * `BUFR4/notes/BUFR_TableC_table.csv` - 表のエントリではなく表全体にかかる注を記載
 
 CREX表Cの注釈文情報は欠けている。それどころかCREX表Cに注釈番号列noteIDsが欠けている。
+
+==== CSVの構造
+==== 注釈CSVの構造
+==== 表注釈CSVの構造
 
 === BUFR/CREX表D
 
@@ -371,6 +421,10 @@ CREX表Cの注釈文情報は欠けている。それどころかCREX表Cに注�
 ここでクラス番号 _XX_ = 00..63 である。
 CREX表Dの注釈文情報は欠けている。それどころかCREX表Dに注釈番号列noteIDsが欠けている。
 
+==== CSVの構造
+==== 注釈CSVの構造
+==== 表注釈CSVの構造
+
 === 共通符号表
 
 * `CCT/COV.csv` - 共通符号表一覧
@@ -380,6 +434,10 @@ CREX表Dの注釈文情報は欠けている。それどころかCREX表Dに注�
 
 ここで表番号 _cc_ = 00,01,...,08,11,...,14 である。
 共通符号表は _cc_ により列構造が異なる。
+
+==== CSVの構造
+==== 注釈CSVの構造
+==== 表注釈CSVの構造
 
 == 共通の特殊列処理
 
@@ -391,7 +449,7 @@ CREX表Dの注釈文情報は欠けている。それどころかCREX表Dに注�
 * Operational - 現用の通報式
 * Deprecated - 現用の通報式だが、廃止予定と宣言
 * Experimental - 通報式には掲載するが、バリデーションが未了との注記を付す
-* Extension - CCT C-14 で使われる。現用通報式には掲載されていない。
+* Extension - CCT C-14 で使われる。現用通報式には掲載されていない行。
 
 なお、次の品質的問題がある。
 
@@ -403,4 +461,11 @@ CREX表Dの注釈文情報は欠けている。それどころかCREX表Dに注�
   Operationaal など、また前後にスペース付加も)
 
 処理としては、 Deprecated のある行に注記を付加し、
-Extension のある行を削除するのが妥当ということになる。
+Extension のある行を削除するのが妥当と推定。
+
+TODO: Deprecatedの用例について通報式文書を確認し、注記付加処理でよいか確認
+
+[[parsingNotes]]
+=== 注釈の扱い
+
+TBD
