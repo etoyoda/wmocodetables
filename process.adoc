@@ -331,4 +331,4 @@ CREX表Dの注釈文情報は欠けている。それどころかCREX表Dに注�
   Operationaal など、また前後にスペース付加も)
 
 処理としては、 Deprecated のある行に注記を付加し、
-Extension のある行を削除するのだろう。
+Extension のある行を削除するのが妥当ということになる。
