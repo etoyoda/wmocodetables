@@ -18,6 +18,7 @@
 * `FT2026-1` - 照会中ファストトラック
 * `FT2025-2` (削除済み) - 前回のファストトラック
 
+[[GCF]]
 === GRIB2符号表
 
 GRIB2 の符号表(code table) は次のCSVに格納されている:
@@ -30,6 +31,7 @@ GRIB2 の符号表(code table) は次のCSVに格納されている:
 
 ここで節(section)番号 _s_ = 1,3,4,5,7; 表番号 _n_ = 0以上の整数(現行規定は336まで使用); 分野(discipline)番号 _d_ = 0..255 (符号表0.0); カテゴリ番号 _k_ = 0..255 (符号表4.1)である。
 
+[[GCFCSV]]
 ==== CSVの構造
 
 符号表は次のフィールドを持つ:
@@ -64,6 +66,7 @@ notes/CodeFlag_notes.csv は次のフィールドを持つ:
 |note |注釈文字列
 |===
 
+[[GCFNT]]
 ==== 表注釈CSVの構造
 notes/CodeFlag_table.csv は次のフィールドを持つ:
 
@@ -83,17 +86,14 @@ notes/CodeFlag_table.csv は次のフィールドを持つ:
 非零数が  
 入る。
 不規則なのは符号表4.1である: 表本体のCSVファイルは1つしかないが、
-CodeFlag_table.csvには分野番号__d__ごとに別の行が与えられている。
+CodeFlag_table.csvには分野番号 _d_ ごとに別の行が与えられている。
 通報式(WMO Codes)の文書では、  
-符号表4.1は__d__毎に別の表、符号表4.2は__(d,k)__毎に別の表が組版されており、それぞれに注がついている。
+符号表4.1は _d_ 毎に別の表、符号表4.2は _(d,k)_ 毎に別の表が組版されており、それぞれに注がついている。
 
-表の標題と副題については重複した情報源があるように見える:
-表本体の Title_en, SubTitle_en 列と、
-notes/CodeFlag_table.csv の tableName, subTableName 列である。
-これらを比較すると、表本体の CSV ファイルが存在するのに、
-notes/CodeFlag_table.csv にエントリが欠けているものがあるので、
-Title_en, SubTitle_en 列を用いるべきである。
+比較すると本表に対応する行が欠けている _s.n.d.k_ 値が存在するので、
+本表は注釈番号を解釈するためだけに用いるべきである。
 
+[[GT]]
 === GRIB2テンプレート
 * `GRIB2/GRIB2_Template{usc}1`{usc}__t__{usc}``IdentificationTemplate_en.csv`` - 識別テンプレート1.__t__
 * `GRIB2/GRIB2_Template{usc}3`{usc}__t__{usc}``GridDefinitionTemplate_en.csv`` - 格子系定義テンプレート3.__t__
@@ -105,6 +105,7 @@ Title_en, SubTitle_en 列を用いるべきである。
 
 ここでテンプレート番号 _t_ = 0..65535 である。
 
+[[GTCSV]]
 ==== CSVの構造
 テンプレート本体は次のフィールドを持つ:
 
@@ -140,6 +141,7 @@ noteIDs, codeTable, flagTable は表示されずリンクを
 ==== 注釈CSVの構造
 `GRIB2/notes/Template_notes.csv` は<<GCFNN,GRIB2符号表の注釈CSV>>と同様。
 
+[[GTNT]]
 ==== 表注釈CSVの構造
 `GRIB2/notes/Template_table.csv` は次の構造を持つ:
 
@@ -153,13 +155,8 @@ noteIDs, codeTable, flagTable は表示されずリンクを
 
 列templateNoは「3.0」「4.6」などの _s.t_ 形式の文字列である。
 
-テンプレートの標題と副題については重複した情報源があるように見える:
-表本体の Title_en 列と、
-notes/Template_table.csv の templateName 列である。
-これらを比較すると、表本体のCSVファイルが
-存在するのに、
-notes/Template_table.csvにエントリが欠けているものがあるので、
-Title_en列を用いるべきである。
+比較すると本表に対応する行が欠けている _s.t_ 値が存在するので、
+本表は注釈番号を解釈するためだけに用いるべきである。
 
 === BUFR/CREX符号表
 
@@ -208,8 +205,30 @@ EntryName_sub1_en及びEntryName_sub2_en列はさまざまな使い方がされ�
 これらすべての視覚的表示方法を再現することは高コストなので、EntryName_sub1_en及びEntryName_sub2_enを括弧書きしてEntryName_enに書き加えるのが現実的と思われる。
 
 ==== 注釈CSVの構造
+`BUFR4/notes/BUFRCREX_CodeFlag_notes.csv` の構造は<<GCFNN,GRIB2符号表の注釈CSV>>と同様。
 
 ==== 表注釈CSVの構造
+`BUFR4/notes/BUFRCREX_CodeFlag_table.csv` は次の列を持つ:
+
+|===
+|列名 |名称・用法 
+|tableNo |表番号( _F XX YYY_ 形式)
+|tableName |表の標題
+|noteID |注釈番号(BUFRCREX_CodeFlag_notes.csvを参照)
+|notation |注記表示
+|===
+
+本表のtableNo列からスペースを除いたものは基本的に、
+表本体のFXY列に対応する。
+たとえば本表で 0 01 003 とある行は表本体の 001003 に対応する。
+
+ただし 0 20 004/0 20 005 および 0 23 008/0 23 009 については
+2個の要素記述子を本表では1行で書かれている。
+これらの要素記述子には表全体への注釈がついていないので、
+その解釈を誤っても問題はない。
+
+比較すると本表に対応する行が欠けているFXY値が存在するので、
+本表は注釈番号を解釈するためだけに用いるべきである。
 
 //HEAD
 
