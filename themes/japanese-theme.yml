@@ -30,6 +30,7 @@ font:
 base:
   font-family: IPAexMincho
   line_height: 1.4
+  text_align: left
 
 heading:
   font_family: IPAexGothic
@@ -40,3 +41,6 @@ heading:
 table:
   cell:
     padding: [3, 4, 3, 4]
+
+prose:
+  text_align: left

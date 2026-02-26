@@ -49,8 +49,9 @@ GRIB2 の符号表(code table) は次のCSVに格納されている:
 
 全行共通のTitle_en, SubTitle_en は表の上枠外に表示されるもので、
 <<Status,Statusは表示に反映しない(後述)>>。
-結局、CodeFlag, Value, および MeaningParameterDescription_en+Note_enの
-3列が通報式の文書に書かれる。
+結局、CodeFlag, Value, およびMeaningParameterDescription_en+Note_enの
+3列が通報式の文書に  
+書かれる。
 
 [[GCFNN]]
 ==== 注釈リストCSVの構造
@@ -75,12 +76,16 @@ notes/CodeFlag_table.csv は次のフィールドを持つ:
 |notation |注記表示
 |===
 
-表版号tableNo列では、CSVファイル名に分野(discipline)番号__d__やカテゴリ番号__k__を欠く場合ゼロを補う。
+表版号tableNo列では、CSVファイル名に分野(discipline)番号 _d_ やカテゴリ番号 _k_ を欠く場合ゼロを  
+補う。  
 たとえば符号表1.2であれば「1.2.0.0」となる。
-符号表4.2については「4.2.0.1」のように非零数が入る。
-不規則なのは符号表4.1である: 表本体のCSVファイルは1つしかないが、CodeFlag_table.csvには
-分野番号__d__ごとに別の行が与えられている。
-通報式(WMO Codes)の文書では、符号表4.1は__d__毎に別の表、符号表4.2は__(d,k)__毎に別の表が組版されており、それぞれに注がついている。
+符号表4.2については「4.2.0.1」のように  
+非零数が  
+入る。
+不規則なのは符号表4.1である: 表本体のCSVファイルは1つしかないが、
+CodeFlag_table.csvには分野番号__d__ごとに別の行が与えられている。
+通報式(WMO Codes)の文書では、  
+符号表4.1は__d__毎に別の表、符号表4.2は__(d,k)__毎に別の表が組版されており、それぞれに注がついている。
 
 表の標題と副題については重複した情報源があるように見える:
 表本体の Title_en, SubTitle_en 列と、
@@ -116,12 +121,20 @@ Title_en, SubTitle_en 列を用いるべきである。
 |Status | 状態
 |===
 
-Title_enは表の冒頭に表示する文字列であり、noteIDs, codeTable, flagTable は表示テキストではなくリンクを指示する。
+Title_enは表の冒頭に表示する文字列であり、  
+noteIDs, codeTable, flagTable は表示されずリンクを  
+指示する。
 <<Status,Statusは表示に反映しない(後述)>>。
-結局OctetNo, OctetCount, Contents_en, Note_en が表示されることになる。
+結局 OctetNo, OctetCount, Contents_en, Note_en が
+表示されることになる。
 
-テンプレートは関係データベースの関係(relation)とみなすことはできない。行の順序に意味があるからである。
-しかしながら、OctetNo列は行の順序に沿って単調増加するので、テンプレートの一部だけが差分として表示されたとしても、変更の位置が判読不能となることはない。
+テンプレートは関係データベースの関係(relation)とみなすことはできない。
+行の順序に意味があるから  
+である。
+しかしながら、OctetNo列は行の順序に沿って単調増加するので、
+テンプレートの
+一部だけが
+差分として表示されたとしても、変更の位置が判読不能となることはない。
 
 [[GTNN]]
 ==== 注釈リストCSVの構造
@@ -143,9 +156,10 @@ Title_enは表の冒頭に表示する文字列であり、noteIDs, codeTable, f
 テンプレートの標題と副題については重複した情報源があるように見える:
 表本体の Title_en 列と、
 notes/Template_table.csv の templateName 列である。
-これらを比較すると、表本体の CSV ファイルが存在するのに、
-notes/Template_table.csv にエントリが欠けているものがあるので、
-Title_en 列を用いるべきである。
+これらを比較すると、表本体のCSVファイルが
+存在するのに、
+notes/Template_table.csvにエントリが欠けているものがあるので、
+Title_en列を用いるべきである。
 
 === BUFR/CREX符号表
 
