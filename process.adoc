@@ -5,6 +5,78 @@
 :toc:
 :usc: _
 
+== 予備知識
+
+=== TDCF表のあらまし
+
+WMO通報式のうち、FM92 GRIB、FM94 BUFR、FM95 CREXは
+表参照通報式(table-driven code forms)と総称されている。
+これらの通報式の大部分はTDCF表と呼ばれる表となっていて、
+運用に影響しない改正（表への追記や非本質的な訂正など）が
+迅速に行えるよう、
+ファストトラック改正手続きが認められている。
+TDCF表はGitHubで公開されている。
+
+FM92 GRIB通報式第2版(通称GRIB2)によるGRIB報は、
+第0節から第8節までの9個の節(section)から構成される。
+このうち第1,3,4,5,及び7節は
+テンプレート番号(0..65535)によって異なる構造を持つ。
+各節は1オクテットから4オクテットの数値の羅列として定義されるが、
+オクテットの数値を整数または浮動小数点数として用いる場合の他に、
+整数値で符号表(code table)に列挙された語彙として用いる場合と、
+整数値をビット列に分解してフラグをあてはめる場合がある。
+
+GRIB2においてはテンプレート及び符号表・フラグ表がTDCF表である。
+
+FM94 BUFR通報式第4版(通称BUFR4)および
+FM95 CREX通報式は、
+BUFR報またはCREX報の冒頭に置かれる記述子(descriptor)の羅列で
+後に続くデータの構造を指定する。
+記述子は16ビットで _F, X, Y_ の3部分に分解され、
+それぞれ2,6,8ビットを占めてそれぞれ十進表記される。
+_F_=0 すなわち 0 _XX YYY_ の形をとる記述子は要素記述子と呼ばれ、
+データの名称、単位、占有ビット数を記載したBUFR/CREX表Bで定義される。
+要素記述子のクラス番号 _XX_ の表はBUFR/CREX表Aである。
+_F_=2 すなわち 2 _XX YYY_ の形をとる記述子は操作記述子と呼ばれ、
+記述子列の解釈に特別な影響を与える操作(operation)を表現し、
+BUFR/CREX表Cで定義される。
+_F_=3 すなわち 3 _XX YYY_ の形をとる記述子は集約記述子と呼ばれ、
+複数の記述子をひとまとめに記述する簡略記法であって、
+BUFR/CREX表Dで定義される。
+
+要素記述子は原則として単位を持った物理量を表現するが、
+符号表に列挙される語彙を参照する場合や、
+フラグ表に示されるビットの組み合わせを表現する場合があり、
+これらはBUFR/CREXの符号・フラグ表で定義される。
+
+BUFR/CREXにおいては表A-D及び符号・フラグ表がTDCF表である。
+
+これらの他に、複数のWMO通報式で共通に参照する表が
+共通符号表(common code table)として定義されている。
+
+=== 以下で用いる記号
+
+[cols="1,2,5",options="header"]
+|===
+|記号 |範囲 |意味 
+|_cc_ |0以上（現在14まで使用） |共通符号表番号
+|_d_ |0-255 |GRIB2符号表4.2で用いる分野(discipline)番号
+|_F_ |0-3 |BUFR/CREX の記述子の _F_ 部、十進表現1桁
+|_FXY_ | |BUFR/CREXの記述子の _F,X,Y_ 部を並べたもの
+|_k_ |0-255 |GRIB2符号表4.2で用いるカテゴリ(category)番号
+|_n_ |0以上 (現在336まで使用) |GRIB2の符号・フラグ表の番号
+|_s_ |1,3,4,5,7 |GRIB2の節(section)番号
+|_s.n.d.k_ | |GRIB2の符号表を識別する番号 _s,n,d,k_ (欠はゼロで補う)をピリオド区切りで並べたもの
+|_t_ |0-65535 |GRIB2のテンプレート番号
+|_XX_ |0-63 |BUFR/CREX の記述子の _X_ 部 (要素記述子ではクラス(class)番号という)、十進表現2桁ゼロ前置
+|_YYY_ |0-255 |BUFR/CREX の記述子の _Y_ 部、十進表現3桁ゼロ前置
+|===
+
+GRIB2最大の符号表4.2はパラメタ(parameter)番号であるが、
+パラメタの数が多いため、
+それぞれ8ビットの分野(discipline)、カテゴリ(category)、
+及びパラメタの3つの番号でパラメタが識別される。
+
 == WMO CSVのファイル構造
 === レポジトリ
 次の3つのレポジトリに分かれて管理されている:
@@ -168,11 +240,11 @@ noteIDs, codeTable, flagTable は表示されずリンクを
 
 === BUFR/CREX符号表
 
-* `BUFR4/BUFRCREX_CodeFlag_en`{usc}__xx__``.csv`` - 符号・フラグ表第 _xx_ クラス
+* `BUFR4/BUFRCREX_CodeFlag_en`{usc}__XX__``.csv`` - 符号・フラグ表第 _XX_ クラス
 * `BUFR4/notes/BUFRCREX_CodeFlag_notes.csv` - 注釈番号から注釈文を与える
 * `BUFR4/notes/BUFRCREX_CodeFlag_table.csv` - 表のエントリではなく表全体にかかる注を記載
 
-ここでクラス番号 _xx_ = 00..63 である。
+ここでクラス番号 _XX_ = 00..63 である。
 
 ==== CSVの構造
 
@@ -274,11 +346,11 @@ CREX表A/Bにはクラス14,15,32を欠くので2つの表は別になってい�
 
 === BUFR/CREX表B
 
-* `BUFR4/BUFRCREX_TableB_en`{usc}__xx__``.csv`` - BUFR/CREX表B第 _xx_ クラス
+* `BUFR4/BUFRCREX_TableB_en`{usc}__XX__``.csv`` - BUFR/CREX表B第 _XX_ クラス
 * `BUFR4/notes/BUFRCREX_TableB_notes.csv` - 注釈番号から注釈文を与える
 * `BUFR4/notes/BUFRCREX_TableB_table.csv` - 表のエントリではなく表全体にかかる注を記載
 
-ここでクラス番号 _xx_ = 00..63 である。
+ここでクラス番号 _XX_ = 00..63 である。
 
 === BUFR/CREX表C
 
@@ -291,12 +363,12 @@ CREX表Cの注釈文情報は欠けている。それどころかCREX表Cに注�
 
 === BUFR/CREX表D
 
-* `BUFR4/BUFR_TableD_en`{usc}__xx__``.csv`` - BUFR表D第 _xx_ クラス
-* `BUFR4/CREX_TableD_en`{usc}__xx__``.csv`` - CREX表D第 _xx_ クラス
+* `BUFR4/BUFR_TableD_en`{usc}__XX__``.csv`` - BUFR表D第 _XX_ クラス
+* `BUFR4/CREX_TableD_en`{usc}__XX__``.csv`` - CREX表D第 _XX_ クラス
 * `BUFR4/notes/BUFR_TableD_notes.csv` - 注釈番号から注釈文を与える
 * `BUFR4/notes/BUFR_TableD_table.csv` - 表のエントリではなく表全体にかかる注を記載
 
-ここでクラス番号 _xx_ = 00..63 である。
+ここでクラス番号 _XX_ = 00..63 である。
 CREX表Dの注釈文情報は欠けている。それどころかCREX表Dに注釈番号列noteIDsが欠けている。
 
 === 共通符号表
