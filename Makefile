@@ -10,11 +10,11 @@ tdcf-tables.adoc: csv-compile.rb toppage-ja.txt resources.csv fixwmo.csv
 	test ! -f tdcf-tables.adoc.bak || diff -u tdcf-tables.adoc.bak tdcf-tables.adoc || (rm -f tdcf-tables.adoc ; false)
 	cp -f tdcf-tables.adoc tdcf-tables.adoc.bak
 
-tdcf-tables.pdf: tdcf-tables.adoc
+tdcf-tables.pdf: tdcf-tables.adoc themes/japanese-theme.yml
 	asciidoctor-pdf -a pdf-theme=themes/japanese-theme.yml -a lang=ja tdcf-tables.adoc
 
 process.html: process.adoc
 	asciidoctor -a lang=ja process.adoc
 
-process.pdf: process.adoc
+process.pdf: process.adoc themes/japanese-theme.yml
 	asciidoctor-pdf -a pdf-theme=themes/japanese-theme.yml -a lang=ja process.adoc

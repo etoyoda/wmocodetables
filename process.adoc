@@ -114,6 +114,7 @@ GRIB2 の符号表(code table) は次のCSVに格納されている:
 
 符号表は次のフィールドを持つ:
 
+[cols="1,3",option="header"]
 |===
 |列名 |名称・用法
 |Title_en |表の標題(全行同一)

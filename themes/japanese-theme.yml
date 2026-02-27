@@ -29,15 +29,15 @@ font:
       normal: /var/lib/gems/3.2.0/gems/asciidoctor-pdf-2.3.24/data/fonts/notoserif-regular-subset.ttf
   fallbacks:
     - IPAexMincho
-    - IPAexGothic
+    - noto sans subset
 
 base:
-  font-family: noto serif subset
+  font_family: noto serif subset
   line_height: 1.4
   text_align: left
 
 heading:
-  font_family: noto serif subset
+  font_family: IPAexGothic
   margin_top: 1.4
   margin_bottom: 0.8
   line_height: 1.25
@@ -45,6 +45,15 @@ heading:
 table:
   cell:
     padding: [3, 4, 3, 4]
+  header:
+    font_family: IPAexGothic
+    font_style: bold
+    font_color: #0066CC
+
+strong:
+  font_family: IPAexGothic
+  font_style: bold
+  font_color: #0066CC
 
 prose:
   text_align: left
