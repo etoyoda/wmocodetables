@@ -484,13 +484,31 @@ CREXの注釈データがないので、それを参照する注釈番号もな�
 
 ==== 注釈CSVの構造
 
-* `BUFR4/notes/BUFR_TableC_notes.csv` - 注釈番号から注釈文を与える
+`BUFR4/notes/BUFR_TableC_notes.csv` は次の列を持つ:
 
+|===
+|列名 |名称・用法 
+|noteID |注釈番号(表本体から参照するキー)
+|note |注釈文字列
+|tableAssociation | 表全体にかかる注釈の場合 `table` が書かれる
+|===
 
-//HEAD
+注釈番号から注釈文字列を探す使い方では <<GCFNN,GRIB2符号表の注釈CSV>>と同様に扱うことができる。
+
 ==== 表注釈CSVの構造
 
-* `BUFR4/notes/BUFR_TableC_table.csv` - 表のエントリではなく表全体にかかる注を記載
+`BUFR4/notes/BUFR_TableC_table.csv` は次の列を持つ:
+
+|===
+|列名 |名称・用法 
+|tableName |表の標題(全行同一)
+|noteID |注釈番号(BUFRCREX_TableB_notes.csvを参照)
+|notation |注記表示
+|===
+
+BUFR/CREX表Cを出力するとき、
+各行に付された注釈に加えて、本表をスキャンしてすべての注釈を列挙して、
+注記表示番号順に表示する。
 
 === BUFR/CREX表D
 
@@ -500,9 +518,14 @@ CREXの注釈データがないので、それを参照する注釈番号もな�
 * `BUFR4/notes/BUFR_TableD_table.csv` - 表のエントリではなく表全体にかかる注を記載
 
 ここでクラス番号 _XX_ = 00..63 である。
-CREX表Dの注釈文情報は欠けている。それどころかCREX表Dに注釈番号列noteIDsが欠けている。
+
+CREX表Dの注釈文情報は用意されていない。
+もはやCREX通報式の改正に備える必要はないため、注釈番号をデータで持つまでもなく、固定の注釈リストを印字してしまえばよいという発想である。
 
 ==== CSVの構造
+
+
+//HEAD
 ==== 注釈CSVの構造
 ==== 表注釈CSVの構造
 
