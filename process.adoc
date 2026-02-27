@@ -4,6 +4,7 @@
 :sectnums:
 :toc:
 :usc: _
+:mdash: &#x2014;
 
 == はじめに
 
@@ -140,6 +141,7 @@ Statusは表示に反映しない<<Status,(後述)>>。
 
 notes/CodeFlag_notes.csv は次のフィールドを持つ:
 
+[cols="1,3",option="header"]
 |===
 |列名 |名称・用法
 |noteID |注釈番号(表本体から参照するキー)
@@ -150,6 +152,7 @@ notes/CodeFlag_notes.csv は次のフィールドを持つ:
 ==== 表注釈CSVの構造
 notes/CodeFlag_table.csv は次のフィールドを持つ:
 
+[cols="1,3",option="header"]
 |===
 |列名 |名称・用法
 |tableNo |表番号(_s.n.d.k_ 形式)
@@ -198,6 +201,7 @@ GRIB符号・フラグ表 _s.n.d.k_ を出力するとき、
 ==== CSVの構造
 テンプレート本体は次のフィールドを持つ:
 
+[cols="1,3",option="header"]
 |===
 |列名 |名称・用法 
 |Title_en |表の標題(全行同一)
@@ -236,6 +240,7 @@ Statusは表示に反映しない<<Status,(後述)>>。
 ==== 表注釈CSVの構造
 `GRIB2/notes/Template_table.csv` は次の構造を持つ:
 
+[cols="1,3",option="header"]
 |===
 |列名 |名称・用法 
 |templateNo | テンプレート番号（__s.t__形式）
@@ -271,6 +276,7 @@ GRIBテンプレート _s.t_ を出力するとき、
 
 符号・フラグ表本体は次の列を持つ:
 
+[cols="1,3",option="header"]
 |===
 |列名 |名称・用法 
 |FXY | 表参照符(要素を識別するキー、 _FXY_ 形式)
@@ -316,6 +322,7 @@ EntryName_sub1_en及びEntryName_sub2_en列はさまざまな使い方がされ�
 ==== 表注釈CSVの構造
 `BUFR4/notes/BUFRCREX_CodeFlag_table.csv` は次の列を持つ:
 
+[cols="1,3",option="header"]
 |===
 |列名 |名称・用法 
 |tableNo |表番号( _F XX YYY_ 形式)
@@ -360,6 +367,7 @@ BUFR/CREX符号・フラグ表のうち、記述子 _F XX YYY_ の表を出力�
 
 BUFR表A本体およびCREX表A本体は次の列を持つ:
 
+[cols="1,3",option="header"]
 |===
 |列名 |名称・用法 
 |CodeFigure | 数字符号(0-255)
@@ -389,6 +397,7 @@ CREX表A/Bにはクラス14,15,32を欠くので2つの表は別になってい�
 BUFR/CREX表BのCSVは長すぎるのでクラス番号 _XX_ によって分割されている。
 各CSVは次の列を持つ:
 
+[cols="1,3",option="header"]
 |===
 |列名 |名称・用法 
 |ClassNo | クラス番号 _XX_
@@ -426,6 +435,7 @@ FXY, ElementName_en
 
 `BUFR4/notes/BUFRCREX_TableB_table.csv` は次の列を持つ:
 
+[cols="1,3",option="header"]
 |===
 |列名 |名称・用法 
 |tableNo |表番号(クラス番号 _XX_ )
@@ -459,6 +469,7 @@ CREX表Cの注釈文情報は用意されていない。
 
 BUFR表C `BUFR4/BUFR_TableC_en.csv` は次の列を持つ:
 
+[cols="1,3",option="header"]
 |===
 |列名 |名称・用法 
 |FXY | 表参照符(_FXY_ 形式)
@@ -476,6 +487,7 @@ Statusは表示に反映しない<<Status,(後述)>>。
 
 CREX表C `BUFR4/CREX_TableC_en.csv` は次の列を持つ:
 
+[cols="1,3",option="header"]
 |===
 |列名 |名称・用法 
 |FXY | 表参照符(_FXY_ 形式)
@@ -493,6 +505,7 @@ CREXの注釈データがないので、それを参照する注釈番号もな�
 
 `BUFR4/notes/BUFR_TableC_notes.csv` は次の列を持つ:
 
+[cols="1,3",option="header"]
 |===
 |列名 |名称・用法 
 |noteID |注釈番号(表本体から参照するキー)
@@ -507,6 +520,7 @@ CREXの注釈データがないので、それを参照する注釈番号もな�
 
 `BUFR4/notes/BUFR_TableC_table.csv` は次の列を持つ:
 
+[cols="1,3",option="header"]
 |===
 |列名 |名称・用法 
 |tableName |表の標題(全行同一)
@@ -537,6 +551,7 @@ CREX表Dの注釈文情報は、表Cと同様に、用意されていない。
 
 `BUFR4/BUFR_TableD_en`{usc}__XX__``.csv`` は次の列を持つ:
 
+[cols="1,3",option="header"]
 |===
 |列名 |名称・用法 
 |Category | カテゴリ番号 _XX_
@@ -561,6 +576,7 @@ ElementDescription_en
 
 `BUFR4/CREX_TableD_en`{usc}__XX__``.csv`` は次の列を持つ:
 
+[cols="1,3",option="header"]
 |===
 |列名 |名称・用法 
 |Category | カテゴリ番号 _XX_
@@ -583,6 +599,7 @@ CREXの注釈データがないので、それを参照する注釈番号もな�
 ==== 注釈CSVの構造
 `BUFR4/notes/BUFR_TableD_notes.csv`  は次の列を持つ:
 
+[cols="1,3",option="header"]
 |===
 |列名 |名称・用法 
 |noteID |注釈番号(表本体から参照するキー)
@@ -597,6 +614,7 @@ CREXの注釈データがないので、それを参照する注釈番号もな�
 
 `BUFR4/notes/BUFR_TableD_table.csv`  は次の列を持つ:
 
+[cols="1,3",option="header"]
 |===
 |列名 |名称・用法 
 |tableNo |表番号(クラス番号 _XX_ )
@@ -622,10 +640,12 @@ BUFR表Dのうち、クラス _XX_ の表を出力するとき、
 ここで表番号 _cc_ = 00,01,...,08,11,...,14 である。
 共通符号表は _cc_ により列構造が異なる。
 
+[[CCTcov]]
 ==== 共通符号表一覧の構造
 
 `CCT/COV.csv` は次の列を持つ:
 
+[cols="1,3",option="header"]
 |===
 |列名 |名称・用法 
 |CommonCodeTable |共通符号表番号。なぜか __c__``.00`` の形式 (各表同一)
@@ -640,11 +660,55 @@ WMOの通報式文書では共通符号表のセクションの冒頭に
 Applicable_en を列挙した一覧が置かれている。
 日本の「国際気象通報式 別冊」にはこの部分がない。
 
+ある共通符号表が複数の符号体系を定義することがあるので、
+本表をあるCommonCodeTableの値で検索すると複数の行が見つかることがある。
+
+[.landscape]
+<<<
+
+[[CCTcsv]]
 ==== CSVの構造
 
 ``CCT/C``__cc__``.csv`` は次の列を持つ:
 
+[cols="1,3,6,5,1,1",option="header"]
+|===
+|_cc_ |限定 |符号 |意味 |注釈関係 |Status 
+|00 |{mdash} |GRIB version number, BUFR version number, CREX version number |Effective date |{mdash} |Status
+|01 |{mdash} |CodeFigureForF1F2, CodeFigureForF3F3F3, Octet5GRIB1_Octet6BUFR3 |OriginatingGeneratingCentres_en |{mdash} |Status
+|02 |DateOfAssignment_en |CodeFigureForrara, CodeFigureForBUFR |RadiosondeSoundingSystemUsed_en |&#x2014; |Status
+|03 |{mdash} |CodeFigureForIXIIXIX, CodeFigureForBUFR |InstrumentMakeAndType_en, EquationCoefficients_a, EquationCoefficients_b |{mdash} |Status
+|04 |{mdash} |CodeFigureForXRXR, CodeFigureForBUFR |Meaning_en |{mdash} |Status
+|05 |{mdash} |CodeFigureForI6I6I6,CodeFigureForBUFR,CodeFigureForGRIB2 |SatelliteName_en |{mdash} |Status
+|06 |{mdash} |CodeFigure |UnitType, Meaning, conventional, IA5-ASCII,
+ITA2,SIDefinition |Note, NoteID |Status
+|07 |{mdash} |CodeFigureForsasa, CodeFigureForBUFR |TrackingTechniquesStatusOfSystemUsed_en |{mdash} |Status
+|08 |{mdash} |Code |Agency_en, Type_en, InstrumentShortName_en, InstrumentLongName_en |{mdash} |Status
+|11 |{mdash} |CREX2, GRIB2_BUFR4 |OriginatingGeneratingCentre_en |{mdash} |Status
+|12 |CodeFigure_OriginatingCentres, Name_OriginatingCentres_en |CodeFigure_SubCentres |Name_SubCentres_en |{mdash} |Status
+|13 |CodeFigure_DataCategories, Name_DataCategories_en |CodeFigure_InternationalDataSubcategories |Name_InternationalDataSubcategories_en |{mdash} |Status
+|14 |{mdash} |CodeFigure |Meaning_en, ChemicalFormula |{mdash} |Status
+|===
 
+共通符号表はいずれも符号に意味を与えるものである。
+ひとつの表が<<CCTcov>>で示されるように
+通報式により異なる符号を定義する場合は符号の列が複数になる。
+
+符号の前に限定がつくことがある。
+CCT-C02 は符号位置が枯渇しているため、再割当てを区別するために
+割当日付を入れている。
+CCT-C12 及び CCT-C13 はそれぞれ発信中枢ごと及びデータカテゴリごとに
+符号の意味が異なるため区別のために用いられる。
+
+CCT-C06 にだけ注釈がつけられる。
+
+表示としては、限定、符号、意味の各列を列挙すれば一応の形になる。
+Status 列は CCT-C14 で Extended という値があり、
+これを有する行は表示から除外すべきである。
+
+
+[.portrait]
+<<<
 
 //HEAD
 ==== 注釈CSVの構造
