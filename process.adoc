@@ -739,6 +739,7 @@ Status 列は CCT-C14 で Extension という値があり、
 ==== 表注釈CSVの構造
 `CCT/notes/CCT_table.csv` は次の列を持つ:
 
+[cols="1,3",option="header"]
 |===
 |列名 |名称・用法 
 |tableNo |共通符号表番号 _cc_
@@ -787,17 +788,42 @@ WMO Github から複数の版の TDCF 表を取得して差分ドキュメント
 処理の大きな流れは次のようになる。
 
 . 新旧データセットそれぞれについて:
-.. CSVファイルを探索して、不定個の表の数を把握する
+.. CSVファイルを探索して、表の個数を把握する
 .. すべての表について
 ... WMOの誤記のパッチをあてる
 ... 日本語訳のパッチをあてる
 ... 日本ローカル定義エントリを追加する
 . 表の順序にしたがって
-.. 表の加除があれば、加除と述べてから表全体のレンダリングをする
+.. 表の加除があれば、加除と述べてから表全体の表示
+   (差分でない通報式文書を生成するのと同じレンダリング) をする
 .. 表の変更があれば、差分を表示する
+
+=== 表の個数と順序
+
+表の順序は次のとおり。基本的には通報式文書に合わせる。
+
+[cols="3,1,1,1,1",option="header"]
+|===
+|役割 |論理表 |注釈単位 |表示表 |ソート
+|GRIBテンプレート |1個CSV |1個CSV |1個CSV |_s.t_
+|GRIB符号表(除4.1,4.2) |1個CSV |1個CSV |1個CSV |_s.n.d.k_
+|GRIB符号表4.1 |1個CSV |_d_ 毎分割 |_d_ 毎分割 |_d_
+|GRIB符号表4.2 |_d.k_ 結合 |1個CSV |1個CSV |_d.k_
+|BUFR表A |1個CSV |{mdash} |1個CSV |{mdash}
+|BUFR/CREX表B |_XX_ 結合 |1個CSV |1個CSV |_XX_
+|BUFR表C |1個CSV |{mdash} |1個CSV |{mdash}
+|BUFR表D |_XX,FXY_ 結合 |1個CSV |_FXY_ 毎分割 |_XX,FXY_
+|BUFR/CREX符号・フラグ表 |_XX_ 結合 |1個CSV |_FXY_ 毎分割 |_XX,FXY_
+|CREX表A |1個CSV |{mdash} |1個CSV |{mdash}
+|CREX表C |1個CSV |{mdash} |1個CSV |{mdash}
+|CREX表D |_XX,FXY_ 結合 |1個CSV |_FXY_ 毎分割 |_XX,FXY_
+|共通符号表(除C06) |1個CSV |1個CSV |1個CSV |_cc_
+|共通符号表C06 |1個CSV |1個CSV |UnitType 毎分割 |_cc_
+|===
+
 
 
 [[parsingNotes]]
-=== 注釈の扱い
+=== 注釈の解析
 
 TBD
