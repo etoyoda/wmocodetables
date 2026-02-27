@@ -5,16 +5,16 @@
 :toc:
 :usc: _
 
-== 予備知識
+== はじめに
 
-=== TDCF表のあらまし
+=== TDCF表について
 
 WMO通報式のうち、FM92 GRIB、FM94 BUFR、FM95 CREXは
 表参照通報式(table-driven code forms)と総称されている。
 これらの通報式の大部分はTDCF表と呼ばれる表となっていて、
-運用に影響しない改正（表への追記や非本質的な訂正など）が
+運用に影響しない改正（表への追記や非本質的な訂正）が
 迅速に行えるよう、
-ファストトラック改正手続きが認められている。
+会議によらないファストトラック改正手続きが認められている。
 TDCF表はGitHubで公開されている。
 
 FM92 GRIB通報式第2版(通称GRIB2)によるGRIB報は、
@@ -50,6 +50,11 @@ BUFR/CREX表Dで定義される。
 これらはBUFR/CREXの符号・フラグ表で定義される。
 
 BUFR/CREXにおいては表A-D及び符号・フラグ表がTDCF表である。
+
+なお、CREX通報式はBUFRへの移行進展に伴い2024年に改正が凍結された
+(Rec.8 INFCOM-3, Res. 17 EC-78)。
+このためWMOが提供するCSVデータもCREXの改正に備えた注釈データを
+欠いている。
 
 これらの他に、複数のWMO通報式で共通に参照する表が
 共通符号表(common code table)として定義されている。
@@ -267,7 +272,7 @@ GRIBテンプレート _s.t_ を出力するとき、
 
 |===
 |列名 |名称・用法 
-|FXY | 表参照符(要素を識別するキー)
+|FXY | 表参照符(要素を識別するキー、 _FXY_ 形式)
 |ElementName_en | 要素名
 |CodeFigure | 「数字符号」またはフラグ表の場合は「ビット」
 |EntryName_en | 値の意味
@@ -387,7 +392,7 @@ BUFR/CREX表BのCSVは長すぎるのでクラス番号 _XX_ によって分割�
 |列名 |名称・用法 
 |ClassNo | クラス番号 _XX_
 |ClassName_en | クラス名称
-|FXY | 表参照符 _FXY_
+|FXY | 表参照符(_FXY_ 形式)
 |ElementName_en | 要素名
 |BUFR_Unit | BUFRの単位
 |BUFR_Scale | BUFRの尺度
@@ -433,19 +438,59 @@ BUFR/CREX表Bのうち、クラス _XX_ の表を出力するとき、
 各行に付された注釈に加えて、本表をスキャンしてすべての注釈を列挙して、
 注記表示番号順に表示する。
 
-//HEAD
 === BUFR/CREX表C
+
+表Cは操作記述子operatorsを定義する。
 
 * `BUFR4/BUFR_TableC_en.csv` - BUFR表C本体
 * `BUFR4/CREX_TableC_en.csv` - CREX表C本体
 * `BUFR4/notes/BUFR_TableC_notes.csv` - 注釈番号から注釈文を与える
 * `BUFR4/notes/BUFR_TableC_table.csv` - 表のエントリではなく表全体にかかる注を記載
 
-CREX表Cの注釈文情報は欠けている。それどころかCREX表Cに注釈番号列noteIDsが欠けている。
+CREX表Cの注釈文情報は用意されていない。
+もはやCREX通報式の改正に備える必要はないため、注釈番号をデータで持つまでもなく、固定の注釈リストを印字してしまえばよいという発想である。
 
 ==== CSVの構造
+
+BUFR表C `BUFR4/BUFR_TableC_en.csv` は次の列を持つ:
+
+|===
+|列名 |名称・用法 
+|FXY | 表参照符(_FXY_ 形式)
+|OperatorName_en |操作記述子の名称
+|OperationDefinition_en |操作記述子の定義
+|Note_en |注記表示(非空白の場合、前列に続けて表示)
+|noteIDs |注釈番号(コンマ区切り数字列,BUFR_TableC_notes.csvを参照)
+|Status |状態
+|===
+
+Statusは表示に反映しない<<Status,(後述)>>。
+通報式文書では FXY, OperatorName_en, および OperationDefinition_en
+(<<parsingNotes,後述>>のように解析・リンク化したNote_enを連結)
+が表示される。
+
+CREX表C `BUFR4/CREX_TableC_en.csv` は次の列を持つ:
+
+|===
+|列名 |名称・用法 
+|FXY | 表参照符(_FXY_ 形式)
+|OperatorName_en |操作記述子の名称
+|OperationDefinition_en |操作記述子の定義
+|Note_en |注記表示(非空白の場合、前列に続けて表示)
+|Status |状態
+|===
+
+CREXの注釈データがないので、それを参照する注釈番号もない。
+
 ==== 注釈CSVの構造
+
+* `BUFR4/notes/BUFR_TableC_notes.csv` - 注釈番号から注釈文を与える
+
+
+//HEAD
 ==== 表注釈CSVの構造
+
+* `BUFR4/notes/BUFR_TableC_table.csv` - 表のエントリではなく表全体にかかる注を記載
 
 === BUFR/CREX表D
 
@@ -499,7 +544,7 @@ CREX表Dの注釈文情報は欠けている。それどころかCREX表Dに注�
 処理としては、 Deprecated のある行に注記を付加し、
 Extension のある行を削除するのが妥当と推定。
 
-TODO: Deprecatedの用例について通報式文書を確認し、注記付加処理でよいか確認
+*TODO*: Deprecatedの用例について通報式文書を確認し、注記付加処理でよいか確認
 
 [[parsingNotes]]
 === 注釈の扱い
