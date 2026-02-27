@@ -806,22 +806,24 @@ WMO Github から複数の版の TDCF 表を取得して差分ドキュメント
 |===
 |役割 |論理表 |注釈単位 |表示表 |ソート
 |GRIBテンプレート |1個CSV |1個CSV |1個CSV |_s.t_
-|GRIB符号表(除4.1,4.2) |1個CSV |1個CSV |1個CSV |_s.n.d.k_
-|GRIB符号表4.1 |1個CSV |_d_ 毎分割 |_d_ 毎分割 |_d_
-|GRIB符号表4.2 |_d.k_ 結合 |1個CSV |1個CSV |_d.k_
+|GRIB符号表 |1個CSV |1個CSV |1個CSV |_s.n.d.k_
+|うち GRIB符号表4.1 |1個CSV |_d_ 毎分割 |_d_ 毎分割 |_s.n.d.k_
+|うち GRIB符号表4.2 |_d.k_ 結合 |1個CSV |1個CSV |_s.n.d.k_
 |BUFR表A |1個CSV |{mdash} |1個CSV |{mdash}
 |BUFR/CREX表B |_XX_ 結合 |1個CSV |1個CSV |_XX_
 |BUFR表C |1個CSV |{mdash} |1個CSV |{mdash}
-|BUFR表D |_XX,FXY_ 結合 |1個CSV |_FXY_ 毎分割 |_XX,FXY_
-|BUFR/CREX符号・フラグ表 |_XX_ 結合 |1個CSV |_FXY_ 毎分割 |_XX,FXY_
+|BUFR表D |_XX,FXY_ 結合 |1個CSV |_FXY_ 毎分割 |_XX_
+|BUFR/CREX符号・フラグ表 |_XX_ 結合 |1個CSV |_FXY_ 毎分割 |_XX_
 |CREX表A |1個CSV |{mdash} |1個CSV |{mdash}
 |CREX表C |1個CSV |{mdash} |1個CSV |{mdash}
-|CREX表D |_XX,FXY_ 結合 |1個CSV |_FXY_ 毎分割 |_XX,FXY_
-|共通符号表(除C06) |1個CSV |1個CSV |1個CSV |_cc_
-|共通符号表C06 |1個CSV |1個CSV |UnitType 毎分割 |_cc_
+|CREX表D |_XX,FXY_ 結合 |1個CSV |_FXY_ 毎分割 |_XX_
+|共通符号表 |1個CSV |1個CSV |1個CSV |_cc_
+|うち 共通符号表C06 |1個CSV |1個CSV |UnitType 毎分割 |_cc_
 |===
 
-
+符号表4.2冒頭には注があって、TDCF CSVファイルでは提供されていないので、
+これは差分ではない通報式文書全体を作成する場合は
+符号表4.2の冒頭を見つけて挿入しなければならない。
 
 [[parsingNotes]]
 === 注釈の解析
