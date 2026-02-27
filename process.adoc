@@ -439,6 +439,7 @@ BUFR/CREX表Bのうち、クラス _XX_ の表を出力するとき、
 各行に付された注釈に加えて、本表をスキャンしてすべての注釈を列挙して、
 注記表示番号順に表示する。
 
+[[BCC]]
 === BUFR/CREX表C
 
 表Cは操作記述子operatorsを定義する。
@@ -453,6 +454,7 @@ CREX表Cの注釈文情報は用意されていない。
 注釈をリンクで丁寧に表現するまでもなく、
 固定の注釈リストを印字してしまえばよいという発想である。
 
+[[BCCcsv]]
 ==== CSVの構造
 
 BUFR表C `BUFR4/BUFR_TableC_en.csv` は次の列を持つ:
@@ -486,6 +488,7 @@ CREX表C `BUFR4/CREX_TableC_en.csv` は次の列を持つ:
 CREXの注釈データがないので、それを参照する注釈番号もない。
 本表ではNote_enの解析を抑止する必要がある。
 
+[[BCCNN]]
 ==== 注釈CSVの構造
 
 `BUFR4/notes/BUFR_TableC_notes.csv` は次の列を持つ:
@@ -499,6 +502,7 @@ CREXの注釈データがないので、それを参照する注釈番号もな�
 
 注釈番号から注釈文字列を探す使い方では <<GCFNN,GRIB2符号表の注釈CSV>>と同様に扱うことができる。
 
+[[BCCNT]]
 ==== 表注釈CSVの構造
 
 `BUFR4/notes/BUFR_TableC_table.csv` は次の列を持つ:
@@ -514,6 +518,7 @@ BUFR/CREX表Cを出力するとき、
 各行に付された注釈に加えて、本表をスキャンしてすべての注釈を列挙して、
 注記表示番号順に表示する。
 
+[[BCD]]
 === BUFR/CREX表D
 
 BUFR/CREX表Dは、複数の記述子を表現する集約記述子を定義する。
@@ -527,6 +532,7 @@ BUFR/CREX表Dは、複数の記述子を表現する集約記述子を定義す�
 
 CREX表Dの注釈文情報は、表Cと同様に、用意されていない。
 
+[[BCDcsv]]
 ==== CSVの構造
 
 `BUFR4/BUFR_TableD_en`{usc}__XX__``.csv`` は次の列を持つ:
@@ -573,14 +579,39 @@ BUFRとの相違として、
 CREXの注釈データがないので、それを参照する注釈番号もない。
 本表ではNote_enの解析を抑止する必要がある。
 
+[[BCDNN]]
 ==== 注釈CSVの構造
 `BUFR4/notes/BUFR_TableD_notes.csv`  は次の列を持つ:
 
-//HEAD
+|===
+|列名 |名称・用法 
+|noteID |注釈番号(表本体から参照するキー)
+|note |注釈文字列
+|tableAssociation | 表全体にかかる注釈の場合クラス番号 _XX_ が書かれる
+|===
+
+注釈番号から注釈文字列を探す使い方では <<GCFNN,GRIB2符号表の注釈CSV>>と同様に扱うことができる。
+
+[[BCDNT]]
 ==== 表注釈CSVの構造
 
 `BUFR4/notes/BUFR_TableD_table.csv`  は次の列を持つ:
 
+|===
+|列名 |名称・用法 
+|tableNo |表番号(クラス番号 _XX_ )
+|tableName |表の標題
+|noteID |注釈番号(BUFR_TableD_notes.csvを参照)
+|notation |注記表示
+|===
+
+扱いは<<BCBNT,表Bの表注釈CSV>>と同様。
+本表では同一のtableNoの行が複数あることに注意。
+BUFR表Dのうち、クラス _XX_ の表を出力するとき、
+各行に付された注釈に加えて、本表をスキャンしてすべての注釈を列挙して、
+注記表示番号順に表示する。
+
+[[CCT]]
 === 共通符号表
 
 * `CCT/COV.csv` - 共通符号表一覧
