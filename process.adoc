@@ -1,6 +1,7 @@
 = WMO GithubのTDCF表の処理
 :scripts: cjk
 :author: TOYODA Eizi
+:date: 2026-02-27
 :sectnums:
 :toc:
 :usc: _
@@ -503,7 +504,7 @@ CREX表C `BUFR4/CREX_TableC_en.csv` は次の列を持つ:
 |===
 
 CREXの注釈データがないので、それを参照する注釈番号もない。
-本表ではNote_enの解析を抑止する必要がある。
+本表ではNote_enのリンク化(<<parsingNotes>>)はできない。
 
 [[BCCNN]]
 ==== 注釈CSVの構造
@@ -609,7 +610,7 @@ BUFR表Dは関係データベースの関係(relation)と異なり、
 
 BUFRとの相違として、
 CREXの注釈データがないので、それを参照する注釈番号もない。
-本表ではNote_enの解析を抑止する必要がある。
+本表ではNote_enのリンク化(<<parsingNotes>>))はできない。
 
 [[BCDNN]]
 ==== 注釈CSVの構造
@@ -828,4 +829,23 @@ WMO Github から複数の版の TDCF 表を取得して差分ドキュメント
 [[parsingNotes]]
 === 注釈の解析
 
-TBD
+現時点での暫定レンダラは Notes 列を次のように処理する。
+
+. 空配列 `ret=[]` を作成してリンク付きテキストを保持する。
+  `ret` の要素は2要素の配列であり、
+  表示テキストとリンク先シンボルからなる。
+  リンクではないテキストはリンク先シンボルをnilとする。
+. 冒頭に次のいずれかがあれば削って `ret` に積む
+  * `/^\(flags - see /`
+  * `/^ ?\([Ss]ee \t*/` {mdash} `(see△` に正規化
+  * `/^\((?=[CN])/` {mdash} `(see△`  に正規化
+. テキストが非空で残っている限り、先頭に次のいずれかがあれば削って処理
+  * `/^ and (?!\d)/`  {mdash} `△and△`
+  * `/^Code table (\d)\.(\d+|PTN)/` 
+  * `/^Flag table (\d)\.(\d+)/`
+  * `/^Common Code table  ?C[-\u{2013}](\d+)(?: in Part C\/c\.)?/`
+  * `/^[Nn]otes? (\d+(?:, \d+)*(?: and \d+)?)/`
+  * `/^Note(?=\)| and)/`
+  * `/^\) ?/`
+  * 上記いずれでもない先頭文字があれば例外、プログラム異常終了
+. `ret` 配列を返す
