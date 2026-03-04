@@ -64,6 +64,7 @@ BUFR/CREXにおいては表A-D及び符号・フラグ表がTDCF表である。
 共通符号表(common code table)として定義されている。
 共通符号表はC00からC14までの番号__cc__で識別される（09及び10は現状欠番）。
 
+[[SAIBUN]]
 ==== 表の細分
 
 通報式の規則で番号がついて識別される表を、以下本文書では**論理表**（logical table）と呼ぶことにする。
@@ -151,7 +152,28 @@ WMO GitHubのCSVデータは一次細分単位で編成されている。
 
 ==== パッチのデータ構造
 
-TBD
+パッチデータは現状では次のような形式である。
+
+* csvName に一致するファイル名について、
+* keyField 列が値 keyValue を持つ行であって、
+* targetField 列が値 ifMatch を持つ場合に限り、
+* それを値 replace に置換する
+
+```
+csvName,keyField,keyValue,targetField,ifMatch,replace
+GRIB2_Template_3_0_GridDefinitionTemplate_en.csv,OctetNo,51-54,noteIDs,,9
+GRIB2_Template_3_150_GridDefinitionTemplate_en.csv,OctetNo,32-35,noteIDs,197a,166
+Template_table.csv,templateNo,7.1,noteID,135,134
+C06.csv,CodeFigure,060,conventional,˚C,°Ｃ
+```
+
+現状では WMO による誤記または asciidoctor-pdf とフリーのフォントでうまく扱えない文字の置換が挙げられているが、
+原理的には同様にすればほとんどの日本語訳テキストを埋め込むことが可能である。
+
+ただし、この形式は、特定の列により特定の行が一位に特定できることを前提としている。
+<<SAIBUN>>で「順序型、一意キーなし」とされたBUFR/CREX Table Dについては指定条件で複数の同一行が引っかかる可能性はある。
+しかしTable Dについては日本語訳があるとすれば ElementDescription_en 列に限られ、
+同じ英語版テキストが複数現れるとして、日本語版テキストも同じだろうので、実用的には問題ないと考えられる。
 
 [[parsingNotes]]
 ==== Notes の解析
