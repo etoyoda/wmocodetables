@@ -927,10 +927,10 @@ Status 列は CCT-C14 で Extension という値があり、
 
 多くの表にStatus列がある。その意味は次のとおり
 
-* Operational - 現用の通報式
-* Deprecated - 現用の通報式だが、廃止予定と宣言
-* Experimental - 通報式には掲載するが、バリデーションが未了との注記を付す
-* Extension - CCT C-14 で使われる。現用通報式には掲載されていない行。
+* Operational {mdash} 現用の通報式
+* Deprecated {mdash} 現用の通報式だが、廃止予定と宣言
+* Experimental {mdash} 通報式には掲載するが、バリデーションが未了との注記を付す
+* Extension {mdash} CCT C-14 で使われる。現用通報式には掲載されていない行。
 
 なお、次の品質的問題がある。
 
@@ -945,6 +945,11 @@ Status 列は CCT-C14 で Extension という値があり、
 Extension のある行を削除するのが妥当と推定。
 
 *TODO*: Deprecatedの用例について通報式文書を確認し、注記付加処理でよいか確認
+
+日本ローカル定義のデータを収めたファイルでは次の2種類を追加する
+
+* Del {mdash} 国際共通表から削除する行
+* Add {mdash} 国際共通表に追加する行
 
 [[SYMBOLS]]
 == 本文書で用いた記号
