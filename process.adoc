@@ -224,16 +224,16 @@ JMA局所定義(例):
   表示テキストとリンク先シンボルからなる。
   リンクではないテキストはリンク先シンボルをnilとする。
 . 冒頭に次のいずれかがあれば削って `ret` に積む
-  * `/^\(flags - see{kuhaku}/`
-  * `/^ ?\([Ss]ee \t*/` {mdash} `(see{kuhaku}` に正規化
+  * `/^\(flags{kuhaku}-{kuhaku}see{kuhaku}/`
+  * `/^{kuhaku}?\([Ss]ee{kuhaku}\t*/` {mdash} `(see{kuhaku}` に正規化
   * `/^\((?=[CN])/` {mdash} `(see{kuhaku}`  に正規化
 . テキストが非空で残っている限り、先頭に次のいずれかがあれば削って処理
-  * `/^ and (?!\d)/`  {mdash} `{kuhaku}and{kuhaku}`
-  * `/^Code table (\d)\.(\d+|PTN)/` 
-  * `/^Flag table (\d)\.(\d+)/`
-  * `/^Common Code table{kuhaku}{kuhaku}?C[-\u{2013}](\d+)(?: in Part C\/c\.)?/`
-  * `/^[Nn]otes? (\d+(?:, \d+)*(?: and \d+)?)/`
-  * `/^Note(?=\)| and)/`
+  * `/^{kuhaku}and{kuhaku}(?!\d)/`  {mdash} `{kuhaku}and{kuhaku}`
+  * `/^Code{kuhaku}table{kuhaku}(\d)\.(\d+|PTN)/` 
+  * `/^Flag{kuhaku}table{kuhaku}(\d)\.(\d+)/`
+  * `/^Common{kuhaku}Code{kuhaku}table{kuhaku}{kuhaku}?C[-\u{2013}](\d+)(?:{kuhaku}in{kuhaku}Part{kuhaku}C\/c\.)?/`
+  * `/^[Nn]otes?{kuhaku}(\d+(?:,{kuhaku}\d+)*(?:{kuhaku}and{kuhaku}\d+)?)/`
+  * `/^Note(?=\)|{kuhaku}and)/`
   * `/^\){kuhaku}?/`
   * 上記いずれでもない先頭文字があれば例外、プログラム異常終了
 . `ret` 配列を返す
