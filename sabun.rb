@@ -4,7 +4,7 @@ class TDCSabun
 
   class Revision
 
-    # CSV ファイル名から一次細分略号と言語を分類して2要素配列で返す
+    # CSV ファイル名から略号と言語を分類して2要素配列で返す
     def fbunrui fnam
       ft=lang=nil
       case File.basename(fnam)
