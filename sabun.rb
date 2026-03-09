@@ -2,6 +2,14 @@
 
 class TDCSabun
 
+  class ItiziSaibun
+
+    def initialize
+      
+    end
+
+  end
+
   class Revision
 
     # CSV ファイル名から略号と言語を分類して2要素配列で返す
@@ -10,16 +18,16 @@ class TDCSabun
       case File.basename(fnam)
       when /^GRIB2_CodeFlag_(\d)_(\d+)_(Code|Flag)Table_(en|ja)\.csv$/ then
         s,n,cf,lang=$1,$2,$3,$4
-        ft=format('G-C%01u-%05u-%c',s.to_i,n.to_i,cf[0])
+        ft=format('G-C-%01u-%05u-%c',s.to_i,n.to_i,cf[0])
       when /^GRIB2_CodeFlag_4_2_(\d+)_(\d+)_CodeTable_(en|ja)\.csv$/ then
         d,k,lang=$1,$2,$3
-        ft=format('G-C4-00002-%03u-%05u-C',d.to_i,k.to_i)
+        ft=format('G-C-4-00002-%03u-%05u-C',d.to_i,k.to_i)
       when /^CodeFlag_(notes|table)(ja)?\.csv$/
         ft='GN-C-'+$1[0].upcase
         lang=$2||'en' 
       when /^GRIB2_Template_(\d)_(\d+)_[A-Za-z]+Template_(en|ja)\.csv$/ then
         s,t,lang=$1,$2,$3
-        ft=format('G-T%01u-%05u', s, t)
+        ft=format('G-T-%01u-%05u', s, t)
       when /^Template_(notes|table)(ja)?\.csv$/
         ft='GN-T-'+$1[0].upcase
         lang=$2||'en' 
