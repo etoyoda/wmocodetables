@@ -1,5 +1,7 @@
 #!/usr/bin/ruby
 
+require 'csv'
+
 class TDCSabun
 
   class ItiziSaibun
@@ -7,10 +9,22 @@ class TDCSabun
     def initialize ftyp
       @ftyp=ftyp
       @fnams=Hash.new
+      @table=[]
+      @headers=nil
     end
 
     def file_add fnam,lang
       @fnams[lang]=fnam
+    end
+
+    def build lang
+      raise unless @fnams['en']
+      c=CSV.read(@fnams['en'],headers:true)
+      c.each{|row| @table.push(row) }
+      @headers=c.headers
+      if @fnams.include?('ja') then
+        raise @fnams['ja']
+      end
     end
 
   end
@@ -34,7 +48,7 @@ class TDCSabun
         s,t,lang=$1,$2,$3
         ftyp=format('GT-%01u-%05u', s, t)
       when /^Template_(notes|table)(ja)?\.csv$/
-        ftyp='G-T-N'+$1[0].upcase
+        ftyp='GT-N'+$1[0].upcase
         lang=$2||'en' 
       end
       [ftyp, lang]
@@ -61,6 +75,10 @@ class TDCSabun
       @cat[ftyp].file_add(fnam,lang)
     end
 
+    def build lang
+      @cat.each{|ftyp,is| is.build(lang) }
+    end
+
   end
 
   def initialize argv
@@ -85,9 +103,13 @@ class TDCSabun
     @cfg[:d2]=gbc.map{|d| d+sfx}
   end
 
+  def lang
+    @cfg[:lang]
+  end
+
   def build
-    @db1=Revision.new(@cfg[:d1])
-    @db2=Revision.new(@cfg[:d2])
+    @db1=Revision.new(@cfg[:d1]).build(lang)
+    @db2=Revision.new(@cfg[:d2]).build(lang)
     return self
   end
 
