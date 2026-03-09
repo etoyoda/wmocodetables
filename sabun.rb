@@ -4,8 +4,13 @@ class TDCSabun
 
   class ItiziSaibun
 
-    def initialize
-      
+    def initialize ftyp
+      @ftyp=ftyp
+      @fnams=Hash.new
+    end
+
+    def file_add fnam,lang
+      @fnams[lang]=fnam
     end
 
   end
@@ -14,36 +19,46 @@ class TDCSabun
 
     # CSV ファイル名から略号と言語を分類して2要素配列で返す
     def fbunrui fnam
-      ft=lang=nil
+      ftyp=lang=nil
       case File.basename(fnam)
       when /^GRIB2_CodeFlag_(\d)_(\d+)_(Code|Flag)Table_(en|ja)\.csv$/ then
         s,n,cf,lang=$1,$2,$3,$4
-        ft=format('GC-%01u-%05u-%c',s.to_i,n.to_i,cf[0])
+        ftyp=format('GC-%01u-%05u-%c',s.to_i,n.to_i,cf[0])
       when /^GRIB2_CodeFlag_4_2_(\d+)_(\d+)_CodeTable_(en|ja)\.csv$/ then
         d,k,lang=$1,$2,$3
-        ft=format('GC-4-00002-%03u-%05u-C',d.to_i,k.to_i)
+        ftyp=format('GC-4-00002-%03u-%05u-C',d.to_i,k.to_i)
       when /^CodeFlag_(notes|table)(ja)?\.csv$/
-        ft='GC-N'+$1[0].upcase
+        ftyp='GC-N'+$1[0].upcase
         lang=$2||'en' 
       when /^GRIB2_Template_(\d)_(\d+)_[A-Za-z]+Template_(en|ja)\.csv$/ then
         s,t,lang=$1,$2,$3
-        ft=format('GT-%01u-%05u', s, t)
+        ftyp=format('GT-%01u-%05u', s, t)
       when /^Template_(notes|table)(ja)?\.csv$/
-        ft='G-T-N'+$1[0].upcase
+        ftyp='G-T-N'+$1[0].upcase
         lang=$2||'en' 
       end
-      [ft, lang]
+      [ftyp, lang]
     end
 
     def initialize dirs
-      @db=Hash.new
+      @cat=Hash.new
+      scan_dirs(dirs)
+    end
+
+    def scan_dirs(dirs)
       dirs.each{|dir|
         pat=File.join(dir, '{*.csv,notes/*.csv}')
         Dir.glob(pat).each{|fnam|
-          ft,lang=fbunrui(fnam)
-          p(lang,ft) if ft
+          ftyp,lang=fbunrui(fnam)
+          next unless ftyp
+          cat_add(fnam,ftyp,lang)
         }
       }
+    end
+
+    def cat_add fnam,ftyp,lang
+      @cat[ftyp]=ItiziSaibun.new(ftyp) unless @cat.include?(ftyp)
+      @cat[ftyp].file_add(fnam,lang)
     end
 
   end
