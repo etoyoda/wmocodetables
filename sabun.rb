@@ -20,7 +20,6 @@ class TDCSabun
     def find_rbuf rbuf
       @table.size.times{|ofs|
         if @table[ofs,rbuf.size]==rbuf then
-          warn "find_rbuf #{rbuf.size} #{ofs}"
           return Range.new(ofs,ofs+rbuf.size-1)
         end
       }
@@ -29,7 +28,6 @@ class TDCSabun
 
     def replace_lbuf selected, lbuf
       selected=Range.new(@table.size,nil) if selected.nil?
-      warn "replace_lbuf #{selected} #{lbuf.size}"
       @table[selected]=lbuf
     end
 
@@ -42,17 +40,14 @@ class TDCSabun
         stwd=row['Status']
         myrow=row.dup
         myrow.delete('Status')
-        warn "line #{stwd}"
         if state==:init and stwd=='Replace' then
           rbuf.push myrow
-          warn "rp-i #{rbuf.size}"
           state=:r
         elsif state==:init and stwd=='Local' then
           lbuf.push myrow
           state=:l
         elsif state==:r and stwd=='Replace' then
           rbuf.push myrow
-          warn "rp-r #{rbuf.size}"
         elsif state==:r and stwd=='Local' then
           selected=find_rbuf(rbuf)
           lbuf.push myrow
@@ -62,7 +57,6 @@ class TDCSabun
           lbuf=[]
           rbuf=[myrow]
           state=:r
-          warn "rp-l #{rbuf.size}"
         elsif state==:l and stwd=='Local' then
           lbuf.push myrow
         else
@@ -90,7 +84,6 @@ class TDCSabun
         csvja=CSV.read(@fnams['ja'],headers:true)
         patch(csvja)
         csvja=nil
-        File.open('z.txt','w'){|f| @table.each{|r| f.puts(r.to_csv)}}
       end
     end
 
