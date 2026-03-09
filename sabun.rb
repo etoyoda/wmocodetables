@@ -6,8 +6,9 @@ class TDCSabun
 
   class ItiziSaibun
 
-    def initialize ftyp
+    def initialize ftyp,fix
       @ftyp=ftyp
+      @fix=fix
       @fnams=Hash.new
       @table=[]
       @headers=nil
@@ -70,11 +71,24 @@ class TDCSabun
       end
     end
 
+    def do_fix basename, row
+      @fix.each{|f|
+        next unless basename==f['csvName']
+        next unless row[f['keyField']]==f['keyValue']
+        next unless row[f['targetField']]==f['ifMatch']
+        warn "do_fix #{row[f['targetField']]}=#{f['replace']}"
+        f['targetField']=f['replace']
+      }
+    end
+
     def build lang
-      raise unless @fnams['en']
-      csv=CSV.read(@fnams['en'],headers:true)
+      enfnam=@fnams['en']
+      raise unless enfnam
+      csv=CSV.read(enfnam,headers:true)
+      enbn=File.basename(enfnam)
       csv.each{|row|
         next if 'Extension'==row['Status']
+        do_fix(enbn,row)
         row.delete('Status')
         @table.push(row)
       }
@@ -114,8 +128,9 @@ class TDCSabun
       [ftyp, lang]
     end
 
-    def initialize dirs
+    def initialize dirs,fix
       @cat=Hash.new
+      @fix=fix
       scan_dirs(dirs)
     end
 
@@ -131,7 +146,7 @@ class TDCSabun
     end
 
     def cat_add fnam,ftyp,lang
-      @cat[ftyp]=ItiziSaibun.new(ftyp) unless @cat.include?(ftyp)
+      @cat[ftyp]=ItiziSaibun.new(ftyp,@fix) unless @cat.include?(ftyp)
       @cat[ftyp].file_add(fnam,lang)
     end
 
@@ -143,7 +158,7 @@ class TDCSabun
 
   def initialize argv
     @db1=@db2=nil
-    @cfg={:lang=>'ja', :suffix=>nil, :d1=>[], :d2=>[]}
+    @cfg={:lang=>'ja', :suffix=>nil, :d1=>[], :d2=>[] }
     argv.each{|arg|
       case arg
       when /^-lang[=:](ja|en)$/ then @cfg[:lang]=$1
@@ -168,8 +183,9 @@ class TDCSabun
   end
 
   def build
-    @db1=Revision.new(@cfg[:d1]).build(lang)
-    @db2=Revision.new(@cfg[:d2]).build(lang)
+    fix=CSV.read('fixwmo.csv',headers:true)
+    @db1=Revision.new(@cfg[:d1],fix).build(lang)
+    @db2=Revision.new(@cfg[:d2],fix).build(lang)
     return self
   end
 
