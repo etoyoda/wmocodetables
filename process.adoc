@@ -171,25 +171,30 @@ WMO外で追加した訂正パッチや日本語訳が混ざっている。
 
 CSVファイルを読み込んで得たオブジェクトは次の記号で管理する。
 
-// 試作品csv-compile.rb とは幾分異なる
+// 試作品csv-compile.rb とは異なる
 [cols="3,3",option="header"]
 |===
 |論理表の種類 |一次細分表記号
-|GRIBテンプレート |``G-T-``__s-ttttt__
-|GRIBテンプレートの注 |``G-T-NN`` / ``G-T-NT``
-|GRIB符号表 |``G-C-``__s-nnnnn__``-C``
-|うち GRIB符号表4.2 |``G-C-4-00002-``__dd-kkkkk__
-|GRIBフラグ表 |``G-C-``__s-nnnnn__``-F``
-|GRIB符号・フラグ表の注 |``G-C-NN`` / ``G-C-NT``
-|BUFR表A |``B-A``
-|BUFR/CREX表B |``B-B-``__XX__
-|BUFR表C |``B-C``
-|BUFR表D |``B-D-``__XX__
-|BUFR/CREX符号・フラグ表 |``B-F-``__XX__
-|CREX表A |``C-A``
-|CREX表C |``C-C``
-|CREX表D |``C-D-``__XX__
-|共通符号表 |``CCT-C-``__cc__
+|GRIBテンプレート |``GT-``__s-ttttt__
+|GRIBテンプレートの注 |``GT-NN`` / ``GT-NT``
+|GRIB符号・フラグ表 |``GC-``__s-nnnnn__``-C``
+|うち GRIB符号表4.2 |``GC-4-00002-``__dd-kkkkk__
+|うち GRIBフラグ表 |``GC-``__s-nnnnn__``-F``
+|GRIB符号・フラグ表の注 |``GC-NN`` / ``GC-NT``
+|BUFR表A |``BA``
+|BUFR/CREX表B |``BB-``__XX__
+|BUFR/CREX表Bの注 |``BB-NN`` / ``BB-NT``
+|BUFR表C |``BC``
+|BUFR表Cの注 |``BC-NN`` / ``BC-NT``
+|BUFR表D |``BD-``__XX__
+|BUFR表Dの注 |``BD-NN`` / ``BD-NT``
+|BUFR/CREX符号・フラグ表 |``BF-``__XX__
+|BUFR/CREX符号・フラグ表の注 |``BF-NN`` / ``BF-NT``
+|CREX表A |``CA``
+|CREX表C |``CC``
+|CREX表D |``CD-``__XX__
+|共通符号表 |``CCT-``__cc__
+|共通符号表の注 |``CCT-NN`` / ``CCT-NT``
 |===
 
 GRIB, BUFR, CREX, 共通符号表のそれぞれに、
