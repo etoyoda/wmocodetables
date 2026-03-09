@@ -17,13 +17,80 @@ class TDCSabun
       @fnams[lang]=fnam
     end
 
+    def find_rbuf rbuf
+      @table.size.times{|ofs|
+        if @table[ofs,rbuf.size]==rbuf then
+          warn "find_rbuf #{rbuf.size} #{ofs}"
+          return Range.new(ofs,ofs+rbuf.size-1)
+        end
+      }
+      return nil
+    end
+
+    def replace_lbuf selected, lbuf
+      selected=Range.new(@table.size,nil) if selected.nil?
+      warn "replace_lbuf #{selected} #{lbuf.size}"
+      @table[selected]=lbuf
+    end
+
+    def patch csvja
+      state=:init
+      rbuf=[]
+      lbuf=[]
+      selected=nil
+      csvja.each{|row|
+        stwd=row['Status']
+        myrow=row.dup
+        myrow.delete('Status')
+        warn "line #{stwd}"
+        if state==:init and stwd=='Replace' then
+          rbuf.push myrow
+          warn "rp-i #{rbuf.size}"
+          state=:r
+        elsif state==:init and stwd=='Local' then
+          lbuf.push myrow
+          state=:l
+        elsif state==:r and stwd=='Replace' then
+          rbuf.push myrow
+          warn "rp-r #{rbuf.size}"
+        elsif state==:r and stwd=='Local' then
+          selected=find_rbuf(rbuf)
+          lbuf.push myrow
+          state=:l
+        elsif state==:l and stwd=='Replace' then
+          replace_lbuf(selected,lbuf)
+          lbuf=[]
+          rbuf=[myrow]
+          state=:r
+          warn "rp-l #{rbuf.size}"
+        elsif state==:l and stwd=='Local' then
+          lbuf.push myrow
+        else
+          raise "unsupported Status #{stwd}"
+        end
+      }
+      if state==:l then
+        replace_lbuf(selected,lbuf)
+      elsif state==:r then
+        warn "Replace without Local"
+      end
+    end
+
     def build lang
       raise unless @fnams['en']
-      c=CSV.read(@fnams['en'],headers:true)
-      c.each{|row| @table.push(row) }
-      @headers=c.headers
+      csv=CSV.read(@fnams['en'],headers:true)
+      csv.each{|row|
+        next if 'Extension'==row['Status']
+        row.delete('Status')
+        @table.push(row)
+      }
+      @headers=csv.headers
+      csv=nil
       if @fnams.include?('ja') then
-        raise @fnams['ja']
+        csvja=CSV.read(@fnams['ja'],headers:true)
+        patch(csvja)
+        csvja=nil
+        File.open('z.txt','w'){|f| @table.each{|r| f.puts(r.to_csv)}}
       end
     end
 
