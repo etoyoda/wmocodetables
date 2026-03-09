@@ -51,6 +51,7 @@ class TDCSabun
           rbuf.push myrow
         elsif state==:r and stwd=='Local' then
           selected=find_rbuf(rbuf)
+          raise "text not found" if selected.nil?
           lbuf.push myrow
           state=:l
         elsif state==:l and stwd=='Replace' then
