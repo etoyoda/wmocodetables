@@ -7,7 +7,7 @@ Dir.glob('{GRIB2,BUFR4,CCT}/*.csv').each{|cfnam|
   tab.each{|row|
     status=row['Status'].inspect
     next if '"Operational"'==status
-    puts row.to_h.inspect unless '"Deprecated"'==status
+    puts row.to_h.inspect
     db[status]=Hash.new unless db[status]
     db[status][cfnam]=true
   }
