@@ -112,12 +112,12 @@ class TDCSabun
       case File.basename(fnam)
       when /^GRIB2_CodeFlag_(\d)_(\d+)_(Code|Flag)Table_(en|ja)\.csv$/ then
         s,n,cf,lang=$1,$2,$3,$4
-        ftyp=format('GC-%01u-%05u-%c',s.to_i,n.to_i,cf[0])
+        ftyp=format('Gc-%01u-%05u-%c',s.to_i,n.to_i,cf[0])
       when /^GRIB2_CodeFlag_4_2_(\d+)_(\d+)_CodeTable_(en|ja)\.csv$/ then
         d,k,lang=$1,$2,$3
-        ftyp=format('GC-4-00002-%03u-%05u-C',d.to_i,k.to_i)
+        ftyp=format('Gc-4-00002-%03u-%05u-C',d.to_i,k.to_i)
       when /^CodeFlag_(notes|table)(ja)?\.csv$/
-        ftyp='GC-N'+$1[0].upcase
+        ftyp='Gc-N'+$1[0].upcase
         lang=$2||'en' 
       when /^GRIB2_Template_(\d)_(\d+)_[A-Za-z]+Template_(en|ja)\.csv$/ then
         s,t,lang=$1,$2,$3
@@ -127,41 +127,41 @@ class TDCSabun
         lang=$2||'en' 
       when /^BUFRCREX_TableB_(en|ja)_(\d+)\.csv$/
         lang,klass=$1,$2
-        ftyp=format('BB-%02u', klass.to_i)
+        ftyp=format('bB-%02u', klass.to_i)
       when /^(BUFR|CREX)_Table(A|C)_(en|ja)\.csv$/
         cfm,tn,lang=$1,$2,$3
-        ftyp=format('B%c', cfm[0])
+        ftyp=format('%c%c', cfm[0].downcase, tn)
       when /^(BUFR|CREX)_TableD_(en|ja)_(\d+)\.csv$/
         cfm,lang,klass=$1,$2,$3
-        ftyp=format('B%c-%02u', cfm[0], klass.to_i)
+        ftyp=format('%cD-%02u', cfm[0].downcase, klass.to_i)
       when /^BUFRCREX_CodeFlag_(en|ja)_(\d+)\.csv$/
         lang,klass=$1,$2
-        ftyp=format('BF-%02u', klass.to_i)
+        ftyp=format('bF-%02u', klass.to_i)
       when /^BUFRCREX_TableB_(notes|table)(ja)?\.csv$/
         ttyp=$1
         lang=$2||'en'
-        ftyp=format('BB-N%c', ttyp[0])
-      when /^BUFR_Table(C|D)_(notes|table)(ja)?\.csv$/
-        tn,ttyp=$1,$2
-        lang=$3||'en'
-        ftyp=format('B%c-N%c', tn, ttyp[0])
+        ftyp=format('bB-N%c', ttyp[0].upcase)
+      when /^(BUFR|CREX)_Table(C|D)_(notes|table)(ja)?\.csv$/
+        cfm,tn,ttyp=$1,$2,$3
+        lang=$4||'en'
+        ftyp=format('%c%c-N%c', cfm[0].downcase, tn, ttyp[0].upcase)
       when /^BUFRCREX_CodeFlag_(notes|table)(ja)?\.csv$/
         ttyp=$1
         lang=$2||'en'
-        ftyp=format('BF-N%c', ttyp[0])
+        ftyp=format('bF-N%c', ttyp[0].upcase)
       when /^COV(ja)?\.csv$/
         lang=$1||'en'
-        ftyp='COV'
+        ftyp='cclist'
       when /^C(\d\d)(ja)?\.csv$/
         klass=$1
         lang=$2||'en'
-        ftyp=format('CCT-%02u', klass.to_i)
+        ftyp=format('cct-%02u', klass.to_i)
       when /^CCT_(notes|table)(ja)?\.csv$/
         ttyp=$1
         lang=$2||'en'
-        ftyp=format('CCT-N%c', ttyp[0])
+        ftyp=format('cct-N%c', ttyp[0].upcase)
       when /^acronyms\.csv$/
-        lang,ftyp='en','A'
+        lang,ftyp='en','za'
       else
         warn "unknown CSV file #{fnam}"
       end
@@ -193,6 +193,11 @@ class TDCSabun
 
     def build lang
       @cat.each{|ftyp,is| is.build(lang) }
+      self
+    end
+
+    def itizi_saibun_list
+      @cat.keys
     end
 
   end
@@ -230,7 +235,15 @@ class TDCSabun
     return self
   end
 
+  def plan_diff
+    i1=@db1.itizi_saibun_list
+    i2=@db2.itizi_saibun_list
+    imerge=(i1+i2).uniq
+    p imerge.sort
+  end
+
   def run
+    plan_diff
   end
 
 end
