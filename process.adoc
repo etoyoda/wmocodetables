@@ -1006,7 +1006,7 @@ Status 列は CCT-C14 で Extension という値があり、
 
 表本体CSV及び表注釈CSVで与えられる注釈番号を本表で解決して注釈文字列を得る。
 
-BUFR表Cの注釈CSVファイル
+BUFR表C及び表Dの注釈CSVファイル
 `BUFR4/notes/BUFR_TableC_notes.csv`
 および
 `BUFR4/notes/BUFR_TableD_notes.csv`
@@ -1019,6 +1019,8 @@ BUFR表Cの注釈CSVファイル
 |note |注釈文字列
 |tableAssociation | 表全体にかかる注釈の場合 `table` が書かれる
 |===
+
+注釈番号から注釈文字列を得る目的では tableAssociation 列は使わない。
 
 [[Status]]
 === (各表に共通) Status列
