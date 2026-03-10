@@ -78,7 +78,7 @@ class TDCSabun
         next unless row[f['keyField']]==f['keyValue']
         next unless row[f['targetField']]==f['ifMatch']
         warn "do_fix #{row[f['targetField']]}=#{f['replace']}"
-        f['targetField']=f['replace']
+        row[f['targetField']]=f['replace']
       }
     end
 
@@ -107,7 +107,7 @@ class TDCSabun
   class Revision
 
     # CSV ファイル名から略号と言語を分類して2要素配列で返す
-    def fbunrui fnam
+    def bunrui_csvname fnam
       ftyp=lang=nil
       case File.basename(fnam)
       when /^GRIB2_CodeFlag_(\d)_(\d+)_(Code|Flag)Table_(en|ja)\.csv$/ then
@@ -125,6 +125,45 @@ class TDCSabun
       when /^Template_(notes|table)(ja)?\.csv$/
         ftyp='GT-N'+$1[0].upcase
         lang=$2||'en' 
+      when /^BUFRCREX_TableB_(en|ja)_(\d+)\.csv$/
+        lang,klass=$1,$2
+        ftyp=format('BB-%02u', klass.to_i)
+      when /^(BUFR|CREX)_Table(A|C)_(en|ja)\.csv$/
+        cfm,tn,lang=$1,$2,$3
+        ftyp=format('B%c', cfm[0])
+      when /^(BUFR|CREX)_TableD_(en|ja)_(\d+)\.csv$/
+        cfm,lang,klass=$1,$2,$3
+        ftyp=format('B%c-%02u', cfm[0], klass.to_i)
+      when /^BUFRCREX_CodeFlag_(en|ja)_(\d+)\.csv$/
+        lang,klass=$1,$2
+        ftyp=format('BF-%02u', klass.to_i)
+      when /^BUFRCREX_TableB_(notes|table)(ja)?\.csv$/
+        ttyp=$1
+        lang=$2||'en'
+        ftyp=format('BB-N%c', ttyp[0])
+      when /^BUFR_Table(C|D)_(notes|table)(ja)?\.csv$/
+        tn,ttyp=$1,$2
+        lang=$3||'en'
+        ftyp=format('B%c-N%c', tn, ttyp[0])
+      when /^BUFRCREX_CodeFlag_(notes|table)(ja)?\.csv$/
+        ttyp=$1
+        lang=$2||'en'
+        ftyp=format('BF-N%c', ttyp[0])
+      when /^COV(ja)?\.csv$/
+        lang=$1||'en'
+        ftyp='COV'
+      when /^C(\d\d)(ja)?\.csv$/
+        klass=$1
+        lang=$2||'en'
+        ftyp=format('CCT-%02u', klass.to_i)
+      when /^CCT_(notes|table)(ja)?\.csv$/
+        ttyp=$1
+        lang=$2||'en'
+        ftyp=format('CCT-N%c', ttyp[0])
+      when /^acronyms\.csv$/
+        lang,ftyp='en','A'
+      else
+        warn "unknown CSV file #{fnam}"
       end
       [ftyp, lang]
     end
@@ -132,6 +171,7 @@ class TDCSabun
     def initialize dirs,fix
       @cat=Hash.new
       @fix=fix
+      warn "= Revision.new(#{dirs.inspect})"
       scan_dirs(dirs)
     end
 
@@ -139,7 +179,7 @@ class TDCSabun
       dirs.each{|dir|
         pat=File.join(dir, '{*.csv,notes/*.csv}')
         Dir.glob(pat).each{|fnam|
-          ftyp,lang=fbunrui(fnam)
+          ftyp,lang=bunrui_csvname(fnam)
           next unless ftyp
           cat_add(fnam,ftyp,lang)
         }
