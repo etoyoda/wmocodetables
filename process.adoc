@@ -1044,12 +1044,11 @@ Deprecated および Experimental な行については別途注記 (<<parsingNo
 
 日本ローカル定義のデータを収めたファイルでは次の2種類を認識する:
 
-* Replace {mdash} 国際共通表から削除する行
-* Local {mdash} 国際共通表に追加する行
+* Replace {mdash} 英語版から削除する行
+* Local {mdash} 英語版に追加する行
 
 Replace 指定がある行を探索し、それを削除し、
 その位置に、続く Local 指定がある行を挿入する。
-Status=Replace であり、他の列が空の行は、表示表の末尾への追加を意味する。
 
 [[SYMBOLS]]
 == 本文書で用いた記号
