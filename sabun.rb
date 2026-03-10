@@ -235,15 +235,17 @@ class TDCSabun
     return self
   end
 
-  def plan_diff
-    i1=@db1.itizi_saibun_list
-    i2=@db2.itizi_saibun_list
-    imerge=(i1+i2).uniq
-    p imerge.sort
+  def compare is, ii1, ii2
+    printf("%-25s %s %s\n", is, ii1, ii2)
   end
 
   def run
-    plan_diff
+    is1=@db1.itizi_saibun_list
+    is2=@db2.itizi_saibun_list
+    ismerge=(is1+is2).uniq.sort
+    ismerge.each{|is|
+      compare is, is1.include?(is), is2.include?(is)
+    }
   end
 
 end
