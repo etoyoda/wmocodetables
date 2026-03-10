@@ -953,9 +953,8 @@ ITA2,SIDefinition |Note, NoteID |Status
 |14 |*CodeFigure*, Meaning_en, ChemicalFormula |{mdash} |Status
 |===
 
-共通符号表はいずれも符号に意味を与えるものである。
-ひとつの表が<<CCTcov>>で示されるように
-通報式により異なる符号を定義する場合は符号の列が複数になる。
+表中の**boldface**は<<CCTcov,共通符号表一覧>>で列挙された符号で、
+共通符号表の役割はこれら符号の定義を後続列で与えることである。
 
 一部の表では符号の前に限定がつく。
 CCT-C02 は符号位置が枯渇しているため、再割当てを区別するために
@@ -969,7 +968,6 @@ CCT-C06 にだけ注釈がつけられる。
 Status 列は CCT-C14 で Extension という値があり、
 これを有する行は表示から除外すべきである
 <<Status,(後述)>>。
-
 
 [[CCTNT]]
 ==== 表注釈CSVの構造
