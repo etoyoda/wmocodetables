@@ -2,10 +2,14 @@
 
 require 'csv'
 
+# WMOが提供するTDCF CSV表の差分を asciidoc 文書に成形出力するプログラム
 class TDCSabun
 
+  # 一次細分表を表現するクラス。
+  # 通報式の表番号が複数CSVで分割されていることがあり、その数だけ構築される。
   class ItiziSaibun
 
+    # 構築：略号 ftyp と訂正パッチ fix を与える
     def initialize ftyp,fix
       @ftyp=ftyp
       @fix=fix
@@ -14,10 +18,14 @@ class TDCSabun
       @headers=nil
     end
 
+    # CSVファイルを読み込み対象に登録する。言語 lang 別に複数ファイルを登録できる。
     def file_add fnam,lang
       @fnams[lang]=fnam
     end
 
+# build() から呼ばれるサブルーチン
+
+    # 置換対象行群 rbuf を探す
     def find_rbuf rbuf
       @table.size.times{|ofs|
         if @table[ofs,rbuf.size]==rbuf then
@@ -27,11 +35,14 @@ class TDCSabun
       return nil
     end
 
+    # 置換を実施する
     def replace_lbuf selected, lbuf
       selected=Range.new(@table.size,nil) if selected.nil?
       @table[selected]=lbuf
     end
 
+    # 読み込み済みの英語版データに言語パッチファイル（CSV::Table)を適用する
+    # 状態遷移機械は process.adoc に記載
     def patch csvja
       state=:init
       rbuf=[]
@@ -82,6 +93,7 @@ class TDCSabun
       }
     end
 
+    # 言語 lang を指定してファイルを読み込み表データを構築する。
     def build lang
       enfnam=@fnams['en']
       raise unless enfnam
@@ -95,8 +107,11 @@ class TDCSabun
       }
       @headers=csv.headers
       csv=nil
-      if @fnams.include?('ja') then
-        csvja=CSV.read(@fnams['ja'],headers:true)
+    # lang='en' の場合は英語版を読み込み訂正パッチをあてるだけ。
+      return if lang=='en'
+    # 他言語の場合は言語パッチファイルがあれば読み込み適用する。
+      if @fnams.include?(lang) then
+        csvja=CSV.read(@fnams[lang],headers:true)
         patch(csvja)
         csvja=nil
       end
