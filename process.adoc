@@ -1027,7 +1027,7 @@ BUFR表C及び表Dの注釈CSVファイル
 
 * Operational {mdash} 現用の通報式
 * Deprecated {mdash} 現用の通報式だが、廃止予定と宣言
-* Experimental {mdash} 通報式には掲載するが、バリデーションが未了との注記を付す
+* Experimental {mdash} 通報式には掲載するが、バリデーションが未了
 * Extension {mdash} CCT C-14 で使われる。現用通報式には掲載されていない行。
 
 なお、次の品質的問題がある。
@@ -1039,10 +1039,8 @@ BUFR表C及び表Dの注釈CSVファイル
 * Operational は様々な typo がある（Oprational, Operatonal,
   Operationaal など、また前後にスペース付加も)
 
-処理としては、 Deprecated のある行に注記を付加し、
-Extension のある行を削除するのが妥当と推定。
-
-*TODO*: Deprecatedの用例について通報式文書を確認し、注記付加処理でよいか確認
+処理としては、単に Extension のある行を削除するだけでよい。
+Deprecated および Experimental な行については別途注記 (<<parsingNotes>>) でその旨が示されている。
 
 日本ローカル定義のデータを収めたファイルでは次の2種類を認識する:
 
