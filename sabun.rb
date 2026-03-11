@@ -269,6 +269,7 @@ HELP
     return self
   end
 
+  # TENTATIVE
   def compare is, ii1, ii2
     printf("%-25s %s %s\n", is, ii1, ii2)
   end
