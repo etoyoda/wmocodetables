@@ -5,7 +5,7 @@ require 'csv'
 class CSVCompileAdoc
 
   def initialize argv
-    @adfnam='tdcf-tables.adoc'
+    @adfnam='tdcf-bak.adoc'
     @adf=nil
     @projs=[]
     @lang='ja'
