@@ -9,10 +9,10 @@ class TDCSabun
   # 通報式の表番号が複数CSVで分割されていることがあり、その数だけ構築される。
   class ItiziSaibun
 
+    # ItiziSaibun.new
     # 構築：略号 ftyp と訂正パッチ fix を与える
-    def initialize ftyp,fix
-      @ftyp=ftyp
-      @fix=fix
+    def initialize ftyp,fix,res
+      @ftyp,@fix,@res=ftyp,fix,res
       @fnams=Hash.new
       @table=[]
       @headers=nil
@@ -23,8 +23,8 @@ class TDCSabun
       @fnams[lang]=fnam
     end
 
-# build() から呼ばれるサブルーチン
-
+    #--- Itizisaibun#build() から呼ばれるサブルーチン
+    
     # 置換対象行群 rbuf を探す
     def find_rbuf rbuf
       @table.size.times{|ofs|
@@ -117,9 +117,18 @@ class TDCSabun
       end
     end
 
+    def sectitle
+      @res.each{|row|
+        re=Regexp.new(row['Keyword'])
+        txt=row['Text']
+        return format(txt,$1.to_i,$2.to_i) if re===@ftyp
+      }
+      return @ftyp
+    end
+
     def csvconv lev
       levmark='='*lev
-      puts "#{levmark} #{@ftyp}"
+      puts "#{levmark} #{sectitle}"
     end
 
   end
@@ -188,9 +197,11 @@ class TDCSabun
       [ftyp, lang]
     end
 
-    def initialize dirs,fix
+    # Revision.new
+    def initialize dirs,fix,res
       @cat=Hash.new
       @fix=fix
+      @res=res
       warn "= Revision.new(#{dirs.inspect})"
       scan_dirs(dirs)
     end
@@ -207,7 +218,7 @@ class TDCSabun
     end
 
     def cat_add fnam,ftyp,lang
-      @cat[ftyp]=ItiziSaibun.new(ftyp,@fix) unless @cat.include?(ftyp)
+      @cat[ftyp]=ItiziSaibun.new(ftyp,@fix,@res) unless @cat.include?(ftyp)
       @cat[ftyp].file_add(fnam,lang)
     end
 
@@ -260,6 +271,7 @@ class TDCSabun
     end
   end
 
+  # TDCSabun.new
   def initialize argv
     @db1=@db2=nil
     @cfg={:lang=>'ja', :suf1=>nil, :suf2=>nil, :d1=>[], :d2=>[],
@@ -289,6 +301,7 @@ HELP
 
   def build
     fix=CSV.read('fixwmo.csv',headers:true)
+    res=CSV.read('resources.csv',headers:true)
     @db1=Revision.new(@cfg[:d1],fix).build(lang)
     @db2=Revision.new(@cfg[:d2],fix).build(lang) unless single_mode?
     return self
