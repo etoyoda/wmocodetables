@@ -5,14 +5,47 @@ require 'csv'
 # WMOが提供するTDCF CSV表の差分を asciidoc 文書に成形出力するプログラム
 class TDCSabun
 
+  class ResourceData
+
+    def initialize
+      @fix=CSV.read('fixwmo.csv',headers:true)
+      @res=CSV.read('resources.csv',headers:true)
+      @tnt=nil
+      @tnt=Hash.new
+      @res.each{|row|
+        next unless /^^/===row['Keyword']
+        re=Regexp.new(row['Keyword'])
+        @tnt[re]=row['Text']
+      }
+    end
+
+    def fix_csvrow basename, row
+      @fix.each{|f|
+        next unless basename==f['csvName']
+        next unless row[f['keyField']]==f['keyValue']
+        next unless row[f['targetField']]==f['ifMatch']
+        warn "do_fix #{row[f['targetField']]}=#{f['replace']}"
+        row[f['targetField']]=f['replace']
+      }
+    end
+
+    def sectitle ftyp
+      @tnt.each{|re,txt|
+        return format(txt,$1.to_i,$2.to_i) if re===ftyp
+      }
+      return ftyp
+    end
+
+  end
+
   # 一次細分表を表現するクラス。
   # 通報式の表番号が複数CSVで分割されていることがあり、その数だけ構築される。
   class ItiziSaibun
 
     # ItiziSaibun.new
     # 構築：略号 ftyp と訂正パッチ fix を与える
-    def initialize ftyp,fix,res,tnt
-      @ftyp,@fix,@res,@tnt=ftyp,fix,res,tnt
+    def initialize ftyp,resd
+      @ftyp,@resd=ftyp,resd
       @fnams=Hash.new
       @table=[]
       @headers=nil
@@ -83,25 +116,15 @@ class TDCSabun
       end
     end
 
-    def do_fix basename, row
-      @fix.each{|f|
-        next unless basename==f['csvName']
-        next unless row[f['keyField']]==f['keyValue']
-        next unless row[f['targetField']]==f['ifMatch']
-        warn "do_fix #{row[f['targetField']]}=#{f['replace']}"
-        row[f['targetField']]=f['replace']
-      }
-    end
-
     # 言語 lang を指定してファイルを読み込み表データを構築する。
     def build lang
-      enfnam=@fnams['en']
-      raise unless enfnam
-      csv=CSV.read(enfnam,headers:true)
-      enbn=File.basename(enfnam)
+      fnam_en=@fnams['en']
+      raise "missing en file #{@fnams.inspect}" unless fnam_en
+      csv=CSV.read(fnam_en,headers:true)
+      basename_en=File.basename(fnam_en)
       csv.each{|row|
         next if 'Extension'==row['Status']
-        do_fix(enbn,row)
+        @resd.fix_csvrow(basename_en,row)
         row.delete('Status')
         @table.push(row)
       }
@@ -117,16 +140,10 @@ class TDCSabun
       end
     end
 
-    def sectitle
-      @tnt.each{|re,txt|
-        return format(txt,$1.to_i,$2.to_i) if re===@ftyp
-      }
-      return @ftyp
-    end
-
     def csvconv lev
       levmark='='*lev
-      puts "#{levmark} #{sectitle}"
+      sectl=@resd.sectitle(@ftyp)
+      puts "#{levmark} #{sectl}"
     end
 
   end
@@ -196,19 +213,11 @@ class TDCSabun
     end
 
     # Revision.new
-    def initialize dirs,fix,res
+    def initialize dirs
       @cat=Hash.new
-      @fix,@res,@tnt=fix,res,nil
+      @resd=ResourceData.new
       @lang=nil
       warn "= Revision.new(#{dirs.inspect})"
-      @tnt=Hash.new
-      @res.each{|row|
-        next unless /^^/===row['Keyword']
-        re=Regexp.new(row['Keyword'])
-        @tnt[re]=row['Text']
-      }
-      warn "Rv.n #{@fix.size} #{@res.size} #{@tnt.size}"
-      # @fix,@res,@tnt must have final value at this point
       scan_dirs(dirs)
     end
 
@@ -224,7 +233,7 @@ class TDCSabun
     end
 
     def cat_add fnam,ftyp,lang
-      @cat[ftyp]=ItiziSaibun.new(ftyp,@fix,@res,@tnt) unless @cat.include?(ftyp)
+      @cat[ftyp]=ItiziSaibun.new(ftyp,@resd) unless @cat.include?(ftyp)
       @cat[ftyp].file_add(fnam,lang)
     end
 
@@ -307,10 +316,8 @@ HELP
   end
 
   def build
-    fix=CSV.read('fixwmo.csv',headers:true)
-    res=CSV.read('resources.csv',headers:true)
-    @db1=Revision.new(@cfg[:d1],fix,res).build(lang)
-    @db2=Revision.new(@cfg[:d2],fix,res).build(lang) unless single_mode?
+    @db1=Revision.new(@cfg[:d1]).build(lang)
+    @db2=Revision.new(@cfg[:d2]).build(lang) unless single_mode?
     return self
   end
 
