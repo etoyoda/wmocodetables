@@ -181,7 +181,7 @@ class TDCSabun
     end
 
     def show_rows nid, table
-      puts "[cols=\"#{@headers.size}\",option=\"header\""
+      puts "[cols=\"#{@headers.size}\",option=\"header\"]"
       puts "|==="
       puts '|'+@headers.join(' |')
       table.each{|r|
