@@ -217,26 +217,45 @@ class TDCSabun
 
   end
 
-  def initialize argv
-    @db1=@db2=nil
-    @cfg={:lang=>'ja', :suffix=>nil, :d1=>[], :d2=>[] }
-    argv.each{|arg|
-      case arg
-      when /^-lang[=:](ja|en)$/ then @cfg[:lang]=$1
-      when /^-s/ then @cfg[:suffix]=$'
-      when /^-/ then raise "unknown option #{arg}"
-      else @cfg[:suffix]=arg
+  def parse_arg arg
+    case arg
+    when /^--lang[=:](ja|en)$/ then @cfg[:lang]=$1
+    when /^--/ then throw(:help, "unknown option #{arg}")
+    else
+      arg='' if arg=='HEAD'
+      if @cfg[:suf2] then
+        throw(:help, "more than two revisions")
+      elsif @cfg[:suf1] then
+        @cfg[:suf2] = arg
+      else
+        @cfg[:suf1] = arg
       end
-    }
-    init_dirs
+    end
   end
 
   def init_dirs
     gbc=%w(GRIB2 BUFR4 CCT)
-    @cfg[:d1]=gbc
-    sfx=@cfg[:suffix]
-    raise "ruby #$0 suffix" unless sfx
-    @cfg[:d2]=gbc.map{|d| d+sfx}
+    throw(:help, "suffix undefined") unless @cfg[:suf1]
+    @cfg[:d1]=gbc.map{|d| d+@cfg[:suf1]}
+    @cfg[:d2]=gbc.map{|d| d+@cfg[:suf2]} if @cfg[:suf2]
+  end
+
+  def initialize argv
+    @db1=@db2=nil
+    @cfg={:lang=>'ja', :suf1=>nil, :suf2=>nil, :d1=>[], :d2=>[] }
+    helpmsg=catch(:help) {
+      argv.each{|arg| parse_arg(arg) }
+      init_dirs
+      nil
+    }
+    if helpmsg then
+      puts <<HELP
+Error: #{helpmsg}
+Usage: ruby #$0 [--lang=ja] rev1 [rev2]
+rev: HEAD | suffix of dirname
+HELP
+      exit 16
+    end
   end
 
   def lang
@@ -246,7 +265,7 @@ class TDCSabun
   def build
     fix=CSV.read('fixwmo.csv',headers:true)
     @db1=Revision.new(@cfg[:d1],fix).build(lang)
-    @db2=Revision.new(@cfg[:d2],fix).build(lang)
+    @db2=Revision.new(@cfg[:d2],fix).build(lang) if @cfg[:d2]
     return self
   end
 
