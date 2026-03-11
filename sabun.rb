@@ -215,11 +215,20 @@ class TDCSabun
       @cat.keys
     end
 
+    def select re
+      target=@cat.keys.grep(re).sort
+      target.each{|ftyp|
+        warn ftyp
+      }
+    end
+
   end
 
   def parse_arg arg
     case arg
     when /^--lang[=:](ja|en)$/ then @cfg[:lang]=$1
+    when /^(--out|-o)[=:]/ then @cfg[:out]=$'
+    when /^--(tpl|template)[=:]/ then @cfg[:tpl]=$'
     when /^--/ then throw(:help, "unknown option #{arg}")
     else
       arg='' if arg=='HEAD'
@@ -235,21 +244,28 @@ class TDCSabun
 
   def init_dirs
     gbc=%w(GRIB2 BUFR4 CCT)
-    throw(:help, "suffix undefined") unless @cfg[:suf1]
+    throw(:help, "rev1 undefined") unless @cfg[:suf1]
     @cfg[:d1]=gbc.map{|d| d+@cfg[:suf1]}
     @cfg[:d2]=gbc.map{|d| d+@cfg[:suf2]} if @cfg[:suf2]
+    unless @cfg[:out]
+      @cfg[:out]=if @cfg[:suf2]
+        then 'tdcf-diff.adoc'
+        else 'tdcf-tables.adoc'
+        end
+    end
   end
 
   def initialize argv
     @db1=@db2=nil
-    @cfg={:lang=>'ja', :suf1=>nil, :suf2=>nil, :d1=>[], :d2=>[] }
+    @cfg={:lang=>'ja', :suf1=>nil, :suf2=>nil, :d1=>[], :d2=>[],
+      :out=>nil, :tpl=>'template-ja.txt' }
     helpmsg=catch(:help) {
       argv.each{|arg| parse_arg(arg) }
       init_dirs
       nil
     }
     if helpmsg then
-      puts <<HELP
+      warn <<HELP
 Error: #{helpmsg}
 Usage: ruby #$0 [--lang=ja] rev1 [rev2]
 rev: HEAD | suffix of dirname
@@ -262,10 +278,14 @@ HELP
     @cfg[:lang]
   end
 
+  def single_mode?
+    not @cfg[:suf2]
+  end
+
   def build
     fix=CSV.read('fixwmo.csv',headers:true)
     @db1=Revision.new(@cfg[:d1],fix).build(lang)
-    @db2=Revision.new(@cfg[:d2],fix).build(lang) if @cfg[:d2]
+    @db2=Revision.new(@cfg[:d2],fix).build(lang) unless single_mode?
     return self
   end
 
@@ -274,13 +294,41 @@ HELP
     printf("%-25s %s %s\n", is, ii1, ii2)
   end
 
-  def run
-    is1=@db1.itizi_saibun_list
-    is2=@db2.itizi_saibun_list
-    ismerge=(is1+is2).uniq.sort
-    ismerge.each{|is|
-      compare is, is1.include?(is), is2.include?(is)
+  def open_output
+    warn "output to #{@cfg[:out]}"
+    $stdout=File.open(@cfg[:out],'w:UTF-8')
+  end
+
+  def filter_file ifp
+    ifp.each{|line|
+      case line
+      when /^#c(3|4) \/(\S+)\//
+        lev,re=$1,$2
+        lev=lev.to_i
+        re=Regexp.new(re)
+        @db1.select(re){|is|
+          csvconv(is,lev)
+        }
+      else
+        puts(line)
+      end
     }
+  end
+
+  def run
+    open_output
+    if single_mode? then
+      File.open(@cfg[:tpl],'r:UTF-8'){|ifp|
+        filter_file(ifp)
+      }
+    else
+      is1=@db1.itizi_saibun_list
+      is2=@db2.itizi_saibun_list
+      ismerge=(is1+is2).uniq.sort
+      ismerge.each{|is|
+        compare is, is1.include?(is), is2.include?(is)
+      }
+    end
   end
 
 end
