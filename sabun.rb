@@ -147,7 +147,7 @@ class TDCSabun
     def csvconv lev
       levmark='='*lev
       sectl=@resd.sectitle(@ftyp)
-      puts "#{levmark} #{sectl}"
+      puts "#{levmark} #{sectl}" unless 'cclist'==@ftyp
     end
 
   end
@@ -251,8 +251,8 @@ class TDCSabun
     end
 
     def select re
-      target=@cat.keys.grep(re).sort
-      target.each{|ftyp|
+      target=@cat.keys.grep(re).grep_v(/-N/)
+      target.sort.each{|ftyp|
         yield @cat[ftyp]
       }
     end
