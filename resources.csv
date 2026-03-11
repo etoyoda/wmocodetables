@@ -19,13 +19,17 @@ Note_en,ja,注
 ^GT-5-(\d+),en,Data Representation Template 5.%u
 ^GT-5-(\d+),ja,資料表現テンプレート5.%u
 ^G-T5-(\d+),ja,資料表現テンプレート5.%u
-^G-T7-(\d+),en,Data Template 7.%u
+^GT-7-(\d+),en,Data Template 7.%u
+^GT-7-(\d+),ja,資料テンプレート7.%u
 ^G-T7-(\d+),ja,資料テンプレート7.%u
-^G-CF(\d)-(\d+)-C,en,Code Table %u.%u
+^Gc-(\d)-(\d+)-C,en,Code Table %u.%u
+^Gc-(\d)-(\d+)-C,ja,符号表%u.%u
 ^G-CF(\d)-(\d+)-C,ja,符号表%u.%u
-^G-CF(\d)-(\d+)-F,en,Flag Table %u.%u
+^Gc-(\d)-(\d+)-F,en,Flag Table %u.%u
+^Gc-(\d)-(\d+)-F,ja,フラグ表%u.%u
 ^G-CF(\d)-(\d+)-F,ja,フラグ表%u.%u
-^G-C42-(\d+)-(\d+),en,Code Table 4.2
+^Gc-4-00002-(\d+)-(\d+),en,Code Table 4.2
+^Gc-4-00002-(\d+)-(\d+),ja,符号表4.2
 ^G-C42-(\d+)-(\d+),ja,符号表4.2
 CodeFlag,en,Code/Bit
 CodeFlag,ja,符号/ビット
@@ -35,13 +39,15 @@ MeaningParameterDescription_en,en,Meaning
 MeaningParameterDescription_en,ja,意味
 UnitComments_en,en,Units
 UnitComments_en,ja,単位
-^B-A,en,BUFR Table A
+^bA,en,BUFR Table A
+^bA,ja,BUFR表A
 ^B-A,ja,BUFR表A
 CodeFigure,en,Code Figure
 CodeFigure,ja,数字符号
 Meaning_en,en,Meaning
 Meaning_en,ja,意味
-^BC-B(\d+),en,BUFR/CREX Table B - Class %u
+^bB-(\d+),en,BUFR/CREX Table B - Class %u
+^bB-(\d+),ja,BUFR/CREX表B、クラス%u
 ^BC-B(\d+),ja,BUFR/CREX表B、クラス%u
 FXY,en,FXY
 FXY,ja,FXY
@@ -61,13 +67,15 @@ CREX_Scale,en,CREX Scale
 CREX_Scale,ja,CREX 尺度
 CREX_DataWidth_Char,en,CREX Data Width Char
 CREX_DataWidth_Char,ja,CREX 資料幅 文字
-^B-C,en,BUFR Table C
+^bC,en,BUFR Table C
+^bC,ja,BUFR表C
 ^B-C,ja,BUFR表C
 OperatorName_en,en,Operator Name
 OperatorName_en,ja,操作子名
 OperationDefinition_en,en,Operator Definition
 OperationDefinition_en,ja,操作の定義
-^B-D(\d+),en,BUFR Table D - Category %02u
+^bD-(\d+),en,BUFR Table D - Category %02u
+^bD-(\d+),ja,BUFR表D - カテゴリー%02u
 ^B-D(\d+),ja,BUFR表D - カテゴリー%02u
 FXY2,en,FXY
 FXY2,ja,表参照符
@@ -75,15 +83,20 @@ ElementDescription_en,en,Element Description
 ElementDescription_en,ja,要素の記述
 EntryName_en,en,Meaning
 EntryName_en,ja,意味
-^BC-CFT(\d+),en,Code/Flag Tables for Class %02u Elements
+^bF-(\d+),en,Code/Flag Tables for Class %02u Elements
+^bF-(\d+),ja,クラス%02uの要素の符号表及びフラグ表
 ^BC-CFT(\d+),ja,クラス%02uの要素の符号表及びフラグ表
-^C-A,en,CREX Table A
+^cA,en,CREX Table A
+^cA,ja,CREX表A
 ^C-A,ja,CREX表A
-^C-C,en,CREX Table C
+^cC,en,CREX Table C
+^cC,ja,CREX表C
 ^C-C,ja,CREX表C
-^C-D(\d),en,CREX Table D - Category %02u
+^cD-(\d),en,CREX Table D - Category %02u
+^cD-(\d),ja,CREX表D - カテゴリー%02u
 ^C-D(\d),ja,CREX表D - カテゴリー%02u
-^CCT-C(\d+),en,Common Code Table C-%u
+^cct-(\d+),en,Common Code Table C-%u
+^cct-(\d+),ja,共通符号表C-%u
 ^CCT-C(\d+),ja,共通符号表C-%u
 GRIB version number,en,GRIB version number
 GRIB version number,ja,GRIBバージョン番号
