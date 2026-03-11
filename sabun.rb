@@ -53,6 +53,7 @@ class TDCSabun
       @fnams=Hash.new
       @table=[]
       @headers=nil
+      @nizis=nil
     end
 
     # CSVファイルを読み込み対象に登録する。言語 lang 別に複数ファイルを登録できる。
@@ -120,6 +121,40 @@ class TDCSabun
       end
     end
 
+    def nizikey
+      case @ftyp
+      when /^[bc]D-\d/ then 'FXY1'
+      when /^bF-\d/ then 'FXY'
+      when /^cct-06/ then 'UnitType'
+      else nil
+      end
+    end
+
+    def build_nizis
+      nk=nizikey()
+      if nk then
+        @nizis=@table.map{|r| r[nk].sub(/,/,'')}.uniq.sort
+      else
+        @nizis=[nil]
+      end
+    end
+
+    def select_nizi nid
+      nk=nizikey()
+      if nk then
+        @table.select{|r| nid==r[nk].sub(/,/,'')}
+      else
+        @table
+      end
+    end
+
+    def each_nizi
+      raise "build before each_nizi" unless @nizis
+      @nizis.each{|nid|
+        yield(nid,select_nizi(nid))
+      }
+    end
+
     # 言語 lang を指定してファイルを読み込み表データを構築する。
     def build lang
       fnam_en=@fnams['en']
@@ -134,20 +169,35 @@ class TDCSabun
       }
       @headers=csv.headers
       csv=nil
-    # lang='en' の場合は英語版を読み込み訂正パッチをあてるだけ。
-      return if lang=='en'
-    # 他言語の場合は言語パッチファイルがあれば読み込み適用する。
-      if @fnams.include?(lang) then
-        csvja=CSV.read(@fnams[lang],headers:true)
-        patch(csvja)
-        csvja=nil
+      # not en 言語の言語パッチファイルがあれば読み込み適用する。
+      if lang!='en' then
+        if @fnams.include?(lang) then
+          csvja=CSV.read(@fnams[lang],headers:true)
+          patch(csvja)
+          csvja=nil
+        end
       end
+      build_nizis
+    end
+
+    def show_rows nid, table
+      puts "[cols=\"#{@headers.size}\",option=\"header\""
+      puts "|==="
+      puts '|'+@headers.join(' |')
+      table.each{|r|
+        vv=@headers.map{|h| r[h]}
+        puts '|'+vv.join(' |')
+      }
+      puts "|==="
     end
 
     def csvconv lev
       levmark='='*lev
       sectl=@resd.sectitle(@ftyp)
       puts "#{levmark} #{sectl}" unless 'cclist'==@ftyp
+      each_nizi{|nid,table|
+        show_rows(nid,table)
+      }
     end
 
   end
