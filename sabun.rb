@@ -11,12 +11,6 @@ class TDCSabun
       @fix=CSV.read('fixwmo.csv',headers:true)
       @res=CSV.read('resources.csv',headers:true)
       @tnt=nil
-      @tnt=Hash.new
-      @res.each{|row|
-        next unless /^^/===row['Keyword']
-        re=Regexp.new(row['Keyword'])
-        @tnt[re]=row['Text']
-      }
     end
 
     def fix_csvrow basename, row
@@ -26,6 +20,16 @@ class TDCSabun
         next unless row[f['targetField']]==f['ifMatch']
         warn "do_fix #{row[f['targetField']]}=#{f['replace']}"
         row[f['targetField']]=f['replace']
+      }
+    end
+
+    def build lang
+      @tnt=Hash.new
+      @res.each{|row|
+        next unless /^^/===row['Keyword']
+        next unless lang===row['lang']
+        re=Regexp.new(row['Keyword'])
+        @tnt[re]=row['Text']
       }
     end
 
@@ -216,7 +220,6 @@ class TDCSabun
     def initialize dirs
       @cat=Hash.new
       @resd=ResourceData.new
-      @lang=nil
       warn "= Revision.new(#{dirs.inspect})"
       scan_dirs(dirs)
     end
@@ -238,7 +241,7 @@ class TDCSabun
     end
 
     def build lang
-      @lang=lang
+      @resd.build(lang)
       @cat.each{|ftyp,is| is.build(lang) }
       self
     end
