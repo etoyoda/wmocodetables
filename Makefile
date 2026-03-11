@@ -1,6 +1,6 @@
-all: tdcf-tables.html process.html
+all: process.html
 
-pdf: tdcf-tables.pdf process.pdf
+pdf: process.pdf
 
 tdcf-tables.html: tdcf-tables.adoc
 	asciidoctor -a lang=ja tdcf-tables.adoc

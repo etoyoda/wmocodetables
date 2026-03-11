@@ -14,6 +14,5 @@ rc=$?
 echo make pdf status $rc
 if ! egrep -q 'make: Nothing to be done for .pdf' z.makepdf.log
 then
-  scp tdcf-tables.pdf ${dest}
   scp z.makepdf.log ${dest}
 fi
