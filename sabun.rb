@@ -176,7 +176,7 @@ class TDCSabun
         lang=$2||'en'
         ftyp=format('cct-N%c', ttyp[0].upcase)
       when /^acronyms\.csv$/
-        lang,ftyp='en','za'
+        lang,ftyp='en','A'
       else
         warn "unknown CSV file #{fnam}"
       end
