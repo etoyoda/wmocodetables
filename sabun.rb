@@ -117,6 +117,11 @@ class TDCSabun
       end
     end
 
+    def csvconv lev
+      levmark='='*lev
+      puts "#{levmark} #{@ftyp}"
+    end
+
   end
 
   class Revision
@@ -218,7 +223,7 @@ class TDCSabun
     def select re
       target=@cat.keys.grep(re).sort
       target.each{|ftyp|
-        warn ftyp
+        yield @cat[ftyp]
       }
     end
 
@@ -307,7 +312,7 @@ HELP
         lev=lev.to_i
         re=Regexp.new(re)
         @db1.select(re){|is|
-          csvconv(is,lev)
+          is.csvconv(lev)
         }
       else
         puts(line)
