@@ -28,8 +28,8 @@ Note_en,ja,注
 ^Gc-(\d)-(\d+)-F,en,Flag Table %u.%u
 ^Gc-(\d)-(\d+)-F,ja,フラグ表%u.%u
 ^G-CF(\d)-(\d+)-F,ja,フラグ表%u.%u
-^Gc-4-00002-(\d+)-(\d+),en,Code Table 4.2
-^Gc-4-00002-(\d+)-(\d+),ja,符号表4.2
+^Gc-4-00002-(\d+)-(\d+),en,Code Table 4.2 discipline %u category %02u
+^Gc-4-00002-(\d+)-(\d+),ja,符号表4.2 discipline %u カテゴリー%02u
 ^G-C42-(\d+)-(\d+),ja,符号表4.2
 CodeFlag,en,Code/Bit
 CodeFlag,ja,符号/ビット
@@ -46,9 +46,9 @@ CodeFigure,en,Code Figure
 CodeFigure,ja,数字符号
 Meaning_en,en,Meaning
 Meaning_en,ja,意味
-^bB-(\d+),en,BUFR/CREX Table B - Class %u
-^bB-(\d+),ja,BUFR/CREX表B、クラス%u
-^BC-B(\d+),ja,BUFR/CREX表B、クラス%u
+^bB-(\d+),en,BUFR/CREX Table B - Class %02u
+^bB-(\d+),ja,BUFR/CREX表B - クラス%02u
+^BC-B(\d+),ja,BUFR/CREX表B - クラス%02u
 FXY,en,FXY
 FXY,ja,FXY
 ElementName_en,en,Element Name
@@ -74,9 +74,9 @@ OperatorName_en,en,Operator Name
 OperatorName_en,ja,操作子名
 OperationDefinition_en,en,Operator Definition
 OperationDefinition_en,ja,操作の定義
-^bD-(\d+),en,BUFR Table D - Category %02u
-^bD-(\d+),ja,BUFR表D - カテゴリー%02u
-^B-D(\d+),ja,BUFR表D - カテゴリー%02u
+^bD-(\d+),en,BUFR Table D - Class %02u
+^bD-(\d+),ja,BUFR表D - クラス%02u
+^B-D(\d+),ja,BUFR表D - クラス%02u
 FXY2,en,FXY
 FXY2,ja,表参照符
 ElementDescription_en,en,Element Description
@@ -92,9 +92,9 @@ EntryName_en,ja,意味
 ^cC,en,CREX Table C
 ^cC,ja,CREX表C
 ^C-C,ja,CREX表C
-^cD-(\d),en,CREX Table D - Category %02u
-^cD-(\d),ja,CREX表D - カテゴリー%02u
-^C-D(\d),ja,CREX表D - カテゴリー%02u
+^cD-(\d+),en,CREX Table D - Category %02u
+^cD-(\d+),ja,CREX表D - クラス%02u
+^c-D(\d+),ja,CREX表D - クラス%02u
 ^cct-(\d+),en,Common Code Table C-%u
 ^cct-(\d+),ja,共通符号表C-%u
 ^CCT-C(\d+),ja,共通符号表C-%u
