@@ -387,16 +387,51 @@ CSV の読み込みには Ruby CSV ライブラリを使って CSV::Table オブ
 * 表の削除: 次の表__tableName__を削除するとしてヘッダと全ての行を表示
   (Table D の二次細分表の一部の変更は
   二次細分表の削除と追加で表現するため内容を示したい)
-* 行の追加・削除: 旧新の変更点 (直前直後の行を含む) を示す
+* 行の追加・削除: 連続した削除行・追加行のまとまりごとに、表形式で旧表と新表を示す（表レンダラを共用できる）
 * 注釈の追加・削除: 旧新の変更点を示す
 
 ==== 表レンダラの動作
+
+（ざっくり）
 
 * 基本的には入力CSVの列をすべて表示する。
 * 全行同一の列は表見出しにくくりだす。
 * Notes は NoteIDs と組み合わせてリンクテキストに変換し、
   各表で主要な列につける (TBD)
 * この他に注釈的な列を連結で処理する
+
+（PoCプログラム csv-compile.rb の記述）
+
+analyze_headers() が headers を分析して、cols 配列と
+modettl, modeid, modeent, modeseq, coltg の5個フラグを作る。
+* headers の各要素について順に:
+** Title_en または SubTitle_en については、modettl=:title フラグを立てるだけで捨てる
+** ClassNo, ClassName_en については、modettl=:class フラグを立てるだけで捨てる
+** Category, CategoryOfSequences_en については modettl=:categ フラグを立てるだけで捨てる
+** Value, UnitComments_en 実際に non-nil 値が入っているときだけ cols に積む
+** Note_en があれば modeid=Note_en フラグを立てる
+** noteIDs, codeTable, flagTable はなにもしない
+** Note があれば modeid=Note フラグを立てる
+** NoteID はなにもしない
+** Status はなにもしない
+** EntryName_sub1_en, EntryName_sub2_en があれば、 modeent=EntryName_en を立てる
+** FXY1 があれば modeseq=FXY1 を立てる
+** UnitType があれば modeseq=UnitType を立てる
+** それ以外の列は cols 配列に積む
+* coltg フラグは ftyp に応じて Note_en の付加対象とすべき列名にする
+* FXY 列があり、ElementName_en 列があり、 BUFR Unit 列がない場合、 modeseq=FXY フラグを立て、 cols の左２列を捨てる
+
+各フラグの意味は
+
+* modettl はセクションタイトルを編集したり副題をつけるべき状況を示す
+* modeid は脚注リンクがあることを示し、値は対象列名
+* modeent は EntryName_(sub1_|sub2_)?en の併合処理があることを示す
+* modeseq は二次細分を分解すべきことを示し、値は着目列名
+
+である。
+
+
+//HEAD
 
 ==== 列名データ
 
