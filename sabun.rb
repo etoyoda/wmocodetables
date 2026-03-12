@@ -239,6 +239,8 @@ class TDCSabun
         when 'EntryName_sub1_en','EntryName_sub2_en' then
           @tt.ent_merge=true
         when nizikey() then # do nothing
+        when 'ElementName_en' then
+          @tt.cols.push(h) unless /^bF/===@ftyp
         else
           @tt.cols.push(h)
         end
