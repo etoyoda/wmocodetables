@@ -10,9 +10,14 @@ class TDCSabun
 
     # ResourceData.new
     def initialize
+      # 訂正パッチ
       @fix=CSV.read('fixwmo.csv',headers:true)
+      # リソース混在ファイル
       @res=CSV.read('resources.csv',headers:true)
+      # 表名変換表
       @tnt=nil
+      # 列名変換表
+      @coln=nil
     end
 
     # CSV::Row 型の row に訂正パッチをあてる
@@ -26,14 +31,27 @@ class TDCSabun
       }
     end
 
+    # 列名の置換、未定義ならCSV上の列名 h そのもの
+    def colname h
+      @coln[h] or h
+    end
+
     # 多言語リソースの言語を選択する
     def build lang
+      # 行頭が ^ のものは表名変換表 @tnt に
       @tnt=Hash.new
       @res.each{|row|
         next unless /^^/===row['Keyword']
         next unless lang===row['lang']
         re=Regexp.new(row['Keyword'])
         @tnt[re]=row['Text']
+      }
+      # 行頭が ^ でないものは列名変換表 @coln に
+      @coln=Hash.new
+      @res.each{|row|
+        next unless /^^/===row['Keyword']
+        next unless lang===row['lang']
+        @coln[row['Keyword']]=row['Text']
       }
     end
 
@@ -210,14 +228,17 @@ class TDCSabun
       @tt.cols=[]
       @headers.each{|h|
         case h
-        when 'Title_en','SubTitle_en' then @tt.title_add=:title
-        when 'ClassNo','ClassName_en' then @tt.title_add=:class
+        when 'Title_en','SubTitle_en' then @tt.title_add='Title_en'
+        when 'ClassNo','ClassName_en' then @tt.title_add='ClassNo'
         when 'Category','CategoryOfSequences_en' then
-          @tt.title_add=:categ
+          @tt.title_add='Category'
         when 'Note_en','Note' then @tt.note=h
+        when 'Value','UnitComments_en' then
+          @tt.cols.push(h) if @table.any?{|r| r[h]}
         when 'noteIDs','codeTable','flagTable' then # do nothing
         when 'EntryName_sub1_en','EntryName_sub2_en' then
           @tt.ent_merge=true
+        when nizikey() then # do nothing
         else
           @tt.cols.push(h)
         end
@@ -226,26 +247,60 @@ class TDCSabun
 
   # build より後に実行すべき処理
 
+    # 節標題の表示
+    def emit_section_header lev, tabsym, sectl, subtl
+      puts "[[#{tabsym}]]"
+      puts "#{'=' * lev} #{sectl}"
+      puts subtl if subtl
+      puts ''
+    end
+
+    def nizi_section_header nid,table,lev
+      ssym=[@ftyp, '_s', nid.gsub(/ /,'')].join
+      stlkey=if 'FXY1'==nizikey() then 'Title_en' else 'ElementName_en' end
+      tfirst=table.first
+      sectl=[tfirst[nizikey()], tfirst[stlkey]].join(' ')
+      emit_section_header(lev,ssym,sectl,nil)
+    end
+
     # 二次細分 nid, table の表本体をを表示する
-    def show_rows nid, table
+    def show_rows nid, table, lev
+      nizi_section_header(nid,table,lev+1) if nid
       cols=@tt.cols
       puts "[cols=\"#{cols.size}\",option=\"header\"]"
       puts "|==="
-      puts '|'+cols.join(' |')
+      cols_d=cols.map{|h| @resd.colname(h)}
+      puts '|'+cols_d.join(' |')
       table.each{|r|
-        vv=cols.map{|h| r[h]}
+        vv=cols.map{|h| r[h].to_s.gsub(/\|/, '\|')}
         puts '|'+vv.join(' |')
       }
       puts "|==="
     end
 
+    def itizi_section_header lev
+      sectl=@resd.sectitle(@ftyp)
+      subtl=nil
+      tfirst=@table.first
+      case @tt.title_add
+      when 'Title_en' then
+        sectl += " - #{tfirst[@tt.title_add]}"
+        subtl = tfirst['SubTitle_en']
+      when 'ClassNo' then
+        sectl += " - Class #{tfirst[@tt.title_add]}"
+        subtl = tfirst['ClassName_en']
+      when 'Category' then
+        sectl += " - Class #{tfirst[@tt.title_add]}"
+        subtl = tfirst['CategoryOfSequences_en']
+      end
+      emit_section_header(lev,@ftyp,sectl,subtl) unless 'cclist'==@ftyp
+    end
+
     # 一次細分を表示する。lev は節見出しレベル
     def csvconv lev
-      levmark='='*lev
-      sectl=@resd.sectitle(@ftyp)
-      puts "#{levmark} #{sectl}" unless 'cclist'==@ftyp
+      itizi_section_header(lev)
       each_nizi{|nid,table|
-        show_rows(nid,table)
+        show_rows(nid,table,lev)
       }
     end
 
