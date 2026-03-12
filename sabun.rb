@@ -237,7 +237,7 @@ class TDCSabun
           @tt.cols.push(h) if @table.any?{|r| r[h]}
         when 'noteIDs','codeTable','flagTable' then # do nothing
         when 'EntryName_sub1_en','EntryName_sub2_en' then
-          @tt.ent_merge=true
+          @tt.ent_merge='EntryName_en'
         when nizikey() then # do nothing
         when 'ElementName_en' then
           @tt.cols.push(h) unless /^bF/===@ftyp
@@ -245,6 +245,17 @@ class TDCSabun
           @tt.cols.push(h)
         end
       }
+      if @tt.note then
+        @tt.note_target=case @ftyp
+          when /^GT/ then 'Contents_en'
+          when /^Gc/ then 'MeaningParameterDescription_en'
+          when /^[bc][BD]/ then 'ElementName_en'
+          when /^bF/ then 'EntryName_en'
+          when /^[bc]C/ then 'OperatorName_en'
+          when /^cct-06/ then 'Meaning'
+          else raise @ftyp
+          end
+      end
     end
 
   # build より後に実行すべき処理
@@ -273,8 +284,24 @@ class TDCSabun
       puts "|==="
       cols_d=cols.map{|h| @resd.colname(h)}
       puts '|'+cols_d.join(' |')
-      table.each{|r|
-        vv=cols.map{|h| r[h].to_s.gsub(/\|/, '\|')}
+      table.each{|row|
+        vv=cols.map{|h|
+          txt=row[h]
+          txt.gsub!(/\|/, '\|') if txt
+          txt="`#{txt}`" if txt and /^(IA5-ASCII|ITA2)$/===h
+          txt.sub!(/$/, ' ') if 'conventional'===h
+          if @tt.ent_merge==h then
+            ['EntryName_sub1_en','EntryName_sub2_en'].each{|k|
+              n=row[k]
+              txt+=n if n
+            }
+          end
+          if @tt.note_target==h then
+            n=row[@tt.note]
+            txt=txt.to_s+n if n
+          end
+          txt
+        }
         puts '|'+vv.join(' |')
       }
       puts "|==="
