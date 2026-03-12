@@ -126,40 +126,6 @@ class TDCSabun
       end
     end
 
-    def nizikey
-      case @ftyp
-      when /^[bc]D-\d/ then 'FXY1'
-      when /^bF-\d/ then 'FXY'
-      when /^cct-06/ then 'UnitType'
-      else nil
-      end
-    end
-
-    def build_nizis
-      nk=nizikey()
-      if nk then
-        @nizis=@table.map{|r| r[nk].sub(/,/,'')}.uniq.sort
-      else
-        @nizis=[nil]
-      end
-    end
-
-    def select_nizi nid
-      nk=nizikey()
-      if nk then
-        @table.select{|r| nid==r[nk].sub(/,/,'')}
-      else
-        @table
-      end
-    end
-
-    def each_nizi
-      raise "build before each_nizi" unless @nizis
-      @nizis.each{|nid|
-        yield(nid,select_nizi(nid))
-      }
-    end
-
     # 言語 lang を指定してファイルを読み込み表データを構築する。
     def build lang
       fnam_en=@fnams['en']
@@ -182,9 +148,54 @@ class TDCSabun
           csvja=nil
         end
       end
+      # 後方参照
       build_nizis
     end
 
+  # 二次細分関係ツール
+
+    # 二次細分の分別に用いる列名、なければnil
+    def nizikey
+      case @ftyp
+      when /^[bc]D-\d/ then 'FXY1'
+      when /^bF-\d/ then 'FXY'
+      when /^cct-06/ then 'UnitType'
+      else nil
+      end
+    end
+
+    # 二次細分のリスト。非分割の場合はnilを要素とする長さ1の配列
+    def build_nizis
+      nk=nizikey()
+      if nk then
+        @nizis=@table.map{|r| r[nk].sub(/,/,'')}.uniq.sort
+      else
+        @nizis=[nil]
+      end
+    end
+
+    # 二次細分に属する行の配列。非分割の場合はすべての行を返す
+    def select_nizi nid
+      nk=nizikey()
+      if nk then
+        @table.select{|r| nid==r[nk].sub(/,/,'')}
+      else
+        @table
+      end
+    end
+
+    # 二次細分記号を登場順に呼び出す
+    # 非分割の場合はnilが一回yieldされる
+    def each_nizi
+      raise "build before each_nizi" unless @nizis
+      @nizis.each{|nid|
+        yield(nid,select_nizi(nid))
+      }
+    end
+
+  # build より後に実行すべき処理
+
+    # 二次細分 nid, table の表本体をを表示する
     def show_rows nid, table
       puts "[cols=\"#{@headers.size}\",option=\"header\"]"
       puts "|==="
@@ -196,6 +207,7 @@ class TDCSabun
       puts "|==="
     end
 
+    # 一次細分を表示する。lev は節見出しレベル
     def csvconv lev
       levmark='='*lev
       sectl=@resd.sectitle(@ftyp)
