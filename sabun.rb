@@ -61,7 +61,8 @@ class TDCSabun
       @nizis=nil
     end
 
-    # CSVファイルを読み込み対象に登録する。言語 lang 別に複数ファイルを登録できる。
+    # CSVファイルを読み込み対象に登録する。
+    # 言語 lang 別に複数ファイルを登録できる。
     def file_add fnam,lang
       @fnams[lang]=fnam
     end
@@ -283,14 +284,13 @@ class TDCSabun
       [ftyp, lang]
     end
 
-    # Revision.new
-    def initialize dirs
-      @cat=Hash.new
-      @resd=ResourceData.new
-      warn "= Revision.new(#{dirs.inspect})"
-      scan_dirs(dirs)
+    # 一次細分カタログ@catにCSVファイル名を登録する
+    def cat_add fnam,ftyp,lang
+      @cat[ftyp]=ItiziSaibun.new(ftyp,@resd) unless @cat.include?(ftyp)
+      @cat[ftyp].file_add(fnam,lang)
     end
 
+    # ディレクトリを探索してCSVファイルを一次細分で分類する
     def scan_dirs(dirs)
       dirs.each{|dir|
         pat=File.join(dir, '{*.csv,notes/*.csv}')
@@ -302,21 +302,28 @@ class TDCSabun
       }
     end
 
-    def cat_add fnam,ftyp,lang
-      @cat[ftyp]=ItiziSaibun.new(ftyp,@resd) unless @cat.include?(ftyp)
-      @cat[ftyp].file_add(fnam,lang)
+    # Revision.new
+    # CSVファイル一覧を探索してデータ構造を決めるところまで
+    def initialize dirs
+      @cat=Hash.new
+      @resd=ResourceData.new
+      warn "= Revision.new(#{dirs.inspect})"
+      scan_dirs(dirs)
     end
 
+    # CSVデータを読み込むところまで
     def build lang
       @resd.build(lang)
       @cat.each{|ftyp,is| is.build(lang) }
       self
     end
 
+    # 一次細分のリストを返す
     def itizi_saibun_list
       @cat.keys
     end
 
+    # 正規表現 re にマッチする一次細分を順にyieldする
     def select re
       target=@cat.keys.grep(re).grep_v(/-N/)
       target.sort.each{|ftyp|
@@ -358,6 +365,7 @@ class TDCSabun
   end
 
   # TDCSabun.new
+  # コマンドライン引数の解析まで
   def initialize argv
     @db1=@db2=nil
     @cfg={:lang=>'ja', :suf1=>nil, :suf2=>nil, :d1=>[], :d2=>[],
@@ -377,14 +385,17 @@ HELP
     end
   end
 
+  # コマンドラインで指定された言語
   def lang
     @cfg[:lang]
   end
 
+  # コマンドライン引数でリビジョンが1つしか与えられなかった場合に真
   def single_mode?
     not @cfg[:suf2]
   end
 
+  # 各CSV表の読み込み
   def build
     @db1=Revision.new(@cfg[:d1]).build(lang)
     @db2=Revision.new(@cfg[:d2]).build(lang) unless single_mode?
