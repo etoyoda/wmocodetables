@@ -298,7 +298,7 @@ class TDCSabun
           end
           if @tt.note_target==h then
             n=row[@tt.note]
-            txt=txt.to_s+n if n
+            txt=[txt, ' ', n].join if n
           end
           txt
         }
