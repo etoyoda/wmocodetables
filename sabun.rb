@@ -59,6 +59,7 @@ class TDCSabun
       @table=[]
       @headers=nil
       @nizis=nil
+      @tt=nil
     end
 
     # CSVファイルを読み込み対象に登録する。
@@ -151,6 +152,7 @@ class TDCSabun
       end
       # 後方参照
       build_nizis
+      analyze_headers
     end
 
   # 二次細分関係ツール
@@ -194,15 +196,44 @@ class TDCSabun
       }
     end
 
+    # 表示用解析結果
+    TableType=Struct.new(:cols, # 表示対象列
+      :title_add, # 節標題に付加すべき列名
+      :note, # 注記文の列名
+      :note_target, # 注記文を追加すべき列名
+      :ent_merge # BUFR符号表の列名統合フラグ
+      )
+    
+    # ヘッダ列を解析して表示対象列と特殊処理フラグを設定する
+    def analyze_headers
+      @tt=TableType.new
+      @tt.cols=[]
+      @headers.each{|h|
+        case h
+        when 'Title_en','SubTitle_en' then @tt.title_add=:title
+        when 'ClassNo','ClassName_en' then @tt.title_add=:class
+        when 'Category','CategoryOfSequences_en' then
+          @tt.title_add=:categ
+        when 'Note_en','Note' then @tt.note=h
+        when 'noteIDs','codeTable','flagTable' then # do nothing
+        when 'EntryName_sub1_en','EntryName_sub2_en' then
+          @tt.ent_merge=true
+        else
+          @tt.cols.push(h)
+        end
+      }
+    end
+
   # build より後に実行すべき処理
 
     # 二次細分 nid, table の表本体をを表示する
     def show_rows nid, table
-      puts "[cols=\"#{@headers.size}\",option=\"header\"]"
+      cols=@tt.cols
+      puts "[cols=\"#{cols.size}\",option=\"header\"]"
       puts "|==="
-      puts '|'+@headers.join(' |')
+      puts '|'+cols.join(' |')
       table.each{|r|
-        vv=@headers.map{|h| r[h]}
+        vv=cols.map{|h| r[h]}
         puts '|'+vv.join(' |')
       }
       puts "|==="
