@@ -12,7 +12,7 @@ class TDCSabun
     def initialize
       # 訂正パッチ
       @fix=CSV.read('fixwmo.csv',headers:true)
-      # リソース混在ファイル
+      # リソースファイル
       @res=CSV.read('resources.csv',headers:true)
       # 表名変換表
       @tnt=nil
@@ -78,6 +78,7 @@ class TDCSabun
       @headers=nil
       @nizis=nil
       @tt=nil
+      @footnotes=nil
     end
 
     # CSVファイルを読み込み対象に登録する。
@@ -258,6 +259,17 @@ class TDCSabun
       end
     end
 
+    def compile_notes
+      return if /-N/===@ftyp
+      @footnotes=Hash.new
+      each_nizi{|nid,table|
+        table.each{|row|
+          nids=row['noteIDs']||row['NoteID']
+          next if nids.nil?
+        }
+      }
+    end
+
   # build より後に実行すべき処理
 
     # 節標題の表示
@@ -430,6 +442,7 @@ class TDCSabun
     def build lang
       @resd.build(lang)
       @cat.each{|ftyp,is| is.build(lang) }
+      @cat.each{|ftyp,is| is.compile_notes }
       self
     end
 
