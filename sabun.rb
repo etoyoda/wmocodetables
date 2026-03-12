@@ -235,7 +235,7 @@ class TDCSabun
         when 'Note_en','Note' then @tt.note=h
         when 'Value','UnitComments_en' then
           @tt.cols.push(h) if @table.any?{|r| r[h]}
-        when 'noteIDs','codeTable','flagTable' then # do nothing
+        when 'NoteID','noteIDs','codeTable','flagTable' then # do nothing
         when 'EntryName_sub1_en','EntryName_sub2_en' then
           @tt.ent_merge='EntryName_en'
         when nizikey() then # do nothing
