@@ -5,14 +5,17 @@ require 'csv'
 # WMOが提供するTDCF CSV表の差分を asciidoc 文書に成形出力するプログラム
 class TDCSabun
 
+  # WMOの誤字を訂正するパッチと、表名・列名多言語化リソースを管理
   class ResourceData
 
+    # ResourceData.new
     def initialize
       @fix=CSV.read('fixwmo.csv',headers:true)
       @res=CSV.read('resources.csv',headers:true)
       @tnt=nil
     end
 
+    # CSV::Row 型の row に訂正パッチをあてる
     def fix_csvrow basename, row
       @fix.each{|f|
         next unless basename==f['csvName']
@@ -23,6 +26,7 @@ class TDCSabun
       }
     end
 
+    # 多言語リソースの言語を選択する
     def build lang
       @tnt=Hash.new
       @res.each{|row|
@@ -33,6 +37,7 @@ class TDCSabun
       }
     end
 
+    # 一次細分表記号 ftyp から指定言語の節見出し文字列を返す
     def sectitle ftyp
       @tnt.each{|re,txt|
         return format(txt,$1.to_i,$2.to_i) if re===ftyp
@@ -61,7 +66,7 @@ class TDCSabun
       @fnams[lang]=fnam
     end
 
-    #--- Itizisaibun#build() から呼ばれるサブルーチン
+  #--- Itizisaibun#build() から呼ばれるサブルーチン
     
     # 置換対象行群 rbuf を探す
     def find_rbuf rbuf
