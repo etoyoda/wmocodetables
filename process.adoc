@@ -404,20 +404,21 @@ CSV の読み込みには Ruby CSV ライブラリを使って CSV::Table オブ
 
 analyze_headers() が headers を分析して、cols 配列と
 modettl, modeid, modeent, modeseq, coltg の5個フラグを作る。
+
 * headers の各要素について順に:
-** Title_en または SubTitle_en については、modettl=:title フラグを立てるだけで捨てる
-** ClassNo, ClassName_en については、modettl=:class フラグを立てるだけで捨てる
-** Category, CategoryOfSequences_en については modettl=:categ フラグを立てるだけで捨てる
-** Value, UnitComments_en 実際に non-nil 値が入っているときだけ cols に積む
-** Note_en があれば modeid=Note_en フラグを立てる
-** noteIDs, codeTable, flagTable はなにもしない
-** Note があれば modeid=Note フラグを立てる
-** NoteID はなにもしない
-** Status はなにもしない
-** EntryName_sub1_en, EntryName_sub2_en があれば、 modeent=EntryName_en を立てる
-** FXY1 があれば modeseq=FXY1 を立てる
-** UnitType があれば modeseq=UnitType を立てる
-** それ以外の列は cols 配列に積む
+* Title_en または SubTitle_en については、modettl=:title フラグを立てるだけで捨てる
+* ClassNo, ClassName_en については、modettl=:class フラグを立てるだけで捨てる
+* Category, CategoryOfSequences_en については modettl=:categ フラグを立てるだけで捨てる
+* Value, UnitComments_en 実際に non-nil 値が入っているときだけ cols に積む
+* Note_en があれば modeid=Note_en フラグを立てる
+* noteIDs, codeTable, flagTable はなにもしない
+* Note があれば modeid=Note フラグを立てる
+* NoteID はなにもしない
+* Status はなにもしない
+* EntryName_sub1_en, EntryName_sub2_en があれば、 modeent=EntryName_en を立てる
+* FXY1 があれば modeseq=FXY1 を立てる
+* UnitType があれば modeseq=UnitType を立てる
+* それ以外の列は cols 配列に積む
 * coltg フラグは ftyp に応じて Note_en の付加対象とすべき列名にする
 * FXY 列があり、ElementName_en 列があり、 BUFR Unit 列がない場合、 modeseq=FXY フラグを立て、 cols の左２列を捨てる
 
