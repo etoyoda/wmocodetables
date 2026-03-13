@@ -111,6 +111,9 @@ class TDCSabun
       }
     end
 
+    def add_tabnote
+    end
+
     def show_notes(nzid)
       return if @db[nzid].empty?
       puts "Notes:"
@@ -333,6 +336,7 @@ class TDCSabun
           @footnotes.parse_note(row)
         }
       }
+      @footnotes.add_tabnote
     end
 
   # build より後に実行すべき処理
