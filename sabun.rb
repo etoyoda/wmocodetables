@@ -88,7 +88,7 @@ class TDCSabun
       nxs=if nxs then nxs.split(/, | and /) else [nil] end
       raise unless /^\d+(?:,\d+)*$/===nids
       nids=nids.split(/,/)
-      warn "pn #{[@ftyp,note,nids,nxs].inspect}"
+      warn "pn #{[@ftyp,note,nids,nxs].inspect}" if $DEBUG
       if nids.size!=nxs.size
         msg="size mismatch #{@ftyp} Note_en #{nxs.size} != noteIDs #{nids.size}"
         raise msg
