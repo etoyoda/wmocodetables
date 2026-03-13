@@ -71,6 +71,10 @@ class TDCSabun
       @ftyp,@nn,@nt=ftyp,nn,nt
       @db=Hash.new
       @db2=nil
+      @cat=Hash.new
+      nn.each{|row|
+        @cat[row['noteID']]=row['note']
+      }
     end
 
     def begin_nizi nid
@@ -99,7 +103,22 @@ class TDCSabun
           msg="conflict #{@ftyp} #{nx} #{@db2[nx]}<=#{nid}"
           raise msg
         end
+        unless @cat.include?(nid)
+          msg="missing #{@ftyp} note #{nid}"
+          @cat[nid]="(dummy text #{nid})"
+        end
         @db2[nx]=nid
+      }
+    end
+
+    def show_notes(nzid)
+      return if @db[nzid].empty?
+      puts "Notes:"
+      puts ""
+      @db[nzid].each{|nx,nid|
+        puts "#{nx}:" if nx
+        puts @cat[nid]
+        puts ""
       }
     end
 
@@ -257,6 +276,10 @@ class TDCSabun
       }
     end
 
+    def each
+      @table.each{|row| yield(row)}
+    end
+
     # 表示用解析結果
     TableType=Struct.new(:cols, # 表示対象列
       :title_add, # 節標題に付加すべき列名
@@ -384,6 +407,7 @@ class TDCSabun
       itizi_section_header(lev)
       each_nizi{|nid,table|
         show_rows(nid,table,lev)
+        @footnotes.show_notes(nid) if @footnotes
       }
     end
 
