@@ -65,6 +65,46 @@ class TDCSabun
 
   end
 
+  class NoteDB
+
+    def initialize ftyp, nn, nt
+      @ftyp,@nn,@nt=ftyp,nn,nt
+      @db=Hash.new
+      @db2=nil
+    end
+
+    def begin_nizi nid
+      @db2=@db[nid]=Hash.new
+    end
+
+    NPAT=/[Nn]otes?(?: (\d+(?:, \d+)*(?: and \d+)?))?/
+
+    def parse_note row
+      note=row['Note_en']||row['Note']
+      nids=row['noteIDs']||row['NoteID']
+      return if note.nil? or nids.nil?
+      return unless NPAT===note
+      nxs=$1
+      nxs=if nxs then nxs.split(/, | and /) else [nil] end
+      raise unless /^\d+(?:,\d+)*$/===nids
+      nids=nids.split(/,/)
+      warn "pn #{[@ftyp,note,nids,nxs].inspect}"
+      if nids.size!=nxs.size
+        msg="size mismatch #{@ftyp} Note_en #{nxs.size} != noteIDs #{nids.size}"
+        raise msg
+      end
+      nxs.size.times{|i|
+        nx,nid=nxs[i],nids[i]
+        if @db2[nx] and @db2[nx]!=nid
+          msg="conflict #{@ftyp} #{nx} #{@db2[nx]}<=#{nid}"
+          raise msg
+        end
+        @db2[nx]=nid
+      }
+    end
+
+  end
+
   # 一次細分表を表現するクラス。
   # 通報式の表番号が複数CSVで分割されていることがあり、その数だけ構築される。
   class ItiziSaibun
@@ -80,6 +120,8 @@ class TDCSabun
       @tt=nil
       @footnotes=nil
     end
+
+    attr_reader :ftyp
 
     # CSVファイルを読み込み対象に登録する。
     # 言語 lang 別に複数ファイルを登録できる。
@@ -259,13 +301,13 @@ class TDCSabun
       end
     end
 
-    def compile_notes
-      return if /-N/===@ftyp
-      @footnotes=Hash.new
+    def compile_notes nn, nt
+      return if nn.nil? or nt.nil?
+      @footnotes=NoteDB.new(ftyp,nn,nt)
       each_nizi{|nid,table|
+        @footnotes.begin_nizi(nid)
         table.each{|row|
-          nids=row['noteIDs']||row['NoteID']
-          next if nids.nil?
+          @footnotes.parse_note(row)
         }
       }
     end
@@ -438,11 +480,20 @@ class TDCSabun
       scan_dirs(dirs)
     end
 
+    def find_note ftyp
+      return [nil,nil] if /^(A|cclist)/===ftyp
+      nntyp=ftyp.sub(/(-.*)?$/, '-NN')
+      nttyp=ftyp.sub(/(-.*)?$/, '-NT')
+      [@cat[nntyp], @cat[nttyp]]
+    end
+
     # CSVデータを読み込むところまで
     def build lang
       @resd.build(lang)
       @cat.each{|ftyp,is| is.build(lang) }
-      @cat.each{|ftyp,is| is.compile_notes }
+      @cat.each{|ftyp,is|
+        is.compile_notes(*find_note(ftyp))
+      }
       self
     end
 

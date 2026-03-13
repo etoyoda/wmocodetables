@@ -11,3 +11,25 @@ C06.csv,CodeFigure,320,conventional,˚,°
 C06.csv,CodeFigure,350,conventional,˚C,°Ｃ
 C06.csv,CodeFigure,351,conventional,˚C/m,°Ｃ/m
 C06.csv,CodeFigure,352,conventional,˚C/100 m,°Ｃ/100 m 
+C06.csv,CodeFigure,na1,NoteID,"19,10","19,99,10"
+GRIB2_Template_4_55_ProductDefinitionTemplate_en.csv,OctetNo,15,noteIDs,58,20
+GRIB2_Template_4_55_ProductDefinitionTemplate_en.csv,OctetNo,16,noteIDs,58,20
+GRIB2_Template_4_55_ProductDefinitionTemplate_en.csv,OctetNo,17,noteIDs,58,20
+GRIB2_Template_4_56_ProductDefinitionTemplate_en.csv,OctetNo,15,noteIDs,58,20
+GRIB2_Template_4_56_ProductDefinitionTemplate_en.csv,OctetNo,16,noteIDs,58,20
+GRIB2_Template_4_56_ProductDefinitionTemplate_en.csv,OctetNo,17,noteIDs,58,20
+GRIB2_Template_4_59_ProductDefinitionTemplate_en.csv,OctetNo,15,noteIDs,58,20
+GRIB2_Template_4_59_ProductDefinitionTemplate_en.csv,OctetNo,16,noteIDs,58,20
+GRIB2_Template_4_59_ProductDefinitionTemplate_en.csv,OctetNo,17,noteIDs,58,20
+GRIB2_Template_4_63_ProductDefinitionTemplate_en.csv,OctetNo,15,noteIDs,58,20
+GRIB2_Template_4_63_ProductDefinitionTemplate_en.csv,OctetNo,16,noteIDs,58,20
+GRIB2_Template_4_63_ProductDefinitionTemplate_en.csv,OctetNo,17,noteIDs,58,20
+GRIB2_Template_4_134_ProductDefinitionTemplate_en.csv,OctetNo,65+(NT-1)*12,Note_en,(see Note 2),(see Note 3)
+GRIB2_Template_4_134_ProductDefinitionTemplate_en.csv,OctetNo,59+(nt-1)*12-62+(nt-1)*12,Note_en,(see Note 3),(see Note 4)
+GRIB2_Template_4_134_ProductDefinitionTemplate_en.csv,OctetNo,77+(NT-1)*12+NA*5,Note_en,(see Note 3),(see Note 5)
+GRIB2_Template_4_62_ProductDefinitionTemplate_en.csv,OctetNo,15,noteIDs,58,20
+GRIB2_Template_4_62_ProductDefinitionTemplate_en.csv,OctetNo,16,noteIDs,58,20
+GRIB2_Template_4_62_ProductDefinitionTemplate_en.csv,OctetNo,17,noteIDs,58,20
+BUFRCREX_TableB_en_20.csv,FXY,020113,noteIDs,89,90
+BUFRCREX_TableB_en_33.csv,FXY,033045,noteIDs,"168,173","168,174"
+BUFRCREX_TableB_en_01.csv,FXY,001013,noteIDs,"60,125","125,60"
