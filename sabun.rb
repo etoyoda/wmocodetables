@@ -74,10 +74,17 @@ class TDCSabun
       nn.each{|row|
         @cat[row['noteID']]=row['note']
       }
+      @merged=nil
     end
 
-    def prepare_nizi nzid
-      @db[nzid]=Hash.new unless @db.include?(nzid)
+    def prepare_nizi nzid_list, mergep
+      if mergep then
+        h=Hash.new
+        nzid_list.each{|nzid| @db[nzid]=h }
+        @merged=nzid_list.last
+      else
+        nzid_list.each{|nzid| @db[nzid]=Hash.new }
+      end
     end
 
     def end_build
@@ -138,6 +145,7 @@ class TDCSabun
     end
 
     def show_notes(nzid)
+      return if @merged and @merged != nzid
       case @db[nzid].size
       when 0 then
         return
@@ -313,6 +321,10 @@ class TDCSabun
       @nizis.each{|nzid| yield(nzid)}
     end
 
+    def nzid_list
+      @nizis
+    end
+
     def nzid_last
       @nizis.last
     end
@@ -395,9 +407,8 @@ class TDCSabun
     def compile_notes nn, nt
       return if nn.nil? or nt.nil?
       @footnotes=NoteDB.new(ftyp,nn,nt)
-      each_nizi_pure{|nzid|
-        @footnotes.prepare_nizi(nzid)
-      }
+      mergep=true if /^(cct-06|bD)/===ftyp
+      @footnotes.prepare_nizi(nzid_list, mergep)
       each_nizi{|nzid,table|
         table.each{|row|
           @footnotes.parse_note(nzid,row)
