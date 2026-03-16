@@ -34,3 +34,4 @@ BUFRCREX_TableB_en_20.csv,FXY,020113,noteIDs,89,90,
 BUFRCREX_TableB_en_33.csv,FXY,033045,noteIDs,"168,173","168,174",
 BUFRCREX_TableB_en_01.csv,FXY,001013,noteIDs,"60,125","125,60",
 CodeFlag_table.csv,tableNo,4.2.0.18,notation,3,4,パラメタ追加による繰り下げ
+CodeFlag_table.csv,noteID,118,tableNo,4.1.0.0,4.1,これは表全体にかかる注であった
