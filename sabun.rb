@@ -111,7 +111,8 @@ class TDCSabun
       }
     end
 
-    def add_tabnote
+    def tablenotes(nskey,nsval)
+      warn "# tablenotes #{nskey} #{nsval}"
     end
 
     def show_notes(nzid)
@@ -240,7 +241,7 @@ class TDCSabun
 
   # 二次細分関係ツール
 
-    # 二次細分の分別に用いる列名、なければnil
+    # 一次細分内で二次細分の分別に用いる列名、一次=二次ならnil
     def nizikey
       case @ftyp
       when /^[bc]D-\d/ then 'FXY1'
@@ -277,6 +278,30 @@ class TDCSabun
       @nizis.each{|nid|
         yield(nid,select_nizi(nid))
       }
+    end
+
+    # 表注釈CSV内で二次細分を分別する列名と値
+    def each_nizi2
+      case @ftyp
+      when /^GT-(\d)-(\d+)/ then
+        yield('templateNo', format('%u.%u', $1.to_i, $2.to_i))
+      when /^Gc-(\d)-(\d+)-[CF]/ then
+        yield('tableNo', format('%u.%u.0.0', $1.to_i, $2.to_i))
+      when /^Gc-(\d)-(\d+)-(\d+)-(\d+)/ then
+        yield('tableNo', format('%u.%u.%u.%u', $1.to_i, $2.to_i, $3.to_i, $4.to_i))
+      when /^(?:b[BD]|cct)-(\d+)/ then
+        yield('tableNo', format('%02u', $1.to_i))
+      when /^bC$/ then
+        yield(nil, nil)
+      when /^bF-\d/ then
+        @nizis.each{|nid|
+          raise @ftyp.inspect if nid.nil?
+          f_xx_yyy=format('%s %s %s', nid[0], nid[1..2], nid[3..-1])
+          yield('tableNo', f_xx_yyy)
+        }
+      else
+        "do nothing otherwise"
+      end
     end
 
     def each
@@ -336,7 +361,9 @@ class TDCSabun
           @footnotes.parse_note(row)
         }
       }
-      @footnotes.add_tabnote
+      each_nizi2{|nskey,nsval|
+        @footnotes.tablenotes(nskey,nsval)
+      }
     end
 
   # build より後に実行すべき処理
