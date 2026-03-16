@@ -485,12 +485,14 @@ class TDCSabun
     # 二次細分 nzid, table の表本体をを表示する
     def show_rows nzid, table, lev
       nizi_section_header(nzid,table,lev+1) if nzid
+      emptyp=true
+      buf=[]
       cols=@tt.cols
       scols=cols_spec(cols)
-      puts "[cols=\"#{scols}\",option=\"header\"]"
-      puts "|==="
+      buf.push "[cols=\"#{scols}\",option=\"header\"]\n"
+      buf.push "|===\n"
       cols_d=cols.map{|h| @resd.colname(h)}
-      puts '|'+cols_d.join(' |')
+      buf.push('|'+cols_d.join(' |')+"\n")
       table.each{|row|
         vv=cols.map{|h|
           txt=row[h]
@@ -509,9 +511,11 @@ class TDCSabun
           end
           txt
         }
-        puts '|'+vv.join(' |')
+        emptyp=false if not vv.all?{|cell| cell.nil?}
+        buf.push('|'+vv.join(' |')+"\n")
       }
-      puts "|==="
+      buf.push("|===\n")
+      puts buf unless emptyp
     end
 
     def itizi_section_header lev
