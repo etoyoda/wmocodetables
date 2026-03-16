@@ -4,13 +4,13 @@ GRIB2_Template_3_61_GridDefinitionTemplate_en.csv,OctetNo,109-112,noteIDs,,50,
 GRIB2_Template_3_150_GridDefinitionTemplate_en.csv,OctetNo,32-35,noteIDs,197a,166,
 GRIB2_Template_3_150_GridDefinitionTemplate_en.csv,OctetNo,36-39,noteIDs,197b,167,
 Template_table.csv,templateNo,7.1,noteID,135,134,
-C06.csv,CodeFigure,038,conventional,Ω,Ω,
-C06.csv,CodeFigure,060,conventional,˚C,°Ｃ,
-C06.csv,CodeFigure,110,conventional,˚,°,
-C06.csv,CodeFigure,320,conventional,˚,°,
-C06.csv,CodeFigure,350,conventional,˚C,°Ｃ,
-C06.csv,CodeFigure,351,conventional,˚C/m,°Ｃ/m,
-C06.csv,CodeFigure,352,conventional,˚C/100 m,°Ｃ/100 m ,
+C06.csv,CodeFigure,038,conventional,Ω,Ω,PDF化非対応文字代替
+C06.csv,CodeFigure,060,conventional,˚C,°Ｃ,PDF化非対応文字代替
+C06.csv,CodeFigure,110,conventional,˚,°,PDF化非対応文字代替
+C06.csv,CodeFigure,320,conventional,˚,°,PDF化非対応文字代替
+C06.csv,CodeFigure,350,conventional,˚C,°Ｃ,PDF化非対応文字代替
+C06.csv,CodeFigure,351,conventional,˚C/m,°Ｃ/m,PDF化非対応文字代替
+C06.csv,CodeFigure,352,conventional,˚C/100 m,°Ｃ/100 m ,PDF化非対応文字代替
 C06.csv,CodeFigure,na1,NoteID,"19,10","19,9,10",
 GRIB2_Template_4_55_ProductDefinitionTemplate_en.csv,OctetNo,15,noteIDs,58,20,
 GRIB2_Template_4_55_ProductDefinitionTemplate_en.csv,OctetNo,16,noteIDs,58,20,
