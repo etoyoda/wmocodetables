@@ -11,6 +11,8 @@ tdcf-bak.adoc: csv-compile.rb toppage-ja.txt resources.csv fixwmo.csv
 
 tdcf-tables.adoc: sabun.rb template-ja.txt resources.csv fixwmo.csv
 	ruby sabun.rb HEAD
+	test -f tdcf-tables.adoc.bak || cp tdcf-tables.adoc tdcf-tables.adoc.bak
+	diff tdcf-tables.adoc.bak tdcf-tables.adoc
 
 tdcf-tables.pdf: tdcf-tables.adoc themes/japanese-theme.yml
 	asciidoctor-pdf -a pdf-theme=themes/japanese-theme.yml -a lang=ja tdcf-tables.adoc
