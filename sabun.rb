@@ -76,7 +76,7 @@ class TDCSabun
       }
     end
 
-    def begin_nizi nzid
+    def prepare_nizi nzid
       @db[nzid]=Hash.new unless @db.include?(nzid)
     end
 
@@ -309,6 +309,14 @@ class TDCSabun
       }
     end
 
+    def each_nizi_pure
+      @nizis.each{|nzid| yield(nzid)}
+    end
+
+    def nzid_last
+      @nizis.last
+    end
+
     # 表注釈CSV内で二次細分を分別する列名と値
     def each_nizi2
       case @ftyp
@@ -318,15 +326,15 @@ class TDCSabun
       when /^Gc-(\d)-(\d+)-[CF]/ then
         yield(nil, 'tableNo', format('%u.%u.0.0', $1.to_i, $2.to_i))
       when /^Gc-(\d)-(\d+)-(\d+)-(\d+)/ then
-        yield(nil, 'tableNo', format('%u.%u.%u.%u', $1.to_i, $2.to_i, $3.to_i, $4.to_i))
+        yield(nil, 'tableNo',
+          format('%u.%u.%u.%u', $1.to_i, $2.to_i, $3.to_i, $4.to_i))
       when /^(?:b[BD]|cct)-(\d+)/ then
-        @nizis.each{|nzid|
-          yield(nzid, 'tableNo', format('%02u', $1.to_i))
-        }
+        # last nizi-saibun only
+        yield(nzid_last, 'tableNo', format('%02u', $1.to_i))
       when /^bC$/ then
         yield(nil, nil, nil)
       when /^bF-\d/ then
-        @nizis.each{|nzid|
+        each_nizi_pure{|nzid|
           raise @ftyp.inspect if nzid.nil?
           f_xx_yyy=format('%s %s %s', nzid[0], nzid[1..2], nzid[3..-1])
           yield(nzid, 'tableNo', f_xx_yyy)
@@ -387,8 +395,10 @@ class TDCSabun
     def compile_notes nn, nt
       return if nn.nil? or nt.nil?
       @footnotes=NoteDB.new(ftyp,nn,nt)
+      each_nizi_pure{|nzid|
+        @footnotes.prepare_nizi(nzid)
+      }
       each_nizi{|nzid,table|
-        @footnotes.begin_nizi(nzid)
         table.each{|row|
           @footnotes.parse_note(nzid,row)
         }
