@@ -272,10 +272,10 @@ class TDCSabun
     end
 
     # 二次細分に属する行の配列。非分割の場合はすべての行を返す
-    def select_nizi nid
+    def select_nizi nzid
       nk=nizikey()
       if nk then
-        @table.select{|r| nid==r[nk].sub(/,/,'')}
+        @table.select{|r| nzid==r[nk].sub(/,/,'')}
       else
         @table
       end
@@ -285,8 +285,8 @@ class TDCSabun
     # 非分割の場合はnilが一回yieldされる
     def each_nizi
       raise "build before each_nizi" unless @nizis
-      @nizis.each{|nid|
-        yield(nid,select_nizi(nid))
+      @nizis.each{|nzid|
+        yield(nzid,select_nizi(nzid))
       }
     end
 
@@ -301,16 +301,16 @@ class TDCSabun
       when /^Gc-(\d)-(\d+)-(\d+)-(\d+)/ then
         yield(nil, 'tableNo', format('%u.%u.%u.%u', $1.to_i, $2.to_i, $3.to_i, $4.to_i))
       when /^(?:b[BD]|cct)-(\d+)/ then
-        @nizis.each{|nid|
-          yield(nid, 'tableNo', format('%02u', $1.to_i))
+        @nizis.each{|nzid|
+          yield(nzid, 'tableNo', format('%02u', $1.to_i))
         }
       when /^bC$/ then
         yield(nil, nil, nil)
       when /^bF-\d/ then
-        @nizis.each{|nid|
-          raise @ftyp.inspect if nid.nil?
-          f_xx_yyy=format('%s %s %s', nid[0], nid[1..2], nid[3..-1])
-          yield(nid, 'tableNo', f_xx_yyy)
+        @nizis.each{|nzid|
+          raise @ftyp.inspect if nzid.nil?
+          f_xx_yyy=format('%s %s %s', nzid[0], nzid[1..2], nzid[3..-1])
+          yield(nzid, 'tableNo', f_xx_yyy)
         }
       else
         "do nothing otherwise"
@@ -368,14 +368,14 @@ class TDCSabun
     def compile_notes nn, nt
       return if nn.nil? or nt.nil?
       @footnotes=NoteDB.new(ftyp,nn,nt)
-      each_nizi{|nid,table|
-        @footnotes.begin_nizi(nid)
+      each_nizi{|nzid,table|
+        @footnotes.begin_nizi(nzid)
         table.each{|row|
-          @footnotes.parse_note(nid,row)
+          @footnotes.parse_note(nzid,row)
         }
       }
-      each_nizi2{|nid,nskey,nsval|
-        @footnotes.tablenotes(nid,nskey,nsval)
+      each_nizi2{|nzid,nskey,nsval|
+        @footnotes.tablenotes(nzid,nskey,nsval)
       }
     end
 
@@ -389,17 +389,17 @@ class TDCSabun
       puts ''
     end
 
-    def nizi_section_header nid,table,lev
-      ssym=[@ftyp, '_s', nid.gsub(/ /,'')].join
+    def nizi_section_header nzid,table,lev
+      ssym=[@ftyp, '_s', nzid.gsub(/ /,'')].join
       stlkey=if 'FXY1'==nizikey() then 'Title_en' else 'ElementName_en' end
       tfirst=table.first
       sectl=[tfirst[nizikey()], tfirst[stlkey]].join(' ')
       emit_section_header(lev,ssym,sectl,nil)
     end
 
-    # 二次細分 nid, table の表本体をを表示する
-    def show_rows nid, table, lev
-      nizi_section_header(nid,table,lev+1) if nid
+    # 二次細分 nzid, table の表本体をを表示する
+    def show_rows nzid, table, lev
+      nizi_section_header(nzid,table,lev+1) if nzid
       cols=@tt.cols
       puts "[cols=\"#{cols.size}\",option=\"header\"]"
       puts "|==="
@@ -449,9 +449,9 @@ class TDCSabun
     # 一次細分を表示する。lev は節見出しレベル
     def csvconv lev
       itizi_section_header(lev)
-      each_nizi{|nid,table|
-        show_rows(nid,table,lev)
-        @footnotes.show_notes(nid) if @footnotes
+      each_nizi{|nzid,table|
+        show_rows(nzid,table,lev)
+        @footnotes.show_notes(nzid) if @footnotes
       }
     end
 
