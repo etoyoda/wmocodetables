@@ -417,11 +417,56 @@ class TDCSabun
       emit_section_header(lev,ssym,sectl,nil)
     end
 
+    def cols_spec cols
+      case @ftyp
+      when /^GT/ then
+        cols.map{|h| 'Contents_en'==h ? 4 : 1}.join(',')
+      when /^Gc/ then
+        cols.map{|h| 'MeaningParameterDescription_en'==h ? 4 : 1}.join(',')
+      when /^[bc]A/ then
+        cols.map{|h| 'Meaning_en'==h ? 3 : 1}.join(',')
+      when /^bB/ then
+        cols.map{|h| case h
+        when 'FXY' then 4
+        when 'ElementName_en' then 9
+        else 3 end }.join(',')
+      when /^bC/ then
+        cols.map{|h| case h
+        when 'OperatorName_en' then 3
+        when 'OperatorDeefinition_en' then 9
+        else 2 end }.join(',')
+      when /^[bc]D/ then
+        cols.map{|h| 'ElementName_en'==h ? 3 : 1}.join(',')
+      when /^bF/ then
+        cols.map{|h| 'EntryName_en'==h ? 3 : 1}.join(',')
+      when /^cct-02/ then
+        cols.map{|h| case h
+        when 'DateOfAssignment_en' then 2
+        when 'RadiosondeSoundingSystemUsed_en' then 5
+        else 1 end }.join(',')
+      when /^cct-06/ then
+        cols.map{|h| 'Meaning'==h ? 3 : 1}.join(',')
+      when /^cct-08/ then
+        cols.map{|h| case h
+        when 'Type_en' then 3
+        when 'InstrumentLongName_en' then 4
+        else 1 end }.join(',')
+      when /^cct/ then
+        cols.map{|h| case h
+        when 'Effective date' then 2
+        when /_en$/ then 4
+        else 1 end }.join(',')
+      else
+        format('%u', cols.size)
+      end
+    end
+
     # 二次細分 nzid, table の表本体をを表示する
     def show_rows nzid, table, lev
       nizi_section_header(nzid,table,lev+1) if nzid
       cols=@tt.cols
-      puts "[cols=\"#{cols.size}\",option=\"header\"]"
+      scols=cols_spec(cols)
+      puts "[cols=\"#{scols}\",option=\"header\"]"
       puts "|==="
       cols_d=cols.map{|h| @resd.colname(h)}
       puts '|'+cols_d.join(' |')
