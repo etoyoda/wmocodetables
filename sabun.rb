@@ -80,6 +80,17 @@ class TDCSabun
       @db[nzid]=Hash.new unless @db.include?(nzid)
     end
 
+    def end_build
+      @db.keys.each{|nzid|
+        oldhash=@db[nzid]
+        newhash=Hash.new
+        oldhash.keys.sort.each{|inote|
+          newhash[inote]=oldhash[inote]
+        }
+        @db[nzid]=newhash
+      }
+    end
+
     NPAT=/[Nn]otes?(?: (\d+(?:, \d+)*(?: and \d+)?))?/
 
     def parse_note nzid, row
@@ -103,9 +114,9 @@ class TDCSabun
 
     def register_note nzid,notation,nid
       db2=@db[nzid]
-      notation=nil if 'n/a'==notation
-      if db2[notation] and db2[notation]!=nid
-        msg="conflict #{@ftyp} #{notation} #{db2[notation]}<=#{nid}"
+      inote=notation.to_i
+      if db2[inote] and db2[inote]!=nid
+        msg="conflict #{@ftyp} #{inote} #{db2[inote]}<=#{nid}"
         warn msg
       end
       unless @cat.include?(nid)
@@ -113,7 +124,7 @@ class TDCSabun
         warn msg
         @cat[nid]="(dummy text #{nid})"
       end
-      db2[notation]=nid
+      db2[inote]=nid
     end
 
     def tablenotes(nzid,nskey,nsval)
@@ -127,11 +138,18 @@ class TDCSabun
     end
 
     def show_notes(nzid)
-      return if @db[nzid].empty?
-      puts "Notes:"
+      case @db[nzid].size
+      when 0 then
+        return
+      when 1 then
+        puts "Note:"
+      else
+        puts "Notes:"
+      end
       puts ""
-      @db[nzid].each{|notation,nid|
-        puts "#{notation}:" if notation
+      @db[nzid].keys.each{|inote|
+        nid=@db[nzid][inote]
+        puts "#{inote}:" unless inote==0
         puts @cat[nid]
         puts ""
       }
@@ -378,6 +396,7 @@ class TDCSabun
       each_nizi2{|nzid,nskey,nsval|
         @footnotes.tablenotes(nzid,nskey,nsval)
       }
+      @footnotes.end_build
     end
 
   # build より後に実行すべき処理
