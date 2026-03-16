@@ -11,7 +11,7 @@ C06.csv,CodeFigure,320,conventional,˚,°
 C06.csv,CodeFigure,350,conventional,˚C,°Ｃ
 C06.csv,CodeFigure,351,conventional,˚C/m,°Ｃ/m
 C06.csv,CodeFigure,352,conventional,˚C/100 m,°Ｃ/100 m 
-C06.csv,CodeFigure,na1,NoteID,"19,10","19,99,10"
+C06.csv,CodeFigure,na1,NoteID,"19,10","19,9,10"
 GRIB2_Template_4_55_ProductDefinitionTemplate_en.csv,OctetNo,15,noteIDs,58,20
 GRIB2_Template_4_55_ProductDefinitionTemplate_en.csv,OctetNo,16,noteIDs,58,20
 GRIB2_Template_4_55_ProductDefinitionTemplate_en.csv,OctetNo,17,noteIDs,58,20
