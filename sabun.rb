@@ -132,6 +132,11 @@ class TDCSabun
         @cat[nid]="(dummy text #{nid})"
       end
       db2[inote]=nid
+    rescue NoMethodError =>e
+      warn @ftyp.inspect
+      warn nzid.inspect
+      warn @db.inspect
+      raise e
     end
 
     def tablenotes(nzid,nskey,nsval)
@@ -281,6 +286,7 @@ class TDCSabun
     # 一次細分内で二次細分の分別に用いる列名、一次=二次ならnil
     def nizikey
       case @ftyp
+      when /^Gc-4-00001/ then 'SubTitle_en'
       when /^[bc]D-\d/ then 'FXY1'
       when /^bF-\d/ then 'FXY'
       when /^cct-06/ then 'UnitType'
@@ -335,6 +341,10 @@ class TDCSabun
       when /-N/ then "skip note fles"
       when /^GT-(\d)-(\d+)/ then
         yield(nil, 'templateNo', format('%u.%u', $1.to_i, $2.to_i))
+      when /^Gc-4-00001-[CF]/ then
+        each_nizi_pure{|nzid|
+          yield(nzid, 'tableNo', format('4.1.%u.0', nzid.to_i))
+        }
       when /^Gc-(\d)-(\d+)-[CF]/ then
         yield(nil, 'tableNo', format('%u.%u.0.0', $1.to_i, $2.to_i))
       when /^Gc-(\d)-(\d+)-(\d+)-(\d+)/ then
