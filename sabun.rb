@@ -70,20 +70,19 @@ class TDCSabun
     def initialize ftyp, nn, nt
       @ftyp,@nn,@nt=ftyp,nn,nt
       @db=Hash.new
-      @db2=nil
       @cat=Hash.new
       nn.each{|row|
         @cat[row['noteID']]=row['note']
       }
     end
 
-    def begin_nizi nid
-      @db2=@db[nid]=Hash.new
+    def begin_nizi nzid
+      @db[nzid]=Hash.new unless @db.include?(nzid)
     end
 
     NPAT=/[Nn]otes?(?: (\d+(?:, \d+)*(?: and \d+)?))?/
 
-    def parse_note row
+    def parse_note nzid, row
       note=row['Note_en']||row['Note']
       nids=row['noteIDs']||row['NoteID']
       return if note.nil? or nids.nil?
@@ -98,21 +97,32 @@ class TDCSabun
         raise msg
       end
       nxs.size.times{|i|
-        nx,nid=nxs[i],nids[i]
-        if @db2[nx] and @db2[nx]!=nid
-          msg="conflict #{@ftyp} #{nx} #{@db2[nx]}<=#{nid}"
-          raise msg
-        end
-        unless @cat.include?(nid)
-          msg="missing #{@ftyp} note #{nid}"
-          @cat[nid]="(dummy text #{nid})"
-        end
-        @db2[nx]=nid
+        register_note nzid,nxs[i],nids[i]
       }
     end
 
-    def tablenotes(nskey,nsval)
-      warn "# tablenotes #{nskey} #{nsval}"
+    def register_note nzid,nx,nid
+      db2=@db[nzid]
+      if db2[nx] and db2[nx]!=nid
+        msg="conflict #{@ftyp} #{nx} #{db2[nx]}<=#{nid}"
+        warn msg
+      end
+      unless @cat.include?(nid)
+        msg="missing #{@ftyp} note #{nid}"
+        warn msg
+        @cat[nid]="(dummy text #{nid})"
+      end
+      db2[nx]=nid
+    end
+
+    def tablenotes(nzid,nskey,nsval)
+      @nt.each{|row|
+        next if nskey and nsval != row[nskey]
+        nid=row['noteID']
+        nx=row['notation']
+        next unless nid
+        register_note nzid, nx, nid
+      }
     end
 
     def show_notes(nzid)
@@ -283,21 +293,24 @@ class TDCSabun
     # 表注釈CSV内で二次細分を分別する列名と値
     def each_nizi2
       case @ftyp
+      when /-N/ then "skip note fles"
       when /^GT-(\d)-(\d+)/ then
-        yield('templateNo', format('%u.%u', $1.to_i, $2.to_i))
+        yield(nil, 'templateNo', format('%u.%u', $1.to_i, $2.to_i))
       when /^Gc-(\d)-(\d+)-[CF]/ then
-        yield('tableNo', format('%u.%u.0.0', $1.to_i, $2.to_i))
+        yield(nil, 'tableNo', format('%u.%u.0.0', $1.to_i, $2.to_i))
       when /^Gc-(\d)-(\d+)-(\d+)-(\d+)/ then
-        yield('tableNo', format('%u.%u.%u.%u', $1.to_i, $2.to_i, $3.to_i, $4.to_i))
+        yield(nil, 'tableNo', format('%u.%u.%u.%u', $1.to_i, $2.to_i, $3.to_i, $4.to_i))
       when /^(?:b[BD]|cct)-(\d+)/ then
-        yield('tableNo', format('%02u', $1.to_i))
+        @nizis.each{|nid|
+          yield(nid, 'tableNo', format('%02u', $1.to_i))
+        }
       when /^bC$/ then
-        yield(nil, nil)
+        yield(nil, nil, nil)
       when /^bF-\d/ then
         @nizis.each{|nid|
           raise @ftyp.inspect if nid.nil?
           f_xx_yyy=format('%s %s %s', nid[0], nid[1..2], nid[3..-1])
-          yield('tableNo', f_xx_yyy)
+          yield(nid, 'tableNo', f_xx_yyy)
         }
       else
         "do nothing otherwise"
@@ -358,11 +371,11 @@ class TDCSabun
       each_nizi{|nid,table|
         @footnotes.begin_nizi(nid)
         table.each{|row|
-          @footnotes.parse_note(row)
+          @footnotes.parse_note(nid,row)
         }
       }
-      each_nizi2{|nskey,nsval|
-        @footnotes.tablenotes(nskey,nsval)
+      each_nizi2{|nid,nskey,nsval|
+        @footnotes.tablenotes(nid,nskey,nsval)
       }
     end
 
