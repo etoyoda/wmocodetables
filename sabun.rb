@@ -294,11 +294,21 @@ class TDCSabun
       end
     end
 
+    # 二次細分識別子にふさわしくない列値を置換する
+    def mangle_nzid str
+      case str
+      when /^Product discipline (\d+)/ then
+        format('%03u', $1.to_i)
+      else
+        str.gsub(/\W+/, '')[0..16]
+      end
+    end
+
     # 二次細分のリスト。非分割の場合はnilを要素とする長さ1の配列
     def build_nizis
       nk=nizikey()
       if nk then
-        @nizis=@table.map{|r| r[nk].sub(/,/,'')}.uniq.sort
+        @nizis=@table.map{|r| mangle_nzid(r[nk])}.uniq.sort
       else
         @nizis=[nil]
       end
@@ -308,7 +318,7 @@ class TDCSabun
     def select_nizi nzid
       nk=nizikey()
       if nk then
-        @table.select{|r| nzid==r[nk].sub(/,/,'')}
+        @table.select{|r| nzid==mangle_nzid(r[nk])}
       else
         @table
       end
