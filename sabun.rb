@@ -101,10 +101,11 @@ class TDCSabun
       }
     end
 
-    def register_note nzid,nx,nid
+    def register_note nzid,notation,nid
       db2=@db[nzid]
-      if db2[nx] and db2[nx]!=nid
-        msg="conflict #{@ftyp} #{nx} #{db2[nx]}<=#{nid}"
+      notation=nil if 'n/a'==notation
+      if db2[notation] and db2[notation]!=nid
+        msg="conflict #{@ftyp} #{notation} #{db2[notation]}<=#{nid}"
         warn msg
       end
       unless @cat.include?(nid)
@@ -112,16 +113,16 @@ class TDCSabun
         warn msg
         @cat[nid]="(dummy text #{nid})"
       end
-      db2[nx]=nid
+      db2[notation]=nid
     end
 
     def tablenotes(nzid,nskey,nsval)
       @nt.each{|row|
         next if nskey and nsval != row[nskey]
         nid=row['noteID']
-        nx=row['notation']
+        notation=row['notation']
         next unless nid
-        register_note nzid, nx, nid
+        register_note nzid, notation, nid
       }
     end
 
@@ -129,8 +130,8 @@ class TDCSabun
       return if @db[nzid].empty?
       puts "Notes:"
       puts ""
-      @db[nzid].each{|nx,nid|
-        puts "#{nx}:" if nx
+      @db[nzid].each{|notation,nid|
+        puts "#{notation}:" if notation
         puts @cat[nid]
         puts ""
       }
