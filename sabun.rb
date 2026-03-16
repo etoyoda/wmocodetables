@@ -695,12 +695,16 @@ HELP
     }
   end
 
+  def make_full_doc
+    File.open(@cfg[:tpl],'r:UTF-8'){|ifp|
+      filter_file(ifp)
+    }
+  end
+
   def run
     open_output
     if single_mode? then
-      File.open(@cfg[:tpl],'r:UTF-8'){|ifp|
-        filter_file(ifp)
-      }
+      make_full_doc
     else
       is1=@db1.itizi_saibun_list
       is2=@db2.itizi_saibun_list
