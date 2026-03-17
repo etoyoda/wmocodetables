@@ -107,7 +107,7 @@ class TDCSabun
       return unless NPAT===note
       nxs=$1
       nxs=if nxs then nxs.split(/, | and /) else [nil] end
-      raise unless /^\d+(?:,\d+)*$/===nids
+      raise "noteIDs=#{nids.inspect}" unless /^\d+[a-z]*(?:,\d+[a-z]*)*$/===nids
       nids=nids.split(/,/)
       warn "pn #{[@ftyp,note,nids,nxs].inspect}" if $DEBUG
       if nids.size!=nxs.size
