@@ -1,6 +1,7 @@
 #!/usr/bin/ruby
 
 require 'csv'
+require 'diff/lcs'
 
 # WMOが提供するTDCF CSV表の差分を asciidoc 文書に成形出力するプログラム
 class TDCSabun
@@ -807,10 +808,32 @@ HELP
   end
 
   def diff_itizi(is)
-    puts "// diff #{is}"
+    puts "== diff in #{@db2.sectitle(is)}"
     cols=@db2.display_cols(is)
     tokens1=@db1.tokens(is,cols)
     tokens2=@db2.tokens(is,cols)
+    sdiff=Diff::LCS.sdiff(tokens1,tokens2)
+    i=j=0
+    sdiff.each{|chg|
+      case chg.action
+      when '=' then
+        i+=1
+        j+=1
+      when '-' then
+        puts "- #{i}"
+        i+=1
+      when '+' then
+        puts "+ #{j}"
+        j+=1
+      when '!'
+        puts "- #{i}"
+        puts "+ #{i}"
+        i+=1
+        j+=1
+      else
+        raise "unexpected"
+      end
+    }
   end
 
   def compare is, ii1, ii2
