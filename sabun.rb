@@ -769,7 +769,7 @@ HELP
     $stdout=File.open(@cfg[:out],'w:UTF-8')
   end
 
-  def filter_file ifp
+  def filter_template_file ifp
     ifp.each{|line|
       case line
       when /^#c(3|4) \/(\S+)\//
@@ -787,7 +787,7 @@ HELP
 
   def make_full_doc
     File.open(@cfg[:tpl],'r:UTF-8'){|ifp|
-      filter_file(ifp)
+      filter_template_file(ifp)
     }
   end
 
