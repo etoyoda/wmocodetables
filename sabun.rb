@@ -26,7 +26,7 @@ class TDCSabun
         next unless basename==f['csvName']
         next unless row[f['keyField']]==f['keyValue']
         next unless row[f['targetField']]==f['ifMatch']
-        warn "do_fix #{row[f['targetField']]}=#{f['replace']}"
+        warn "do_fix #{row[f['targetField']]}=#{f['replace']}" if $VERBOSE
         row[f['targetField']]=f['replace']
       }
     end
@@ -658,6 +658,10 @@ class TDCSabun
       scan_dirs(dirs)
     end
 
+    def sectitle ftyp
+      @resd.sectitle(ftyp)
+    end
+
     def find_note ftyp
       return [nil,nil] if /^(A|cclist)/===ftyp
       nntyp=ftyp.sub(/(-.*)?$/, '-NN')
@@ -759,11 +763,6 @@ HELP
     return self
   end
 
-  # TENTATIVE
-  def compare is, ii1, ii2
-    printf("%-25s %s %s\n", is, ii1, ii2)
-  end
-
   def open_output
     warn "output to #{@cfg[:out]}"
     $stdout=File.open(@cfg[:out],'w:UTF-8')
@@ -791,16 +790,34 @@ HELP
     }
   end
 
+  def diff_itizi(is)
+    puts "// diff #{is}"
+  end
+
+  def compare is, ii1, ii2
+    warn sprintf("%-25s %s %s\n", is, ii1, ii2) if $DEBUG
+    tabname=@db2.sectitle(is)
+    if ii1 and ii2 then
+      diff_itizi(is)
+    elsif ii2 then
+      puts "== #{tabname} (add)"
+    else
+      puts "== #{tabname} (delete)"
+    end
+  end
+
   def run
     open_output
     if single_mode? then
       make_full_doc
     else
+      puts "= changes to TDCF Tables"
+      puts ":toc:"
       is1=@db1.itizi_saibun_list
       is2=@db2.itizi_saibun_list
       ismerge=(is1+is2).uniq.sort
       ismerge.each{|is|
-        compare is, is1.include?(is), is2.include?(is)
+        compare(is, is1.include?(is), is2.include?(is))
       }
     end
   end
