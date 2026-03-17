@@ -63,7 +63,7 @@ class TDCSabun
       return ftyp
     end
 
-  end
+  end # class ResourceData
 
   class NoteDB
 
@@ -168,7 +168,7 @@ class TDCSabun
       }
     end
 
-  end
+  end # class NoteDB
 
   # 一次細分表を表現するクラス。
   # 通報式の表番号が複数CSVで分割されていることがあり、その数だけ構築される。
@@ -565,7 +565,7 @@ class TDCSabun
       }
     end
 
-  end
+  end # class ItiziSaibun
 
   class Revision
 
@@ -692,7 +692,11 @@ class TDCSabun
       }
     end
 
-  end
+    def tokens is
+      @cat[is].tokens
+    end
+
+  end # class Revision
 
   def parse_arg arg
     case arg
@@ -792,6 +796,9 @@ HELP
 
   def diff_itizi(is)
     puts "// diff #{is}"
+    cols=@db2.display_cols
+    tokens1=@db1.tokens(is)
+    tokens2=@db2.tokens(is)
   end
 
   def compare is, ii1, ii2

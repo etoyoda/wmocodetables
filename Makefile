@@ -1,6 +1,9 @@
-all: process.html tdcf-tables.html
+all: process.html tdcf-diff.html tdcf-tables.html
 
 pdf: process.pdf tdcf-tables.pdf
+
+tdcf-diff.html: tdcf-diff.adoc
+	asciidoctor -a lang=ja tdcf-diff.adoc
 
 tdcf-tables.html: tdcf-tables.adoc
 	asciidoctor -a lang=ja tdcf-tables.adoc
@@ -8,6 +11,11 @@ tdcf-tables.html: tdcf-tables.adoc
 # old version
 tdcf-bak.adoc: csv-compile.rb toppage-ja.txt resources.csv fixwmo.csv
 	ruby csv-compile.rb GRIB2 BUFR4 CCT
+
+tdcf-diff.adoc: sabun.rb resources.csv fixwmo.csv
+	ruby sabun.rb HEAD -FT2026-1
+	test -f tdcf-diff.adoc.bak || cp tdcf-diff.adoc tdcf-diff.adoc.bak
+	diff tdcf-diff.adoc.bak tdcf-diff.adoc
 
 tdcf-tables.adoc: sabun.rb template-ja.txt resources.csv fixwmo.csv
 	ruby sabun.rb HEAD
