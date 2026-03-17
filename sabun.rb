@@ -565,6 +565,14 @@ class TDCSabun
       }
     end
 
+    def display_cols
+      @tt.cols
+    end
+
+    def tokens cols
+      @table
+    end
+
   end # class ItiziSaibun
 
   class Revision
@@ -692,8 +700,12 @@ class TDCSabun
       }
     end
 
-    def tokens is
-      @cat[is].tokens
+    def display_cols is
+      @cat[is].display_cols
+    end
+
+    def tokens is, cols
+      @cat[is].tokens(cols)
     end
 
   end # class Revision
@@ -796,9 +808,9 @@ HELP
 
   def diff_itizi(is)
     puts "// diff #{is}"
-    cols=@db2.display_cols
-    tokens1=@db1.tokens(is)
-    tokens2=@db2.tokens(is)
+    cols=@db2.display_cols(is)
+    tokens1=@db1.tokens(is,cols)
+    tokens2=@db2.tokens(is,cols)
   end
 
   def compare is, ii1, ii2
