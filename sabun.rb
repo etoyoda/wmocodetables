@@ -804,6 +804,7 @@ HELP
   end
 
   def diff_itizi(is)
+    emptyp=true
     istab1=@db1[is]
     istab2=@db2[is]
     # in most cases istab2 returns expected results.
@@ -812,6 +813,11 @@ HELP
       rows1=istab1.select_nizi(nzid)
       rows2=istab2.select_nizi(nzid)
       diff=Diff::LCS.diff(rows1,rows2)
+      next if diff.empty?
+      if emptyp then
+        puts "=== #{@db2.sectitle(is)}"
+        emptyp=false
+      end
       diff.each{|hunk|
         rows_del=hunk.map{|chg|
           if chg.action=='-' then chg.element else nil end
@@ -827,18 +833,6 @@ HELP
           puts "add following:"
           istab2.show_rows(nzid,rows_add,3)
         end
-      }
-    }
-  end
-
-  def dummy is
-    cols=@db2.display_cols(is)
-    tokens1=@db1.tokens(is,cols)
-    tokens2=@db2.tokens(is,cols)
-    diff=Diff::LCS.diff(tokens1,tokens2)
-    diff.each{|hunk|
-      hunk.each{|chg|
-        puts([chg.action,chg.position,chg.element].inspect)
       }
     }
   end
