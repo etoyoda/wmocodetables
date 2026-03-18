@@ -1,6 +1,6 @@
 all: process.html tdcf-diff.html tdcf-tables.html
 
-pdf: process.pdf tdcf-tables.pdf
+pdf: process.pdf tdcf-tables.pdf tdcf-diff.pdf
 
 tdcf-diff.html: tdcf-diff.adoc
 	asciidoctor -a lang=ja tdcf-diff.adoc
@@ -16,6 +16,9 @@ tdcf-diff.adoc: sabun.rb resources.csv fixwmo.csv
 	ruby sabun.rb HEAD -FT2026-1
 	test -f tdcf-diff.adoc.bak || cp tdcf-diff.adoc tdcf-diff.adoc.bak
 	diff tdcf-diff.adoc.bak tdcf-diff.adoc
+
+tdcf-diff.pdf: tdcf-diff.adoc themes/japanese-theme.yml
+	asciidoctor-pdf -a pdf-theme=themes/japanese-theme.yml -a lang=ja tdcf-diff.adoc
 
 tdcf-tables.adoc: sabun.rb template-ja.txt resources.csv fixwmo.csv
 	ruby sabun.rb HEAD
