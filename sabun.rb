@@ -150,23 +150,31 @@ class TDCSabun
       }
     end
 
-    def show_notes(nzid)
-      return if @merged and @merged != nzid
+    def text_notes(nzid)
+      return nil if @merged and @merged != nzid
+      return nil if @db[nzid].nil?
+      r=[]
       case @db[nzid].size
       when 0 then
-        return
+        return nil
       when 1 then
-        puts "Note:"
+        r.push "Note:"
       else
-        puts "Notes:"
+        r.push "Notes:"
       end
-      puts ""
+      r.push ""
       @db[nzid].keys.each{|inote|
         nid=@db[nzid][inote]
-        puts "#{inote}:" unless inote==0
-        puts @cat[nid]
-        puts ""
+        r.push "#{inote}:" unless inote==0
+        r.push @cat[nid]
+        r.push ""
       }
+      r
+    end
+
+    def show_notes(nzid)
+      buf=text_notes(nzid)
+      puts buf if buf
     end
 
   end # class NoteDB
@@ -572,6 +580,11 @@ class TDCSabun
       @headers
     end
 
+    def text_notes(nzid)
+      return nil unless @footnotes
+      @footnotes.text_notes(nzid)
+    end
+
   end # class ItiziSaibun
 
   class Revision
@@ -824,26 +837,52 @@ HELP
       rows1=istab1.select_nizi(nzid).map{|row| TDCSabun.row_pack(row)}
       rows2=istab2.select_nizi(nzid).map{|row| TDCSabun.row_pack(row)}
       diff=Diff::LCS.diff(rows1,rows2)
-      next if diff.empty?
-      if emptyp then
-        chapter_mark(is)
-        puts "=== #{@db2.sectitle(is)}"
-        emptyp=false
+      if not diff.empty? then
+        if emptyp then
+          chapter_mark(is)
+          puts "=== #{@db2.sectitle(is)}"
+          emptyp=false
+        end
+        diff.each{|hunk|
+          rows_del=hunk.map{|chg|
+            if chg.action=='-' then TDCSabun.row_unpack(chg.element) else nil end
+          }.compact
+          rows_add=hunk.map{|chg|
+            if chg.action=='+' then TDCSabun.row_unpack(chg.element) else nil end
+          }.compact
+          if not rows_del.empty? then
+            puts "*Delete following*:"
+            istab1.show_rows(nzid,rows_del,3)
+          end
+          if not rows_add.empty? then
+            puts "*Add following*:"
+            istab2.show_rows(nzid,rows_add,3)
+          end
+        }
+      end
+      rows1=istab1.text_notes(nzid)
+      rows2=istab2.text_notes(nzid)
+      if rows1 and rows2 then
+        diff=Diff::LCS.diff(rows1,rows2)
+      else
+        diff=[]
       end
       diff.each{|hunk|
         rows_del=hunk.map{|chg|
-          if chg.action=='-' then TDCSabun.row_unpack(chg.element) else nil end
+          if chg.action=='-' then chg.element else nil end
         }.compact
         rows_add=hunk.map{|chg|
-          if chg.action=='+' then TDCSabun.row_unpack(chg.element) else nil end
+          if chg.action=='+' then chg.element else nil end
         }.compact
         if not rows_del.empty? then
           puts "*Delete following*:"
-          istab1.show_rows(nzid,rows_del,3)
+          puts ""
+          puts rows_del
         end
         if not rows_add.empty? then
           puts "*Add following*:"
-          istab2.show_rows(nzid,rows_add,3)
+          puts ""
+          puts rows_add
         end
       }
     }
