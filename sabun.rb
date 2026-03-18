@@ -849,19 +849,23 @@ HELP
     end
   end
 
+  def make_diff_doc
+    puts "= changes to TDCF Tables"
+    puts ":toc:"
+    is1=@db1.itizi_saibun_list
+    is2=@db2.itizi_saibun_list
+    ismerge=(is1+is2).uniq.sort
+    ismerge.each{|is|
+      compare(is, is1.include?(is), is2.include?(is))
+    }
+  end
+
   def run
     open_output
     if single_mode? then
       make_full_doc
     else
-      puts "= changes to TDCF Tables"
-      puts ":toc:"
-      is1=@db1.itizi_saibun_list
-      is2=@db2.itizi_saibun_list
-      ismerge=(is1+is2).uniq.sort
-      ismerge.each{|is|
-        compare(is, is1.include?(is), is2.include?(is))
-      }
+      make_diff_doc
     end
   end
 
