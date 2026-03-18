@@ -539,7 +539,7 @@ class TDCSabun
       puts buf unless emptyp
     end
 
-    def itizi_section_header lev
+    def itizi_section_header lev, addp=nil
       sectl=@resd.sectitle(@ftyp)
       subtl=nil
       tfirst=@table.first
@@ -554,12 +554,14 @@ class TDCSabun
         sectl += " - Class #{tfirst[@tt.title_add]}"
         subtl = tfirst['CategoryOfSequences_en']
       end
+      sectl = "(new) #{sectl}" if addp
       emit_section_header(lev,@ftyp,sectl,subtl) unless 'cclist'==@ftyp
+      puts "*Add following*:" if addp
     end
 
     # 一次細分を表示する。lev は節見出しレベル
-    def csvconv lev
-      itizi_section_header(lev)
+    def csvconv lev, addp=nil
+      itizi_section_header(lev, addp)
       each_nizi{|nzid,table|
         show_rows(nzid,table,lev)
         @footnotes.show_notes(nzid) if @footnotes
@@ -834,11 +836,11 @@ HELP
           if chg.action=='+' then TDCSabun.row_unpack(chg.element) else nil end
         }.compact
         if not rows_del.empty? then
-          puts "delete following:"
+          puts "*Delete following*:"
           istab1.show_rows(nzid,rows_del,3)
         end
         if not rows_add.empty? then
-          puts "add following:"
+          puts "*Add following*:"
           istab2.show_rows(nzid,rows_add,3)
         end
       }
@@ -851,9 +853,10 @@ HELP
     if ii1 and ii2 then
       diff_itizi(is)
     elsif ii2 then
-      puts "== #{tabname} (add)"
+      istab2=@db2[is]
+      istab2.csvconv(3,:add)
     else
-      puts "== #{tabname} (delete)"
+      puts "=== #{tabname} (delete)"
     end
   end
 
