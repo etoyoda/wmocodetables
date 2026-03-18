@@ -566,12 +566,8 @@ class TDCSabun
       }
     end
 
-    def display_cols
-      @tt.cols
-    end
-
-    def tokens cols
-      @table
+    def headers
+      @headers
     end
 
   end # class ItiziSaibun
@@ -803,6 +799,18 @@ HELP
     }
   end
 
+  def self.row_pack row
+    row.map{|k,v| "#{k}\t#{v}"}.join("\n")
+  end
+
+  def self.row_unpack text
+    pairs=text.lines.map{|line|
+      k,v=line.chomp.split("\t",2)
+      [k,v]
+    }
+    CSV::Row.new(pairs.map(&:first),pairs.map(&:last))
+  end
+
   def diff_itizi(is)
     emptyp=true
     istab1=@db1[is]
@@ -810,8 +818,8 @@ HELP
     # in most cases istab2 returns expected results.
     nzids=(istab2.nzid_list+istab1.nzid_list).uniq
     nzids.each{|nzid|
-      rows1=istab1.select_nizi(nzid)
-      rows2=istab2.select_nizi(nzid)
+      rows1=istab1.select_nizi(nzid).map{|row| TDCSabun.row_pack(row)}
+      rows2=istab2.select_nizi(nzid).map{|row| TDCSabun.row_pack(row)}
       diff=Diff::LCS.diff(rows1,rows2)
       next if diff.empty?
       if emptyp then
@@ -820,10 +828,10 @@ HELP
       end
       diff.each{|hunk|
         rows_del=hunk.map{|chg|
-          if chg.action=='-' then chg.element else nil end
+          if chg.action=='-' then TDCSabun.row_unpack(chg.element) else nil end
         }.compact
         rows_add=hunk.map{|chg|
-          if chg.action=='+' then chg.element else nil end
+          if chg.action=='+' then TDCSabun.row_unpack(chg.element) else nil end
         }.compact
         if not rows_del.empty? then
           puts "delete following:"
@@ -852,6 +860,7 @@ HELP
   def make_diff_doc
     puts "= changes to TDCF Tables"
     puts ":toc:"
+    puts ""
     is1=@db1.itizi_saibun_list
     is2=@db2.itizi_saibun_list
     ismerge=(is1+is2).uniq.sort
