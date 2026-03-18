@@ -863,8 +863,9 @@ HELP
     puts ""
     is1=@db1.itizi_saibun_list
     is2=@db2.itizi_saibun_list
-    ismerge=(is1+is2).uniq.sort
+    ismerge=(is2+is1).uniq.sort
     ismerge.each{|is|
+      next if /-N/===is
       compare(is, is1.include?(is), is2.include?(is))
     }
   end
