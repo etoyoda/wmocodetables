@@ -6,6 +6,8 @@ require 'diff/lcs'
     headers=t1.headers
     a_tokens=t1.map{|r| headers.map{|h| r[h]}}
     b_tokens=t2.map{|r| headers.map{|h| r[h]}}
+#    a_tokens=t1.map{|row| row}
+#    b_tokens=t2.map{|row| row}
     sdiff=Diff::LCS.sdiff(a_tokens,b_tokens)
     out=[]
     out << headers.join(',')
