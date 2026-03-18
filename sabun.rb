@@ -701,12 +701,8 @@ class TDCSabun
       }
     end
 
-    def display_cols is
-      @cat[is].display_cols
-    end
-
-    def tokens is, cols
-      @cat[is].tokens(cols)
+    def [] is
+      @cat[is]
     end
 
   end # class Revision
@@ -808,31 +804,42 @@ HELP
   end
 
   def diff_itizi(is)
-    puts "== diff in #{@db2.sectitle(is)}"
+    istab1=@db1[is]
+    istab2=@db2[is]
+    # in most cases istab2 returns expected results.
+    nzids=(istab2.nzid_list+istab1.nzid_list).uniq
+    nzids.each{|nzid|
+      rows1=istab1.select_nizi(nzid)
+      rows2=istab2.select_nizi(nzid)
+      diff=Diff::LCS.diff(rows1,rows2)
+      diff.each{|hunk|
+        rows_del=hunk.map{|chg|
+          if chg.action=='-' then chg.element else nil end
+        }.compact
+        rows_add=hunk.map{|chg|
+          if chg.action=='+' then chg.element else nil end
+        }.compact
+        if not rows_del.empty? then
+          puts "delete following:"
+          istab1.show_rows(nzid,rows_del,3)
+        end
+        if not rows_add.empty? then
+          puts "add following:"
+          istab2.show_rows(nzid,rows_add,3)
+        end
+      }
+    }
+  end
+
+  def dummy is
     cols=@db2.display_cols(is)
     tokens1=@db1.tokens(is,cols)
     tokens2=@db2.tokens(is,cols)
-    sdiff=Diff::LCS.sdiff(tokens1,tokens2)
-    i=j=0
-    sdiff.each{|chg|
-      case chg.action
-      when '=' then
-        i+=1
-        j+=1
-      when '-' then
-        puts "- #{i}"
-        i+=1
-      when '+' then
-        puts "+ #{j}"
-        j+=1
-      when '!'
-        puts "- #{i}"
-        puts "+ #{i}"
-        i+=1
-        j+=1
-      else
-        raise "unexpected"
-      end
+    diff=Diff::LCS.diff(tokens1,tokens2)
+    diff.each{|hunk|
+      hunk.each{|chg|
+        puts([chg.action,chg.position,chg.element].inspect)
+      }
     }
   end
 
