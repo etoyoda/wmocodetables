@@ -742,6 +742,7 @@ class TDCSabun
     @db1=@db2=nil
     @cfg={:lang=>'ja', :suf1=>nil, :suf2=>nil, :d1=>[], :d2=>[],
       :out=>nil, :tpl=>'template-ja.txt' }
+    @chapter=""
     helpmsg=catch(:help) {
       argv.each{|arg| parse_arg(arg) }
       init_dirs
@@ -825,6 +826,7 @@ HELP
       diff=Diff::LCS.diff(rows1,rows2)
       next if diff.empty?
       if emptyp then
+        chapter_mark(is)
         puts "=== #{@db2.sectitle(is)}"
         emptyp=false
       end
@@ -847,16 +849,32 @@ HELP
     }
   end
 
+  def chapter_mark is
+    if /^G/===is and 'G'>@chapter then
+      puts "== FM92 GRIB"
+    elsif /^b/===is and 'b'>@chapter then
+      puts "== FM94 BUFR"
+    elsif /^c[A-D]/===is and 'cA'>@chapter then
+      puts "== FM95 CREX"
+    elsif /^cct/===is and 'cct'>@chapter then
+      puts "== Common Code Table"
+    end
+    @chapter=is
+  end
+
   def compare is, ii1, ii2
     warn sprintf("%-25s %s %s\n", is, ii1, ii2) if $DEBUG
     tabname=@db2.sectitle(is)
     if ii1 and ii2 then
       diff_itizi(is)
     elsif ii2 then
+      chapter_mark(is)
       istab2=@db2[is]
       istab2.csvconv(3,:add)
     else
-      puts "=== #{tabname} (delete)"
+      chapter_mark(is)
+      puts "=== (delete) #{tabname}"
+      puts "**Delete #{tabname}**."
     end
   end
 
