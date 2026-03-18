@@ -37,6 +37,9 @@ require 'diff/lcs'
     out.join("\n")
   end
 
-t1=CSV.read('GRIB2/GRIB2_CodeFlag_4_2_0_20_CodeTable_en.csv',headers:true)
-t2=CSV.read('GRIB2-FT2026-1/GRIB2_CodeFlag_4_2_0_20_CodeTable_en.csv',headers:true)
+
+#tdir,tbase='GRIB2','GRIB2_CodeFlag_4_2_0_20_CodeTable_en.csv'
+tdir,tbase='CCT','C05.csv'
+t1=CSV.read("#{tdir}/#{tbase}",headers:true)
+t2=CSV.read("#{tdir}-FT2026-1/#{tbase}",headers:true)
 puts diff_tables(t1,t2)
