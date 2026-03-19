@@ -6,6 +6,9 @@ require 'diff/lcs'
 # WMOが提供するTDCF CSV表の差分を asciidoc 文書に成形出力するプログラム
 class TDCSabun
 
+  # クラス関数 (インスタンス変数でやりとりをしない)
+
+  # 文字列をasciidocに出力に
   def self.textdeco text
     return nil if text.nil?
     text.
@@ -18,6 +21,18 @@ class TDCSabun
       else "\\&#$1;"
       end
     }
+  end
+
+  def self.row_pack row
+    row.map{|k,v| "#{k}\t#{v}"}.join("\n")
+  end
+
+  def self.row_unpack text
+    pairs=text.lines.map{|line|
+      k,v=line.chomp.split("\t",2)
+      [k,v]
+    }
+    CSV::Row.new(pairs.map(&:first),pairs.map(&:last))
   end
 
   # WMOの誤字を訂正するパッチと、表名・列名多言語化リソースを管理
@@ -850,18 +865,6 @@ HELP
     }
   end
 
-  def self.row_pack row
-    row.map{|k,v| "#{k}\t#{v}"}.join("\n")
-  end
-
-  def self.row_unpack text
-    pairs=text.lines.map{|line|
-      k,v=line.chomp.split("\t",2)
-      [k,v]
-    }
-    CSV::Row.new(pairs.map(&:first),pairs.map(&:last))
-  end
-
   # 初回実行時だけ一次細分isの章題表示チェックと節題を表示する
   # 手続きオブジェクトを返す
   def first_time_printer is
@@ -996,7 +999,7 @@ HELP
     }
   end
 
-  def run
+  def action
     open_output
     if single_mode? then
       make_full_doc
@@ -1008,5 +1011,5 @@ HELP
 end
 
 if $0 == __FILE__
-  TDCSabun.new(ARGV).build.run
+  TDCSabun.new(ARGV).build.action
 end
