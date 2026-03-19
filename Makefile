@@ -1,6 +1,6 @@
 all: process.html tdcf-diff.html tdcf-tables.html
 
-pdf: process.pdf tdcf-tables.pdf tdcf-diff.pdf
+pdf: process.pdf tdcf-diff.pdf tdcf-tables.pdf
 
 tdcf-diff.html: tdcf-diff.adoc
 	asciidoctor -a lang=ja tdcf-diff.adoc
