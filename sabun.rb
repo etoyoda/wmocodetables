@@ -485,9 +485,12 @@ class TDCSabun
         cols.map{|h| case h
         when 'OperatorName_en' then 3
         when 'OperatorDeefinition_en' then 9
-        else 2 end }.join(',')
+        else 4 end }.join(',')
       when /^[bc]D/ then
-        cols.map{|h| 'ElementName_en'==h ? 3 : 1}.join(',')
+        cols.map{|h| case h
+        when 'ElementName_en' then 3 
+        when 'ElementDescription_en' then 2
+        else 1 end}.join(',')
       when /^bF/ then
         cols.map{|h| 'EntryName_en'==h ? 3 : 1}.join(',')
       when /^cct-02/ then
@@ -748,8 +751,8 @@ class TDCSabun
         else 'tdcf-tables.adoc'
         end
     end
-    rev1=@cfg[:suf1].sub(/^-/,'')
-    rev2=@cfg[:suf2].sub(/^-/,'')
+    rev1=@cfg[:suf1].to_s.sub(/^-/,'')
+    rev2=@cfg[:suf2].to_s.sub(/^-/,'')
     rev1='HEAD' if rev1.empty?
     rev2='HEAD' if rev2.empty?
     @cfg[:revspec]="#{rev1} to #{rev2}"
