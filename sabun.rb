@@ -563,9 +563,9 @@ class TDCSabun
         sectl += " - Class #{tfirst[@tt.title_add]}"
         subtl = tfirst['CategoryOfSequences_en']
       end
-      sectl = "(new) #{sectl}" if addp
+      sectl=format(@resd.xlate("(new) %s"), sectl) if addp
       emit_section_header(lev,@ftyp,sectl,subtl) unless 'cclist'==@ftyp
-      puts "*Add following*:" if addp
+      puts @resd.xlate("*Add following*:") if addp
     end
 
     # 一次細分を表示する。lev は節見出しレベル
