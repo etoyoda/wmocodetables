@@ -122,8 +122,12 @@ class TDCSabun
       return if note.nil? or nids.nil?
       return unless NPAT===note
       nxs=$1
-      nxs=if nxs then nxs.split(/, | and /) else [nil] end
-      raise "noteIDs=#{nids.inspect}" unless /^\d+[a-z]*(?:,\d+[a-z]*)*$/===nids
+      nxs=if nxs
+        then nxs.split(/, | and /)
+        else [nil] end
+      unless /^\d+[a-z]*(?:,\d+[a-z]*)*$/===nids
+        raise "noteIDs=#{nids.inspect}"
+      end
       nids=nids.split(/,/)
       warn "pn #{[@ftyp,note,nids,nxs].inspect}" if $DEBUG
       if nids.size!=nxs.size
@@ -477,7 +481,9 @@ class TDCSabun
 
     def nizi_section_header nzid,table,lev
       ssym=[@ftyp, '_s', nzid.gsub(/ /,'')].join
-      stlkey=if 'FXY1'==nizikey() then 'Title_en' else 'ElementName_en' end
+      stlkey=if 'FXY1'==nizikey()
+        then 'Title_en'
+        else 'ElementName_en' end
       tfirst=table.first
       sectl=[tfirst[nizikey()], tfirst[stlkey]].join(' ')
       emit_section_header(lev,ssym,sectl,nil)
@@ -874,10 +880,18 @@ HELP
         end
         diff.each{|hunk|
           rows_del=hunk.map{|chg|
-            if chg.action=='-' then TDCSabun.row_unpack(chg.element) else nil end
+            if chg.action=='-' then
+              TDCSabun.row_unpack(chg.element)
+            else
+              nil
+            end
           }.compact
           rows_add=hunk.map{|chg|
-            if chg.action=='+' then TDCSabun.row_unpack(chg.element) else nil end
+            if chg.action=='+' then
+              TDCSabun.row_unpack(chg.element)
+            else
+              nil
+            end
           }.compact
           if not rows_del.empty? then
             puts xlate("*Delete following*:")
