@@ -36,13 +36,14 @@ class TDCSabun
     def colname h
       @coln[h] or h
     end
+    alias :xlate :colname
 
     # 多言語リソースの言語を選択する
     def build lang
       # 行頭が ^ のものは表名変換表 @tnt に
       @tnt=Hash.new
       @res.each{|row|
-        next unless /^^/===row['Keyword']
+        next unless /^\^/===row['Keyword']
         next unless lang===row['lang']
         re=Regexp.new(row['Keyword'])
         @tnt[re]=row['Text']
@@ -671,9 +672,9 @@ class TDCSabun
 
     # Revision.new
     # CSVファイル一覧を探索してデータ構造を決めるところまで
-    def initialize dirs
+    def initialize dirs, resd
+      @resd=resd
       @cat=Hash.new
-      @resd=ResourceData.new
       warn "= Revision.new(#{dirs.inspect})"
       scan_dirs(dirs)
     end
@@ -752,7 +753,7 @@ class TDCSabun
   # TDCSabun.new
   # コマンドライン引数の解析まで
   def initialize argv
-    @db1=@db2=nil
+    @db1=@db2=@resd=nil
     @cfg={:lang=>'ja', :suf1=>nil, :suf2=>nil, :d1=>[], :d2=>[],
       :out=>nil, :tpl=>'template-ja.txt' }
     @chapter=""
@@ -783,9 +784,14 @@ HELP
 
   # 各CSV表の読み込み
   def build
-    @db1=Revision.new(@cfg[:d1]).build(lang)
-    @db2=Revision.new(@cfg[:d2]).build(lang) unless single_mode?
+    @resd=ResourceData.new
+    @db1=Revision.new(@cfg[:d1],@resd).build(lang)
+    @db2=Revision.new(@cfg[:d2],@resd).build(lang) unless single_mode?
     return self
+  end
+
+  def xlate str
+    @resd.xlate(str)
   end
 
   def open_output
@@ -851,11 +857,11 @@ HELP
             if chg.action=='+' then TDCSabun.row_unpack(chg.element) else nil end
           }.compact
           if not rows_del.empty? then
-            puts "*Delete following*:"
+            puts xlate("*Delete following*:")
             istab1.show_rows(nzid,rows_del,3)
           end
           if not rows_add.empty? then
-            puts "*Add following*:"
+            puts xlate("*Add following*:")
             istab2.show_rows(nzid,rows_add,3)
           end
         }
@@ -875,12 +881,12 @@ HELP
           if chg.action=='+' then chg.element else nil end
         }.compact
         if not rows_del.empty? then
-          puts "*Delete following*:"
+          puts xlate("*Delete following*:")
           puts ""
           puts rows_del
         end
         if not rows_add.empty? then
-          puts "*Add following*:"
+          puts xlate("*Add following*:")
           puts ""
           puts rows_add
         end
@@ -890,12 +896,16 @@ HELP
 
   def chapter_mark is
     if /^G/===is and 'G'>@chapter then
+      puts "<<<"
       puts "== FM92 GRIB"
     elsif /^b/===is and 'b'>@chapter then
+      puts "<<<"
       puts "== FM94 BUFR"
     elsif /^c[A-D]/===is and 'cA'>@chapter then
+      puts "<<<"
       puts "== FM95 CREX"
     elsif /^cct/===is and 'cct'>@chapter then
+      puts "<<<"
       puts "== Common Code Table"
     end
     @chapter=is
@@ -912,13 +922,13 @@ HELP
       istab2.csvconv(3,:add)
     else
       chapter_mark(is)
-      puts "=== (delete) #{tabname}"
-      puts "**Delete #{tabname}**."
+      puts format(xlate("=== (delete) %s"), tabname)
+      puts format(xlate("*Delete* %s."), tabname)
     end
   end
 
   def make_diff_doc
-    puts "= changes to TDCF Tables"
+    puts xlate("= Changes to TDCF Tables")
     puts ":toc:"
     puts ""
     is1=@db1.itizi_saibun_list

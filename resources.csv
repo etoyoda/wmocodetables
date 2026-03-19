@@ -198,3 +198,8 @@ Name_InternationalDataSubcategories_en,en,International data subcategories / Nam
 Name_InternationalDataSubcategories_en,ja,国際資料副カテゴリー 名称
 ChemicalFormula,en,Chemical formula
 ChemicalFormula,ja,化学式
+*Delete following*:,ja,*次を削除*:
+*Add following*:,ja,*次を追加*:
+=== (delete) %s,ja,=== (削除) %s
+*Delete* %s.,ja,%s を**削除する**。
+= Changes to TDCF Tables,ja,= TDCF表への変更
