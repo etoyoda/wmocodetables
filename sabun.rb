@@ -875,72 +875,77 @@ HELP
     end
   end
 
-  def diff_nizi_core is, istab1, istab2
-  end
-
-  def diff_itizi(is)
+  def diff_nizi_core is, nzid, header_printer
     istab1=@db1[is]
     istab2=@db2[is]
-    header_printer=first_time_printer(is)
-    # in most cases istab2 returns expected results.
-    nzids=(istab2.nzid_list+istab1.nzid_list).uniq
-    nzids.each{|nzid|
-      rows1=istab1.select_nizi(nzid).map{|row| TDCSabun.row_pack(row)}
-      rows2=istab2.select_nizi(nzid).map{|row| TDCSabun.row_pack(row)}
-      diff=Diff::LCS.diff(rows1,rows2)
-      if not diff.empty? then
-        header_printer.call
-        diff.each{|hunk|
-          rows_del=hunk.map{|chg|
-            if chg.action=='-' then
-              TDCSabun.row_unpack(chg.element)
-            else
-              nil
-            end
-          }.compact
-          rows_add=hunk.map{|chg|
-            if chg.action=='+' then
-              TDCSabun.row_unpack(chg.element)
-            else
-              nil
-            end
-          }.compact
-          if not rows_del.empty? then
-            puts xlate("*Delete following*:")
-            istab1.show_rows(nzid,rows_del,3)
-          end
-          if not rows_add.empty? then
-            puts xlate("*Add following*:")
-            istab2.show_rows(nzid,rows_add,3)
-          end
-        }
-      end
-      rows1=istab1.text_notes(nzid)
-      rows2=istab2.text_notes(nzid)
-      if rows1 and rows2 then
-        diff=Diff::LCS.diff(rows1,rows2)
-      else
-        diff=[]
-      end
-      header_printer.call unless diff.empty?
+    rows1=istab1.select_nizi(nzid).map{|row| TDCSabun.row_pack(row)}
+    rows2=istab2.select_nizi(nzid).map{|row| TDCSabun.row_pack(row)}
+    diff=Diff::LCS.diff(rows1,rows2)
+    if not diff.empty? then
+      header_printer.call
       diff.each{|hunk|
         rows_del=hunk.map{|chg|
-          if chg.action=='-' then chg.element else nil end
+          if chg.action=='-' then
+            TDCSabun.row_unpack(chg.element)
+          else
+            nil
+          end
         }.compact
         rows_add=hunk.map{|chg|
-          if chg.action=='+' then chg.element else nil end
+          if chg.action=='+' then
+            TDCSabun.row_unpack(chg.element)
+          else
+            nil
+          end
         }.compact
         if not rows_del.empty? then
           puts xlate("*Delete following*:")
-          puts ""
-          puts rows_del
+          istab1.show_rows(nzid,rows_del,3)
         end
         if not rows_add.empty? then
           puts xlate("*Add following*:")
-          puts ""
-          puts rows_add
+          istab2.show_rows(nzid,rows_add,3)
         end
       }
+    end
+  end
+
+  def diff_nizi_note is, nzid, header_printer
+    rows1=@db1[is].text_notes(nzid)
+    rows2=@db2[is].text_notes(nzid)
+    if rows1 and rows2 then
+      diff=Diff::LCS.diff(rows1,rows2)
+    else
+      diff=[]
+    end
+    header_printer.call unless diff.empty?
+    diff.each{|hunk|
+      rows_del=hunk.map{|chg|
+        if chg.action=='-' then chg.element else nil end
+      }.compact
+      rows_add=hunk.map{|chg|
+        if chg.action=='+' then chg.element else nil end
+      }.compact
+      if not rows_del.empty? then
+        puts xlate("*Delete following*:")
+        puts ""
+        puts rows_del
+      end
+      if not rows_add.empty? then
+        puts xlate("*Add following*:")
+        puts ""
+        puts rows_add
+      end
+    }
+  end
+
+  def diff_itizi(is)
+    header_printer=first_time_printer(is)
+    # 改正で削除はめったにないので、@bd2 を先にしたほうが並びがよい
+    nzids=(@db2[is].nzid_list+@db1[is].nzid_list).uniq
+    nzids.each{|nzid|
+      diff_nizi_core(is,nzid,header_printer)
+      diff_nizi_note(is,nzid,header_printer)
     }
   end
 
