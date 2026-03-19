@@ -748,6 +748,11 @@ class TDCSabun
         else 'tdcf-tables.adoc'
         end
     end
+    rev1=@cfg[:suf1].sub(/^-/,'')
+    rev2=@cfg[:suf2].sub(/^-/,'')
+    rev1='HEAD' if rev1.empty?
+    rev2='HEAD' if rev2.empty?
+    @cfg[:revspec]="#{rev1} to #{rev2}"
   end
 
   # TDCSabun.new
@@ -928,7 +933,8 @@ HELP
   end
 
   def make_diff_doc
-    puts xlate("= Changes to TDCF Tables")
+    revspec = " (#{@cfg[:revspec]})"
+    puts format(xlate("= Changes to TDCF Tables%s"), revspec)
     puts ":toc:"
     puts ""
     is1=@db1.itizi_saibun_list

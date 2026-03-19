@@ -202,5 +202,5 @@ ChemicalFormula,ja,化学式
 *Add following*:,ja,*次を追加*:
 === (delete) %s,ja,=== (削除) %s
 *Delete* %s.,ja,%s を**削除する**。
-= Changes to TDCF Tables,ja,= TDCF表への変更
+= Changes to TDCF Tables%s,ja,= TDCF表への変更%s
 (new) %s,ja,(新規) %s
