@@ -862,10 +862,26 @@ HELP
     CSV::Row.new(pairs.map(&:first),pairs.map(&:last))
   end
 
+  # 初回実行時だけ一次細分isの章題表示チェックと節題を表示する
+  # 手続きオブジェクトを返す
+  def first_time_printer is
+    printed=false
+    lambda do
+      unless printed
+        chapter_mark(is)
+        puts "=== #{@db2.sectitle(is)}"
+        printed=true
+      end
+    end
+  end
+
+  def diff_nizi_core is, istab1, istab2
+  end
+
   def diff_itizi(is)
-    emptyp=true
     istab1=@db1[is]
     istab2=@db2[is]
+    header_printer=first_time_printer(is)
     # in most cases istab2 returns expected results.
     nzids=(istab2.nzid_list+istab1.nzid_list).uniq
     nzids.each{|nzid|
@@ -873,11 +889,7 @@ HELP
       rows2=istab2.select_nizi(nzid).map{|row| TDCSabun.row_pack(row)}
       diff=Diff::LCS.diff(rows1,rows2)
       if not diff.empty? then
-        if emptyp then
-          chapter_mark(is)
-          puts "=== #{@db2.sectitle(is)}"
-          emptyp=false
-        end
+        header_printer.call
         diff.each{|hunk|
           rows_del=hunk.map{|chg|
             if chg.action=='-' then
@@ -910,6 +922,7 @@ HELP
       else
         diff=[]
       end
+      header_printer.call unless diff.empty?
       diff.each{|hunk|
         rows_del=hunk.map{|chg|
           if chg.action=='-' then chg.element else nil end
