@@ -4,7 +4,7 @@ require 'csv'
 
 stat=Hash.new
 
-Dir.glob('{GRIB2,BUFR4,CCT}/*.csv').each{|cfnam|
+Dir.glob('{GRIB2,BUFR4,CCT}/{,notes/}*.csv').each{|cfnam|
   tab=CSV.read(cfnam,headers:true)
   lineno=0
   tab.each{|row|

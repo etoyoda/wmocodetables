@@ -6,6 +6,20 @@ require 'diff/lcs'
 # WMOが提供するTDCF CSV表の差分を asciidoc 文書に成形出力するプログラム
 class TDCSabun
 
+  def self.textdeco text
+    return nil if text.nil?
+    text.
+    gsub(/(\w+)(\^|\*\*)(-?\w+)/, '\1^\3^').
+    gsub(/\&(\w+);/){|f|
+      case $1
+      when 'alpha' then 'α'
+      when 'Sigma' then 'Σ'
+      when 'Delta' then 'Δ'
+      else "\\&#$1;"
+      end
+    }
+  end
+
   # WMOの誤字を訂正するパッチと、表名・列名多言語化リソースを管理
   class ResourceData
 
@@ -175,7 +189,8 @@ class TDCSabun
 
     def show_notes(nzid)
       buf=text_notes(nzid)
-      puts buf if buf
+      return if buf.nil?
+      buf.each{|text| puts TDCSabun.textdeco(text) }
     end
 
   end # class NoteDB
@@ -542,7 +557,7 @@ class TDCSabun
             n=row[@tt.note]
             txt=[txt, ' ', n].join if n
           end
-          txt
+          TDCSabun.textdeco(txt)
         }
         emptyp=false if not vv.all?{|cell| cell.nil?}
         buf.push('|'+vv.join(' |')+"\n")
