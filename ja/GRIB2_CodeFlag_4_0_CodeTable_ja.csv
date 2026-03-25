@@ -1,0 +1,22 @@
+Title_en,SubTitle_en,CodeFlag,Value,MeaningParameterDescription_en,Note_en,noteIDs,UnitComments_en,Status
+Product definition template number,,32768-65534,,Reserved for local use,,,,Replace
+Product definition template number,,32768-49999,,Reserved for local use,,,,Local
+Product definition template number,,50000,,土砂災害警戒判定値,,,,Local
+Product definition template number,,50000-50007,,Reserved for local use,,,,Local
+Product definition template number,,50008,,解析雨量プロダクト (観測情報を付加した連続な時間間隔の水平面における積算),,,,Local
+Product definition template number,,50009,,降水短時間予報プロダクト (予測手法情報を付加した連続な時間間隔の水平面における積算),,,,Local
+Product definition template number,,50010,,実況雨量全国合成プロダクト (予測手法情報を付加した連続な時間間隔の水平面における積算),,,,Local
+Product definition template number,,50011,,Xバンドレーダーを使用した予測資料,,,,Local
+Product definition template number,,50012,,降水15時間予報プロダクト,,,,Local
+Product definition template number,,50013-50019,,Reserved for local use,,,,Local
+Product definition template number,,50020,,雨量換算係数,,,,Local
+Product definition template number,,50021-51019,,Reserved for local use,,,,Local
+Product definition template number,,51020,,レーダープロダクト (高度別),,,,Local
+Product definition template number,,51021,,レーダープロダクト (仰角別),,,,Local
+Product definition template number,,51022,,レーダープロダクト (仰角別、磁気偏角付き),,,,Local
+Product definition template number,,51023-51121,,Reserved for local use,,,,Local
+Product definition template number,,51122,,ライダープロダクト (仰角別、磁気偏角付き),,,,Local
+Product definition template number,,51123,,レーダープロダクト (ライダー共通),,,,Local
+Product definition template number,,51124-52019,,Reserved for local use,,,,Local
+Product definition template number,,52020,,レーダープロダクト (高度別統計値),,,,Local
+Product definition template number,,52021-65534,,Reserved for local use,,,,Local

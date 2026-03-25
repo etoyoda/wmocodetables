@@ -315,6 +315,7 @@ class TDCSabun
       # not en 言語の言語パッチファイルがあれば読み込み適用する。
       if lang!='en' then
         if @fnams.include?(lang) then
+          warn "patching #{lang} #{@fnams.inspect}"
           csvja=CSV.read(@fnams[lang],headers:true)
           patch(csvja)
           csvja=nil
