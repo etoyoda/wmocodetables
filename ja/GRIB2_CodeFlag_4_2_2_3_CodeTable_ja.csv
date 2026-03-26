@@ -1,0 +1,4 @@
+Title_en,SubTitle_en,CodeFlag,Value,MeaningParameterDescription_en,Note_en,noteIDs,UnitComments_en,Status
+Parameter number by product discipline and parameter category,"Product discipline 2 - Land surface products, parameter category 3: soil products",192-254,,Reserved for local use,,,,Replace
+Parameter number by product discipline and parameter category,"Product discipline 2 - Land surface products, parameter category 3: soil products",192,,地面・下草の温度,,,K,Local
+Parameter number by product discipline and parameter category,"Product discipline 2 - Land surface products, parameter category 3: soil products",193-254,,Reserved for local use,,,,Local
