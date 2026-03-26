@@ -1,0 +1,4 @@
+Title_en,SubTitle_en,CodeFlag,Value,MeaningParameterDescription_en,Note_en,noteIDs,UnitComments_en,Status
+Type of generating process,,192-254,,Reserved for local use,,,,Replace
+Type of generating process,,192,,解析インクリメント,,,,Local
+Type of generating process,,193-254,,Reserved for local use,,,,Local
