@@ -1,0 +1,4 @@
+Title_en,SubTitle_en,CodeFlag,Value,MeaningParameterDescription_en,Note_en,noteIDs,UnitComments_en,Status
+Parameter number by product discipline and parameter category,"Product discipline 10 - Oceanographic products, parameter category 0: waves",192-254,,Reserved for local use,,,,Replace
+Parameter number by product discipline and parameter category,"Product discipline 10 - Oceanographic products, parameter category 0: waves",192,,換算沖波波高,,,m,Local
+Parameter number by product discipline and parameter category,"Product discipline 10 - Oceanographic products, parameter category 0: waves",193-254,,Reserved for local use,,,,Local
