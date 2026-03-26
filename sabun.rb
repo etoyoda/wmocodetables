@@ -252,7 +252,9 @@ class TDCSabun
 
     # 置換を実施する
     def replace_lbuf selected, lbuf
-      selected=Range.new(@table.size,nil) if selected.nil?
+      if selected.nil?
+        selected=((@table.size)...(@table.size))
+      end
       @table[selected]=lbuf
     end
 
