@@ -1,0 +1,10 @@
+Title_en,SubTitle_en,CodeFlag,Value,MeaningParameterDescription_en,Note_en,noteIDs,UnitComments_en,Status
+Parameter category by product discipline,Product discipline 0 - Meteorological products,192-254,,Reserved for local use,,,,Replace
+Parameter category by product discipline,Product discipline 0 - Meteorological products,192,,ライダー,,,,Local
+Parameter category by product discipline,Product discipline 0 - Meteorological products,193,,ナウキャスト,,,,Local
+Parameter category by product discipline,Product discipline 0 - Meteorological products,194,,長期再解析,,,,Local
+Parameter category by product discipline,Product discipline 0 - Meteorological products,194-254,,Reserved for local use,,,,Local
+Parameter category by product discipline,Product discipline 2 - Land surface products,192-254,,Reserved for local use,,,,Replace
+Parameter category by product discipline,Product discipline 2 - Land surface products,192,,地面及び海面状態プロダクト,,,,Local
+Parameter category by product discipline,Product discipline 2 - Land surface products,193,,長期再解析,,,,Local
+Parameter category by product discipline,Product discipline 2 - Land surface products,194-254,,Reserved for local use,,,,Local
