@@ -1,0 +1,5 @@
+Title_en,SubTitle_en,CodeFlag,Value,MeaningParameterDescription_en,Note_en,noteIDs,UnitComments_en,Status
+Operating mode,,192-254,,Reserved for local use,,,,Replace
+Operating mode,,192,,空域モード,(see Note 1),34000,,Local
+Operating mode,,193,,飛行場モード,(see Note 2),34001,,Local
+Operating mode,,194-254,,Reserved for local use,,,,Local

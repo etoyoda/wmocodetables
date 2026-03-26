@@ -8,7 +8,6 @@ def conv fnam
   end
   warn "making template #{outfnam} <- #{fnam}"
   tab=CSV.read(fnam, headers:true)
-  notfound=true
   CSV.open(outfnam, 'w', write_headers:true, headers:tab.headers) {|csv|
     tab.each{|row|
     if row.any?{|_, value| value=='Reserved for local use'} then
@@ -16,13 +15,9 @@ def conv fnam
       csv << row
       row['Status']='Local'
       csv << row
-      notfound=false
     end
     }
   }
-  if notfound then
-    raise "local use area not found in #{fnam}"
-  end
 end
 
 for fnam in ARGV
