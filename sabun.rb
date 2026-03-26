@@ -287,6 +287,10 @@ class TDCSabun
           state=:r
         elsif state==:l and stwd=='Local' then
           lbuf.push myrow
+        elsif stwd.nil? then
+          # Status 行のないファイルに対する差分、追加とする
+          lbuf.push myrow
+          state=:l
         else
           raise "unsupported Status #{stwd}"
         end
