@@ -1,0 +1,8 @@
+Title_en,SubTitle_en,CodeFlag,Value,MeaningParameterDescription_en,Note_en,noteIDs,UnitComments_en,Status
+Type of statistical processing,,192-254,,Reserved for local use,,,,Replace
+Type of statistical processing,,192,,推定値,,,,Local
+Type of statistical processing,,193,,標本数,,,,Local
+Type of statistical processing,,194,,差の最大値,,,,Local
+Type of statistical processing,,195,,格子内部での変動の最大値,,,,Local
+Type of statistical processing,,196,,代表値,,,,Local
+Type of statistical processing,,197-254,,Reserved for local use,,,,Local
