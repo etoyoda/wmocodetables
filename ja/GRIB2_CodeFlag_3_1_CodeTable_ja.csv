@@ -1,0 +1,8 @@
+Title_en,SubTitle_en,CodeFlag,Value,MeaningParameterDescription_en,Note_en,noteIDs,UnitComments_en,Status
+Grid definition template number,,32768-65534,,Reserved for local use,,,,Replace
+Grid definition template number,,32768-40109,,Reserved for local use,,,,Local
+Grid definition template number,,40110,,正距方位図法 (オフセット付き),,,,Local
+Grid definition template number,,40111-50119,,Reserved for local use,,,,Local
+Grid definition template number,,50120,,方位距離図法,,,,Local
+Grid definition template number,,50121,,方位仰角距離図法,,,,Local
+Grid definition template number,,50122-65534,,Reserved for local use,,,,Local
