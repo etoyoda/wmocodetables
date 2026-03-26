@@ -1,0 +1,30 @@
+#!/usr/bin/ruby
+require 'csv'
+
+def conv fnam
+  outfnam=File.basename(fnam)
+  unless outfnam.sub!(/_en/,'_ja') then
+    outfnam.sub!(/\./, 'ja.')
+  end
+  warn "making template #{outfnam} <- #{fnam}"
+  tab=CSV.read(fnam, headers:true)
+  notfound=true
+  CSV.open(outfnam, 'w', write_headers:true, headers:tab.headers) {|csv|
+    tab.each{|row|
+    if row.any?{|_, value| value=='Reserved for local use'} then
+      row['Status']='Replace'
+      csv << row
+      row['Status']='Local'
+      csv << row
+      notfound=false
+    end
+    }
+  }
+  if notfound then
+    raise "local use area not found in #{fnam}"
+  end
+end
+
+for fnam in ARGV
+  conv(fnam)
+end
