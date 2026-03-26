@@ -1,5 +1,6 @@
 #!/bin/bash
 
+set -xv
 PATH=/bin:/usr/bin:/usr/local/bin
 
 dir=$(dirname $0)
