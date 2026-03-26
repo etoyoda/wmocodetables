@@ -1,5 +1,5 @@
 Title_en,SubTitle_en,CodeFlag,Value,MeaningParameterDescription_en,Note_en,noteIDs,UnitComments_en,Status
 Parameter number by product discipline and parameter category,"Product discipline 0 - Meteorological products, parameter category 6: cloud",192-254,,Reserved for local use,,,,Replace
 Parameter number by product discipline and parameter category,"Product discipline 0 - Meteorological products, parameter category 6: cloud",192-193,,Reserved for local use,,,,Local
-Parameter number by product discipline and parameter category,"Product discipline 0 - Meteorological products, parameter category 6: cloud",194,,推計気象分布の品質情報,,,,Local
+Parameter number by product discipline and parameter category,"Product discipline 0 - Meteorological products, parameter category 6: cloud",194,,推計気象分布の品質情報,,,Code table JMA4.16,Local
 Parameter number by product discipline and parameter category,"Product discipline 0 - Meteorological products, parameter category 6: cloud",195-254,,Reserved for local use,,,,Local

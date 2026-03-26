@@ -1,0 +1,17 @@
+Title_en,SubTitle_en,CodeFlag,Value,MeaningParameterDescription_en,Note_en,noteIDs,UnitComments_en,Status
+Parameter number by product discipline and parameter category,"Product discipline 0 - Meteorological products, parameter category 15: radar",192-254,,Reserved for local use,,,,Replace
+Parameter number by product discipline and parameter category,"Product discipline 0 - Meteorological products, parameter category 15: radar",192,,エコー頂高度,,,レベル値,Local
+Parameter number by product discipline and parameter category,"Product discipline 0 - Meteorological products, parameter category 15: radar",193,,雨量換算係数,,,数値,Local
+Parameter number by product discipline and parameter category,"Product discipline 0 - Meteorological products, parameter category 15: radar",194,,降水強度,,,mm h-1,Local
+Parameter number by product discipline and parameter category,"Product discipline 0 - Meteorological products, parameter category 15: radar",195,,水平偏波反射強度,,,dBZ,Local
+Parameter number by product discipline and parameter category,"Product discipline 0 - Meteorological products, parameter category 15: radar",196,,垂直偏波反射強度,,,dBZ,Local
+Parameter number by product discipline and parameter category,"Product discipline 0 - Meteorological products, parameter category 15: radar",197,,反射因子差,,,dB,Local
+Parameter number by product discipline and parameter category,"Product discipline 0 - Meteorological products, parameter category 15: radar",198,,受信信号偏波間位操作,,,deg,Local
+Parameter number by product discipline and parameter category,"Product discipline 0 - Meteorological products, parameter category 15: radar",199,,偏波間相関係数,,,数値,Local
+Parameter number by product discipline and parameter category,"Product discipline 0 - Meteorological products, parameter category 15: radar",200,,Reserved for local use,,,,Local
+Parameter number by product discipline and parameter category,"Product discipline 0 - Meteorological products, parameter category 15: radar",201,,偏波間位相差,,,deg,Local
+Parameter number by product discipline and parameter category,"Product discipline 0 - Meteorological products, parameter category 15: radar",202,,偏波間相関係数,,,数値,Local
+Parameter number by product discipline and parameter category,"Product discipline 0 - Meteorological products, parameter category 15: radar",203-204,,Reserved for local use,,,,Local
+Parameter number by product discipline and parameter category,"Product discipline 0 - Meteorological products, parameter category 15: radar",205,,粒子種別,,,数値,Local
+Parameter number by product discipline and parameter category,"Product discipline 0 - Meteorological products, parameter category 15: radar",206,,品質管理情報,,,-,Local
+Parameter number by product discipline and parameter category,"Product discipline 0 - Meteorological products, parameter category 15: radar",207-254,,Reserved for local use,,,,Local

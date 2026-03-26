@@ -1,8 +1,8 @@
 Title_en,SubTitle_en,CodeFlag,Value,MeaningParameterDescription_en,Note_en,noteIDs,UnitComments_en,Status
 Parameter number by product discipline and parameter category,"Product discipline 0 - Meteorological products, parameter category 2: momentum",192-254,,Reserved for local use,,,,Replace
 Parameter number by product discipline and parameter category,"Product discipline 0 - Meteorological products, parameter category 2: momentum",192-209,,Reserved for local use,,,,Local
-Parameter number by product discipline and parameter category,"Product discipline 0 - Meteorological products, parameter category 2: momentum",210,,風のu成分偏差,,,,Local
-Parameter number by product discipline and parameter category,"Product discipline 0 - Meteorological products, parameter category 2: momentum",211,,風のv成分偏差,,,,Local
+Parameter number by product discipline and parameter category,"Product discipline 0 - Meteorological products, parameter category 2: momentum",210,,風のu成分偏差,,,m s-1,Local
+Parameter number by product discipline and parameter category,"Product discipline 0 - Meteorological products, parameter category 2: momentum",211,,風のv成分偏差,,,m s-1,Local
 Parameter number by product discipline and parameter category,"Product discipline 0 - Meteorological products, parameter category 2: momentum",212-252,,Reserved for local use,,,,Local
-Parameter number by product discipline and parameter category,"Product discipline 0 - Meteorological products, parameter category 2: momentum",253,,流線関数偏差,,,,Local
-Parameter number by product discipline and parameter category,"Product discipline 0 - Meteorological products, parameter category 2: momentum",254,,速度ポテンシャル偏差,,,,Local
+Parameter number by product discipline and parameter category,"Product discipline 0 - Meteorological products, parameter category 2: momentum",253,,流線関数偏差,,,m2 s-1,Local
+Parameter number by product discipline and parameter category,"Product discipline 0 - Meteorological products, parameter category 2: momentum",254,,速度ポテンシャル偏差,,,m2 s-1,Local
