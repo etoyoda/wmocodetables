@@ -1,0 +1,9 @@
+Title_en,SubTitle_en,CodeFlag,Value,MeaningParameterDescription_en,Note_en,noteIDs,UnitComments_en,Status
+Cloud type,,192-254,,Reserved for local use,,,,Replace
+Cloud type,,192-199,,Reserved for local use,,,,Local
+Cloud type,,200,,曇天,,,,Local
+Cloud type,,201,,上層雲,,,,Local
+Cloud type,,202,,中層雲,,,,Local
+Cloud type,,203,,高層雲,,,,Local
+Cloud type,,204,,霧又は層雲,,,,Local
+Cloud type,,205-254,,Reserved for local use,,,,Local
