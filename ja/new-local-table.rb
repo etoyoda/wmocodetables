@@ -9,14 +9,21 @@ def conv fnam
   warn "making template #{outfnam} <- #{fnam}"
   tab=CSV.read(fnam, headers:true)
   CSV.open(outfnam, 'w', write_headers:true, headers:tab.headers) {|csv|
+    emptyp=true
     tab.each{|row|
-    if row.any?{|_, value| value=='Reserved for local use'} then
-      row['Status']='Replace'
-      csv << row
+      if row.any?{|_, value| value=='Reserved for local use'} then
+        row['Status']='Replace'
+        csv << row
+        row['Status']='Local'
+        csv << row
+        emptyp=false
+      end
+    }
+    if emptyp then
+      row=tab.first
       row['Status']='Local'
       csv << row
     end
-    }
   }
 end
 

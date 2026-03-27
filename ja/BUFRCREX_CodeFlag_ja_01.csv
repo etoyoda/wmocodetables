@@ -1,0 +1,17 @@
+FXY,ElementName_en,CodeFigure,EntryName_en,EntryName_sub1_en,EntryName_sub2_en,Note_en,noteIDs,Status
+001197,作成種類,1,新規,,,,,Local
+001197,作成種類,2,訂正,,,,,Local
+001197,作成種類,3,訂正,,,,,Local
+001197,作成種類,4-6,Reserved,,,,,Local
+001197,作成種類,7,欠測,,,,,Local
+001202,機関番号,1,気象庁,,,,,Local
+001202,機関番号,2,国土交通省河川局,,,,,Local
+001202,機関番号,3,国土交通省道路局,,,,,Local
+001202,機関番号,4,国土交通省港湾局,,,,,Local
+001202,機関番号,5,国土地理院,,,,,Local
+001202,機関番号,6,海上保安庁,,,,,Local
+001202,機関番号,7-9,Reserved,,,,,Local
+001202,機関番号,10,都道府県,,,,,Local
+001202,機関番号,11-29,Reserved,,,,,Local
+001202,機関番号,30,その他,,,,,Local
+001202,機関番号,31,欠測,,,,,Local
