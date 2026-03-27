@@ -1,0 +1,12 @@
+Category,CategoryOfSequences_en,FXY1,Title_en,SubTitle_en,FXY2,ElementName_en,ElementDescription_en,Note_en,noteIDs,Status
+01,Location and identification sequences,301200,(JIS X 0410 地域メッシュコード),,005240,1次メッシュ緯度番号,,,,Local
+01,Location and identification sequences,301200,(JIS X 0410 地域メッシュコード),,006240,1次メッシュ経度番号,,,,Local
+01,Location and identification sequences,301200,(JIS X 0410 地域メッシュコード),,005241,2次メッシュ緯度番号,,,,Local
+01,Location and identification sequences,301200,(JIS X 0410 地域メッシュコード),,006241,2次メッシュ経度番号,,,,Local
+01,Location and identification sequences,301200,(JIS X 0410 地域メッシュコード),,005242,3次メッシュ緯度番号,,,,Local
+01,Location and identification sequences,301200,(JIS X 0410 地域メッシュコード),,006242,3次メッシュ経度番号,,,,Local
+01,Location and identification sequences,301201,,,026200,参照資料の年,,,,Local
+01,Location and identification sequences,301201,,,026201,参照資料の月,,,,Local
+01,Location and identification sequences,301201,,,026202,参照資料の日,,,,Local
+01,Location and identification sequences,301201,,,026203,参照資料の時,,,,Local
+01,Location and identification sequences,301201,,,026204,参照資料の分,,,,Local

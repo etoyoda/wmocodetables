@@ -9,7 +9,7 @@ do
   echo $jafile
   jabase=$(basename $jafile)
   case $jabase in
-  BUFRCREX_[TC]*)
+  BUFRCREX_[TC]*|BUFR_TableD*)
     for gdir in BUFR4*
     do
       echo $gdir
