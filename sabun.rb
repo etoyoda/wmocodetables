@@ -273,12 +273,14 @@ class TDCSabun
           rbuf.push myrow
           state=:r
         elsif state==:init and stwd=='Local' then
+          # Replace 行なしに Local 行があれば、 selected=nil すなわち全置換
           lbuf.push myrow
           state=:l
         elsif state==:r and stwd=='Replace' then
           rbuf.push myrow
         elsif state==:r and stwd=='Local' then
           selected=find_rbuf(rbuf)
+          # Replace 行がマッチしなければ現在版では異常終了
           raise "text not found" if selected.nil?
           lbuf.push myrow
           state=:l
@@ -300,6 +302,8 @@ class TDCSabun
       if state==:l then
         replace_lbuf(selected,lbuf)
       elsif state==:r then
+        # Replace 行のあとに Local がない場合、当該部削除が順当だが警告する
+        replace_lbuf(selected,lbuf)
         warn "Replace without Local"
       end
     end
