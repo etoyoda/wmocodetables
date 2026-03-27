@@ -1,0 +1,5 @@
+Title_en,SubTitle_en,CodeFlag,Value,MeaningParameterDescription_en,Note_en,noteIDs,UnitComments_en,Status
+解析又は予報作成処理識別符 (技術の識別),,0-39,,Reserved,,,,Local
+解析又は予報作成処理識別符 (技術の識別),,40,,背景作成処理に対する数値予報ガイダンス,,,,Local
+解析又は予報作成処理識別符 (技術の識別),,41-254,,Reserved,,,,Local
+解析又は予報作成処理識別符 (技術の識別),,255,,Missing,,,,Local
