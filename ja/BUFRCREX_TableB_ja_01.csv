@@ -1,0 +1,9 @@
+ClassNo,ClassName_en,FXY,ElementName_en,BUFR_Unit,BUFR_Scale,BUFR_ReferenceValue,BUFR_DataWidth_Bits,CREX_Unit,CREX_Scale,CREX_DataWidth_Char,Note_en,noteIDs,Status
+01,Identification,001192,台風番号,,,,,Numeric,0,4,,,Local
+01,Identification,001193,台風毎の電文番号,,,,,Numeric,0,3,,,Local
+01,Identification,001195,警報の種類,,,,,Flag table,0,2,,,Local
+01,Identification,001196,発表番号,,,,,Numeric,0,3,,,Local
+01,Identification,001197,作成種類,Code table,0,0,3,Code table,0,1,,,Local
+01,Identification,001198,飛行場警報及び情報の識別,,,,,Code table,0,2,,,Local
+01,Identification,001199,その後の見込み,,,,,Code table,0,1,,,Local
+01,Identification,001200,府県表示番号,Numeric,0,0,7,,,,,,Local

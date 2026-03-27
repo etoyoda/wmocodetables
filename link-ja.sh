@@ -9,6 +9,13 @@ do
   echo $jafile
   jabase=$(basename $jafile)
   case $jabase in
+  BUFRCREX_[TC]*)
+    for gdir in BUFR4*
+    do
+      echo $gdir
+      ln -s -f ../${jafile} $gdir/
+    done
+  ;;
   GRIB2*)
     for gdir in GRIB2*
     do
