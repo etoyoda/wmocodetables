@@ -25,6 +25,7 @@ Note_en,ja,注
 ^Gc-(\d)-(\d+)-C,en,Code Table %u.%u
 ^Gc-(\d)-(\d+)-C,ja,符号表%u.%u
 ^G-CF(\d)-(\d+)-C,ja,符号表%u.%u
+^Gc-(\d)-JMA(\d+)-C,ja,符号表JMA%u.%u
 ^Gc-(\d)-(\d+)-F,en,Flag Table %u.%u
 ^Gc-(\d)-(\d+)-F,ja,フラグ表%u.%u
 ^G-CF(\d)-(\d+)-F,ja,フラグ表%u.%u

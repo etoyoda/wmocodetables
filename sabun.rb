@@ -306,26 +306,40 @@ class TDCSabun
 
     # 言語 lang を指定してファイルを読み込み表データを構築する。
     def build lang
-      fnam_en=@fnams['en']
-      raise "missing en file #{@fnams.inspect}" unless fnam_en
-      csv=CSV.read(fnam_en,headers:true)
-      basename_en=File.basename(fnam_en)
-      csv.each{|row|
-        next if 'Extension'==row['Status']
-        @resd.fix_csvrow(basename_en,row)
-        row.delete('Status')
-        @table.push(row)
-      }
-      @headers=csv.headers
-      csv=nil
-      # not en 言語の言語パッチファイルがあれば読み込み適用する。
-      if lang!='en' then
-        if @fnams.include?(lang) then
-          warn "patching #{lang} #{@fnams.inspect}"
-          csvja=CSV.read(@fnams[lang],headers:true)
-          patch(csvja)
-          csvja=nil
+      if @fnams['en'] then
+        csv=CSV.read(@fnams['en'],headers:true)
+        basename_en=File.basename(@fnams['en'])
+        csv.each{|row|
+          next if 'Extension'==row['Status']
+          @resd.fix_csvrow(basename_en,row)
+          row.delete('Status')
+          @table.push(row)
+        }
+        @headers=csv.headers
+        csv=nil
+        # not en 言語の言語パッチファイルがあれば読み込み適用する。
+        if lang!='en' then
+          if @fnams.include?(lang) then
+            warn "patching #{lang} #{@fnams.inspect}"
+            csvja=CSV.read(@fnams[lang],headers:true)
+            patch(csvja)
+            csvja=nil
+          end
         end
+      elsif @fnams[lang] then
+        warn "missing en file, use #{@fnams[lang]} instead"
+        csv=CSV.read(@fnams[lang],headers:true)
+        basename_en=File.basename(@fnams[lang])
+        csv.each{|row|
+          next if 'Extension'==row['Status']
+          @resd.fix_csvrow(basename_en,row)
+          row.delete('Status')
+          @table.push(row)
+        }
+        @headers=csv.headers
+        csv=nil
+      else
+        raise "missing en|#{@lang} file #{@fnams.inspect}"
       end
       # 後方参照
       build_nizis
@@ -643,6 +657,9 @@ class TDCSabun
       when /^GRIB2_CodeFlag_(\d)_(\d+)_(Code|Flag)Table_(en|ja)\.csv$/ then
         s,n,cf,lang=$1,$2,$3,$4
         ftyp=format('Gc-%01u-%05u-%c',s.to_i,n.to_i,cf[0])
+      when /^GRIB2_CodeFlag_(\d)_JMA(\d+)_(Code|Flag)Table_(en|ja)\.csv$/ then
+        s,n,cf,lang=$1,$2,$3,$4
+        ftyp=format('Gc-%01u-JMA%05u-%c',s.to_i,n.to_i,cf[0])
       when /^GRIB2_CodeFlag_4_2_(\d+)_(\d+)_CodeTable_(en|ja)\.csv$/ then
         d,k,lang=$1,$2,$3
         ftyp=format('Gc-4-00002-%03u-%05u-C',d.to_i,k.to_i)
