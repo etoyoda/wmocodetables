@@ -7,3 +7,23 @@ ClassNo,ClassName_en,FXY,ElementName_en,BUFR_Unit,BUFR_Scale,BUFR_ReferenceValue
 01,Identification,001198,飛行場警報及び情報の識別,,,,,Code table,0,2,,,Local
 01,Identification,001199,その後の見込み,,,,,Code table,0,1,,,Local
 01,Identification,001200,府県表示番号,Numeric,0,0,7,,,,,,Local
+01,Identification,001201,地点表示番号,Numeric,0,0,10,,,,,,Local
+01,Identification,001202,機関番号,Code table,0,0,5,,,,,,Local
+01,Identification,001203,潮位観測地点番号,Code table,0,0,20,,,,,,Local
+01,Identification,001205,飛行場情報の種類,,,,,Flag table,0,10,,,Local
+01,Identification,001206,飛行場情報の注意事項,,,,,Flag table,0,10,,,Local
+01,Identification,001207,解除する飛行場情報の発表番号,,,,,Numeric,0,3,,,Local
+01,Identification,001208,火山名,,,,,Code table,0,2,,,Local
+01,Identification,001209,洪水予報担当官署番号,,,,,Code table,0,5,,,Local
+01,Identification,001210,河川番号,Numeric,0,80000000,24,Code table,0,8,,,Local
+01,Identification,001211,河川区分番号,,,,,Code table,0,2,,,Local
+01,Identification,001212,洪水予報種別,,,,,Code table,0,2,,,Local
+01,Identification,001213,流域雨量地域番号,,,,,Code table,0,8,,,Local
+01,Identification,001214,流域雨量地域補助番号,,,,,Code table,0,3,,,Local
+01,Identification,001215,水位観測地点番号,,,,,Code table,0,6,,,Local
+01,Identification,001216,地域番号,Code table,0,0,6,,,,,,Local
+01,Identification,001217,アンサンブルメンバ番号,Numeric,0,0,5,,,,,,Local
+01,Identification,001218,予測式の識別,Code table,0,0,3,,,,,,Local
+01,Identification,001240,震央地名番号,Numeric,0,0,10,,,,,,Local
+01,Identification,001241,震央地名の補助的表現のための地点番号,Numeric,0,0,10,,,,,,Local
+01,Identification,001242,電文の種類,Code table,0,0,7,,,,,,Local
