@@ -1,4 +1,9 @@
 FXY,ElementName_en,CodeFigure,EntryName_en,EntryName_sub1_en,EntryName_sub2_en,Note_en,noteIDs,Status
+B02192,情報の基となった観測,1,航空機,,,,,Local
+B02192,情報の基となった観測,2,ドップラーレーダー,,,,,Local
+B02192,情報の基となった観測,3,アメダス,,,,,Local
+B02192,情報の基となった観測,4,ゾンデ,,,,,Local
+B02192,情報の基となった観測,5-9,保留,,,,,Local
 002200,潮位観測機器の種類,0,保留,,,,,Local
 002200,潮位観測機器の種類,1,フロート式,,,,,Local
 002200,潮位観測機器の種類,2,音波管式,,,,,Local
