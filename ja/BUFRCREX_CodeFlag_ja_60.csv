@@ -1,0 +1,5 @@
+FXY,ElementName_en,CodeFigure,EntryName_en,EntryName_sub1_en,EntryName_sub2_en,Note_en,noteIDs,Status
+060100,センサーの状態,0,正常,,,,,Local
+060100,センサーの状態,1,切断,,,,,Local
+060100,センサーの状態,2,保留,,,,,Local
+060100,センサーの状態,3,欠測,,,,,Local
