@@ -262,3 +262,9 @@ FXY,ElementName_en,CodeFigure,EntryName_en,EntryName_sub1_en,EntryName_sub2_en,N
 001216,地域番号,32,九州南部,,,,,Local
 001216,地域番号,33,奄美,,,,,Local
 001216,地域番号,34,沖縄地方,,,,,Local
+001218,予測式の識別,1,日別予測式,,,,,Local
+001218,予測式の識別,2,期間平均予測式,,,,,Local
+001242,電文の種類,0,通常,,,,,Local
+001242,電文の種類,1,訓練,,,,,Local
+001242,電文の種類,2-126,保留,,,,,Local
+001242,電文の種類,127,欠測,,,,,Local
