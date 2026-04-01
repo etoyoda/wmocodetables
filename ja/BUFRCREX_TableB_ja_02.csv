@@ -1,0 +1,4 @@
+ClassNo,ClassName_en,FXY,ElementName_en,BUFR_Unit,BUFR_Scale,BUFR_ReferenceValue,BUFR_DataWidth_Bits,CREX_Unit,CREX_Scale,CREX_DataWidth_Char,Note_en,noteIDs,Status
+02,Instrumentation,002192,情報の基となった観測,Code table,,0,1,Code table,0,1,,,Local
+02,Instrumentation,002193,情報の基となった観測機器,Code table,,0,6,Code table,0,6,,,Local
+02,Instrumentation,002200,潮位観測機器の種類,Code table,0,0,4,,,,,,Local
