@@ -1,0 +1,7 @@
+ClassNo,ClassName_en,FXY,ElementName_en,BUFR_Unit,BUFR_Scale,BUFR_ReferenceValue,BUFR_DataWidth_Bits,CREX_Unit,CREX_Scale,CREX_DataWidth_Char,Note_en,noteIDs,Status
+06,Location (horizontal - 2),006192,台風の位置（経度）,,,,,度,0,3,,,Local
+06,Location (horizontal - 2),006193,台風の位置（経度）,,,,,分,0,2,,,Local
+06,Location (horizontal - 2),006194,距離,,,,,km,0,3,,,Local
+06,Location (horizontal - 2),006241,一次メッシュ経度番号,数値,0,0,7,,,,,Local
+06,Location (horizontal - 2),006242,二次メッシュ経度番号,数値,0,0,4,,,,,Local
+06,Location (horizontal - 2),006243,三次メッシュ経度番号,数値,0,0,4,,,,,Local
