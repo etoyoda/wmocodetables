@@ -2,6 +2,6 @@ ClassNo,ClassName_en,FXY,ElementName_en,BUFR_Unit,BUFR_Scale,BUFR_ReferenceValue
 05,Location (horizontal - 1),005192,台風の位置（緯度）,,,,,度,0,2,,,Local
 05,Location (horizontal - 1),005193,台風の位置（緯度）,,,,,分,0,2,,,Local
 05,Location (horizontal - 1),005194,方位,,,,,度（真方位）,0,3,,,Local
-05,Location (horizontal - 1),005240,一次メッシュ緯度番号,,,,,数値,0,7,,,Local
+05,Location (horizontal - 1),005240,一次メッシュ緯度番号,,,,,数値,0,7,(see Note 7),34010,Local
 05,Location (horizontal - 1),005241,二次メッシュ緯度番号,,,,,数値,0,4,,,Local
 05,Location (horizontal - 1),005242,三次メッシュ緯度番号,,,,,数値,0,4,,,Local
