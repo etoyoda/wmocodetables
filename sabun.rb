@@ -596,7 +596,7 @@ class TDCSabun
           if @tt.ent_merge==h then
             ['EntryName_sub1_en','EntryName_sub2_en'].each{|k|
               n=row[k]
-              txt+=n if n
+              txt=txt.to_s+n if n
             }
           end
           if @tt.note_target==h then
@@ -874,7 +874,7 @@ HELP
   def filter_template_file ifp
     ifp.each{|line|
       case line
-      when /^#c(3|4) \/(\S+)\//
+      when /^#c(2|3|4) \/(\S+)\//
         lev,re=$1,$2
         lev=lev.to_i
         re=Regexp.new(re)

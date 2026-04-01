@@ -1,4 +1,6 @@
 Keyword,lang,Text
+^A,en,Acronyms
+^A,ja,略語表
 ^GT-1-(\d+),en,Identification Template 1.%u
 ^GT-1-(\d+),ja,識別テンプレート1.%u
 ^G-T1-(\d+),ja,識別テンプレート1.%u
