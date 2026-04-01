@@ -1,0 +1,8 @@
+ClassNo,ClassName_en,FXY,ElementName_en,BUFR_Unit,BUFR_Scale,BUFR_ReferenceValue,BUFR_DataWidth_Bits,CREX_Unit,CREX_Scale,CREX_DataWidth_Char,Note_en,noteIDs,Status
+04,Location (time),004192,解析／予報期間の識別符,,,,,Code table,0,2,,,Local
+04,Location (time),004193,年（ＪＳＴ）,,,,,年,0,4,,,Local
+04,Location (time),004194,月（ＪＳＴ）,,,,,月,0,2,,,Local
+04,Location (time),004195,日（ＪＳＴ）,,,,,日,0,2,,,Local
+04,Location (time),004196,時（ＪＳＴ）,,,,,時,0,2,,,Local
+04,Location (time),004197,分（ＪＳＴ）,,,,,分,0,2,,,Local
+04,Location (time),004198,解析／予報期間の識別符,,,,,Code table,0,3,,,Local
