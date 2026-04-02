@@ -16,7 +16,7 @@ do
       ln -s -f ../../${jafile} $gdir/
     done
   ;;
-  BUFRCREX_[TC]*|BUFR_TableD*)
+  BUFRCREX_[TC]*|BUFR_TableD*|CREX_TableD*)
     for gdir in BUFR4*
     do
       echo $gdir
