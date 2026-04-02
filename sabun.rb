@@ -812,9 +812,18 @@ class TDCSabun
     @cfg[:d1]=gbc.map{|d| d+@cfg[:suf1]}
     @cfg[:d2]=gbc.map{|d| d+@cfg[:suf2]} if @cfg[:suf2]
     unless @cfg[:out]
+      # コマンドラインオプション --out で設定されていなければ
       @cfg[:out]=if @cfg[:suf2]
         then 'tdcf-diff.adoc'
+        elsif @cfg[:noen] then 'tdcf-local.adoc'
         else 'tdcf-tables.adoc'
+        end
+    end
+    unless @cfg[:tpl]
+      # コマンドラインオプション --tpl で設定されていなければ
+      @cfg[:tpl]=if @cfg[:noen]
+        then "template-#{lang}-only.txt"
+        else "template-#{lang}.txt"
         end
     end
     rev1=@cfg[:suf1].to_s.sub(/^-/,'')
@@ -829,7 +838,7 @@ class TDCSabun
   def initialize argv
     @db1=@db2=@resd=nil
     @cfg={:lang=>'ja', :suf1=>nil, :suf2=>nil, :d1=>[], :d2=>[],
-      :out=>nil, :tpl=>'template-ja.txt', :noen=>nil }
+      :out=>nil, :tpl=>nil, :noen=>nil }
     @chapter=""
     helpmsg=catch(:help) {
       argv.each{|arg| parse_arg(arg) }
