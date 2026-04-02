@@ -727,12 +727,13 @@ class TDCSabun
     end
 
     # ディレクトリを探索してCSVファイルを一次細分で分類する
-    def scan_dirs(dirs)
+    def scan_dirs(dirs, noen)
       dirs.each{|dir|
         pat=File.join(dir, '{*.csv,notes/*.csv}')
         Dir.glob(pat).each{|fnam|
           ftyp,lang=bunrui_csvname(fnam)
           next unless ftyp
+          next if noen and 'en'==lang
           cat_add(fnam,ftyp,lang)
         }
       }
@@ -740,11 +741,11 @@ class TDCSabun
 
     # Revision.new
     # CSVファイル一覧を探索してデータ構造を決めるところまで
-    def initialize dirs, resd
+    def initialize dirs, resd, noen
       @resd=resd
       @cat=Hash.new
       warn "= Revision.new(#{dirs.inspect})"
-      scan_dirs(dirs)
+      scan_dirs(dirs, noen)
     end
 
     def sectitle ftyp
@@ -791,6 +792,7 @@ class TDCSabun
     when /^--lang[=:](ja|en)$/ then @cfg[:lang]=$1
     when /^(--out|-o)[=:]/ then @cfg[:out]=$'
     when /^--(tpl|template)[=:]/ then @cfg[:tpl]=$'
+    when /^--noen$/ then @cfg[:noen]=true
     when /^--/ then throw(:help, "unknown option #{arg}")
     else
       arg='' if arg=='HEAD'
@@ -827,7 +829,7 @@ class TDCSabun
   def initialize argv
     @db1=@db2=@resd=nil
     @cfg={:lang=>'ja', :suf1=>nil, :suf2=>nil, :d1=>[], :d2=>[],
-      :out=>nil, :tpl=>'template-ja.txt' }
+      :out=>nil, :tpl=>'template-ja.txt', :noen=>nil }
     @chapter=""
     helpmsg=catch(:help) {
       argv.each{|arg| parse_arg(arg) }
@@ -857,8 +859,12 @@ HELP
   # 各CSV表の読み込み
   def build
     @resd=ResourceData.new.build_resd(lang)
-    @db1=Revision.new(@cfg[:d1],@resd).build_rev(lang)
-    @db2=Revision.new(@cfg[:d2],@resd).build_rev(lang) unless single_mode?
+    @db1=Revision.new(@cfg[:d1],@resd,@cfg[:noen])
+    @db1.build_rev(lang)
+    unless single_mode?
+      @db2=Revision.new(@cfg[:d2],@resd,@cfg[:noen])
+      @db2.build_rev(lang)
+    end
     return self
   end
 
