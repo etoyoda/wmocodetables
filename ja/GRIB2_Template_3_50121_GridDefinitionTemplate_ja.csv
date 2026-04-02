@@ -1,0 +1,10 @@
+Title_en,OctetNo,OctetCount,Contents_en,Note_en,noteIDs,codeTable,flagTable,Status
+方位仰角距離図法,15-18,4,Nb－径線に沿った資料ビン (data bins) の数,,,,,Local
+方位仰角距離図法,19-22,4,Nr－径線の数,,,,,Local
+方位仰角距離図法,23-26,4,La1－中心線の緯度,,,,,Local
+方位仰角距離図法,27-30,4,Lo1－中心線の経度,,,,,Local
+方位仰角距離図法,31-34,4,Dx－径線に沿ったビンの間隔（10^-3 m 単位）,,,,,Local
+方位仰角距離図法,35-38,4,Dstart－原点から内側境界までのオフセット（10^-3 m 単位）,,,,,Local
+方位仰角距離図法,39,1,走査モード（水平極座標）,"(see Flag table JMA3.1)",,,JMA3.1,Local
+方位仰角距離図法,40,1,走査モード（鉛直極座標）,"(see Flag table JMA3.2)",,,JMA3.2,Local
+方位仰角距離図法,41-42,2,Azi－開始方位（北を起点とする 10^-2 度単位）,,,,,Local
