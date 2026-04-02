@@ -68,7 +68,7 @@ class TDCSabun
     alias :xlate :colname
 
     # 多言語リソースの言語を選択する
-    def build lang
+    def build_resd lang
       # 行頭が ^ のものは表名変換表 @tnt に
       @tnt=Hash.new
       @res.each{|row|
@@ -84,6 +84,7 @@ class TDCSabun
         next unless lang===row['lang']
         @coln[row['Keyword']]=row['Text']
       }
+      self
     end
 
     # 一次細分表記号 ftyp から指定言語の節見出し文字列を返す
@@ -758,8 +759,7 @@ class TDCSabun
     end
 
     # CSVデータを読み込むところまで
-    def build lang
-      @resd.build(lang)
+    def build_rev lang
       @cat.each{|ftyp,is| is.build(lang) }
       @cat.each{|ftyp,is|
         is.compile_notes(*find_note(ftyp))
@@ -856,9 +856,9 @@ HELP
 
   # 各CSV表の読み込み
   def build
-    @resd=ResourceData.new
-    @db1=Revision.new(@cfg[:d1],@resd).build(lang)
-    @db2=Revision.new(@cfg[:d2],@resd).build(lang) unless single_mode?
+    @resd=ResourceData.new.build_resd(lang)
+    @db1=Revision.new(@cfg[:d1],@resd).build_rev(lang)
+    @db2=Revision.new(@cfg[:d2],@resd).build_rev(lang) unless single_mode?
     return self
   end
 
