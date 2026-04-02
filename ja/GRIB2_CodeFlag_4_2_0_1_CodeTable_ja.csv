@@ -1,8 +1,4 @@
 Title_en,SubTitle_en,CodeFlag,Value,MeaningParameterDescription_en,Note_en,noteIDs,UnitComments_en,Status
-Parameter number by product discipline and parameter category,"Product discipline 0 - Meteorological products, parameter category 1: moisture",0,,Specific humidity,,,kg/kg,Replace
-Parameter number by product discipline and parameter category,"Product discipline 0 - Meteorological products, parameter category 1: moisture",0,,比湿,,,kg/kg,Local
-Parameter number by product discipline and parameter category,"Product discipline 0 - Meteorological products, parameter category 1: moisture",1,,Relative humidity,,,%,Replace
-Parameter number by product discipline and parameter category,"Product discipline 0 - Meteorological products, parameter category 1: moisture",1,,相対湿度,,,%,Local
 Parameter number by product discipline and parameter category,"Product discipline 0 - Meteorological products, parameter category 1: moisture",192-254,,Reserved for local use,,,,Replace
 Parameter number by product discipline and parameter category,"Product discipline 0 - Meteorological products, parameter category 1: moisture",192-199,,Reserved for local use,,,,Local
 Parameter number by product discipline and parameter category,"Product discipline 0 - Meteorological products, parameter category 1: moisture",200,,1時間降水量,,,レベル値,Local
