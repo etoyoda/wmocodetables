@@ -1,0 +1,6 @@
+Title_en,SubTitle_en,CodeFlag,Value,MeaningParameterDescription_en,Note_en,noteIDs,UnitComments_en,Status
+竜巻発生確度,,0,,計算領域外又は欠測,,,,Local
+竜巻発生確度,,1,,竜巻などの激しい突風の可能性は低い,,,,Local
+竜巻発生確度,,2,,発生確度1：竜巻などの激しい突風の可能性がやや高い,,,,Local
+竜巻発生確度,,3,,発生確度2：竜巻などの激しい突風の可能性が高い,,,,Local
+竜巻発生確度,,4-255,,Reserved,,,,Local
