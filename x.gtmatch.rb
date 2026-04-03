@@ -9,7 +9,7 @@ tables=ttab.map{|r| r['templateNo']}.sort
 raise if tables.empty?
 
 csvs=Dir.glob(File.join(basedir,'GRIB2_Template_*.csv')).map{|fn|
-  unless /\bGRIB2_Template_(\d+(?:_\d+)+)_[A-Za-z]+_en\.csv$/===fn
+  unless /\bGRIB2_Template_(\d+(?:_\d+)+)_[A-Za-z]+_(en|ja)\.csv$/===fn
     raise fn
   end
   a=$1.split(/_/,2).map{|s|s.to_i}
