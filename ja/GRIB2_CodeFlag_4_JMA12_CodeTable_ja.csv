@@ -1,0 +1,15 @@
+Title_en,SubTitle_en,CodeFlag,Value,MeaningParameterDescription_en,Note_en,noteIDs,UnitComments_en,Status
+植生の種類,,0,,海・陸水,,,,Local
+植生の種類,,1,,常緑広葉樹,,,,Local
+植生の種類,,2,,落葉広葉樹,,,,Local
+植生の種類,,3,,落葉広葉樹+常緑針葉樹,,,,Local
+植生の種類,,4,,常緑針葉樹,,,,Local
+植生の種類,,5,,落葉針葉樹,,,,Local
+植生の種類,,6,,草原と落葉広葉樹木,,,,Local
+植生の種類,,7,,草原,,,,Local
+植生の種類,,8,,落葉広葉樹木の疎林,,,,Local
+植生の種類,,9,,半砂漠,,,,Local
+植生の種類,,10,,ツンドラ,,,,Local
+植生の種類,,11,,砂漠,,,,Local
+植生の種類,,12,,耕作地（麦畑）,,,,Local
+植生の種類,,13,,氷,,,,Local
