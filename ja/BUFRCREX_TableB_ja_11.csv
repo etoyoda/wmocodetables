@@ -1,0 +1,7 @@
+ClassNo,ClassName_en,FXY,ElementName_en,BUFR_Unit,BUFR_Scale,BUFR_ReferenceValue,BUFR_DataWidth_Bits,CREX_Unit,CREX_Scale,CREX_DataWidth_Char,Note_en,noteIDs,Status
+11,風及び乱気流,011192,風の諸元記述部の識別府,,,,,Code table,0,4,,,Local
+11,風及び乱気流,011193,風の変化,,,,,Code table,0,2,,,Local
+11,風及び乱気流,011194,初期値からの風の変化量,,,,,ノット,0,3,,,Local
+11,風及び乱気流,011200,風速（注（６）参照）,m s^-1 ,1,0,12,,,,,,Local
+11,風及び乱気流,011201,最大瞬間風速（注（６）参照）,m s^-1 ,1,0,12,,,,,,Local
+11,風及び乱気流,011202,最大風速（10分間平均）の風向,度（真方位）,0,0,9,,,,,,Local
