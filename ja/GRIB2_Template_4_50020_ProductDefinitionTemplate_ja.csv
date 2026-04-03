@@ -1,0 +1,15 @@
+Title_en,OctetNo,OctetCount,Contents_en,Note_en,noteIDs,codeTable,flagTable,Status
+雨量換算係数,10,1,パラメータカテゴリー,(see Code table 4.1),,4.1,,Local
+雨量換算係数,11,1,パラメータ番号,(see Code table 4.2),,4.2,,Local
+雨量換算係数,12,1,作成処理の種類,(see Code table 4.3),,4.3,,Local
+雨量換算係数,13,1,背景作成処理識別符,(see Code table JMA4.1),,JMA4.1,,Local
+雨量換算係数,14-17,4,レーダーサイトの緯度（10^-6 度単位）,,,,,Local
+雨量換算係数,18-21,4,レーダーサイトの経度（10^-6 度単位）,,,,,Local
+雨量換算係数,22-23,2,レーダーサイトの標高（1 m 単位）,,,,,Local
+雨量換算係数,24-27,4,レーダーサイトID（英数字）,,,,,Local
+雨量換算係数,28-29,2,レーダーサイトID（数字）,,,,,Local
+雨量換算係数,30,1,期間の単位の指示符,(see Code table 4.4),,4.4,,Local
+雨量換算係数,31-32,2,換算対象雨量の積算期間,,,,,Local
+雨量換算係数,33-34,2,係数計算の統計に用いた事例数,,,,,Local
+雨量換算係数,35,1,雨量換算係数の用途,(see Code table JMA4.3),,JMA4.3,,Local
+雨量換算係数,36,1,雨量換算係数の解析手法,(see Code table JMA4.4),,JMA4.4,,Local
