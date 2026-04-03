@@ -1,0 +1,12 @@
+Title_en,SubTitle_en,CodeFlag,Value,MeaningParameterDescription_en,Note_en,noteIDs,UnitComments_en,Status
+送信電波品質,,1,,正常,,,,Local
+送信電波品質,,2-191,,Reserved,,,,Local
+送信電波品質,,192,,垂直偏波の送信電力減少,,,,Local
+送信電波品質,,193,,水平偏波の送信電力減少,,,,Local
+送信電波品質,,194,,水平・垂直偏波送信電力減少,,,,Local
+送信電波品質,,195,,垂直偏波欠測,,,,Local
+送信電波品質,,196,,水平偏波の送信電力減少かつ垂直偏波欠測,,,,Local
+送信電波品質,,197,,水平偏波欠測,,,,Local
+送信電波品質,,198,,垂直偏波の送信電力減少かつ水平偏波欠測,,,,Local
+送信電波品質,,199-254,,Reserved,,,,Local
+送信電波品質,,255,,Missing,,,,Local
