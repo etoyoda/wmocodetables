@@ -1,0 +1,8 @@
+Title_en,SubTitle_en,CodeFlag,Value,MeaningParameterDescription_en,Note_en,noteIDs,UnitComments_en,Status
+天気,,1,,晴れ,,,,Local
+天気,,2,,曇り,,,,Local
+天気,,3,,雨,,,,Local
+天気,,4,,雨または雪,,,,Local
+天気,,5,,雪,,,,Local
+天気,,6-254,,Reserved,,,,Local
+天気,,255,,Missing,,,,Local
