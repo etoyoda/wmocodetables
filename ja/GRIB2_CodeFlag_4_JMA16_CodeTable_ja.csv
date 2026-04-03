@@ -1,0 +1,6 @@
+Title_en,SubTitle_en,CodeFlag,Value,MeaningParameterDescription_en,Note_en,noteIDs,UnitComments_en,Status
+推計気象分布の品質情報,,1,,値は正常,,,,Local
+推計気象分布の品質情報,,2-15,,値がやや疑わしい,,,,Local
+推計気象分布の品質情報,,16-31,,値がかなり疑わしい（資料不足）,,,,Local
+推計気象分布の品質情報,,32-127,,値がかなり疑わしい,,,,Local
+推計気象分布の品質情報,,128,,値がない,,,,Local
