@@ -1,0 +1,8 @@
+Title_en,SubTitle_en,CodeFlag,Value,MeaningParameterDescription_en,Note_en,noteIDs,UnitComments_en,Status
+メソスケールモデル地表面状態（KIND）,,0,,Reserved,,,,Local
+メソスケールモデル地表面状態（KIND）,,1,,陸のうち積雪なし,,,,Local
+メソスケールモデル地表面状態（KIND）,,2,,海のうち海氷なし,,,,Local
+メソスケールモデル地表面状態（KIND）,,3,,陸のうち積雪あり,,,,Local
+メソスケールモデル地表面状態（KIND）,,4,,海のうち海氷あり,,,,Local
+メソスケールモデル地表面状態（KIND）,,5-254,,Reserved,,,,Local
+メソスケールモデル地表面状態（KIND）,,255,,Missing,,,,Local
