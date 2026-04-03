@@ -1,0 +1,9 @@
+Title_en,SubTitle_en,CodeFlag,Value,MeaningParameterDescription_en,Note_en,noteIDs,UnitComments_en,Status
+降水強度の誤差の要因,,0,,計算領域外又は欠測,,,,Local
+降水強度の誤差の要因,,1,,正常,,,,Local
+降水強度の誤差の要因,,2,,クラッター,,,,Local
+降水強度の誤差の要因,,3,,上空エコー（弱）,,,,Local
+降水強度の誤差の要因,,4,,上空エコー（強）,,,,Local
+降水強度の誤差の要因,,5,,ブライトバンド,,,,Local
+降水強度の誤差の要因,,6,,雹,,,,Local
+降水強度の誤差の要因,,7-255,,Reserved,,,,Local
