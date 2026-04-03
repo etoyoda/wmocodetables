@@ -337,6 +337,7 @@ class TDCSabun
         basename_en=File.basename(@fnams[lang])
         csv.each{|row|
           next if 'Extension'==row['Status']
+          next if 'Replace'==row['Status']
           @resd.fix_csvrow(basename_en,row)
           row.delete('Status')
           @table.push(row)
