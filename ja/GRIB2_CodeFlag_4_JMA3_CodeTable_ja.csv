@@ -1,0 +1,6 @@
+Title_en,SubTitle_en,CodeFlag,Value,MeaningParameterDescription_en,Note_en,noteIDs,UnitComments_en,Status
+雨量換算係数の用途,,0,,降水強度用,,,,Local
+雨量換算係数の用途,,1,,降水量用,,,,Local
+雨量換算係数の用途,,2,,予報初期値用,,,,Local
+雨量換算係数の用途,,3-254,,Reserved,,,,Local
+雨量換算係数の用途,,255,,Missing,,,,Local
