@@ -1,0 +1,5 @@
+Category,CategoryOfSequences_en,FXY1,Title_en,SubTitle_en,FXY2,ElementName_en,ElementDescription_en,Note_en,Status
+02,(unspecified),302200,,,"008002","鉛直位置の名称（地表観測）",,,Local
+02,(unspecified),302200,,,"020200","雲量",,,Local
+02,(unspecified),302200,,,"020012","雲形",,,Local
+02,(unspecified),302200,,,"020013","雲底の高さ",,,Local
