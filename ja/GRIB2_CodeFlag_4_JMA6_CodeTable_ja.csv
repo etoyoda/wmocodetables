@@ -1,0 +1,15 @@
+Title_en,SubTitle_en,CodeFlag,Value,MeaningParameterDescription_en,Note_en,noteIDs,UnitComments_en,Status
+偏波,,1,,水平偏波（H）,,,,Local
+偏波,,2,,垂直偏波（V）,,,,Local
+偏波,,3,,H及びVの組み合わせ,,,,Local
+偏波,,4,,＋45度偏波,,,,Local
+偏波,,5,,－45度偏波,,,,Local
+偏波,,6,,＋45度偏波及び－45度偏波の組み合わせ,,,,Local
+偏波,,7,,右旋回（楕円）偏波（R）,,,,Local
+偏波,,8,,左旋回（楕円）偏波（L）,,,,Local
+偏波,,9,,R及びLの組み合わせ,,,,Local
+偏波,,10,,水平偏波（H）及び垂直偏波（V）同時発射同時受信,,,,Local
+偏波,,11,,水平偏波（H）及び垂直偏波（V）交互発射同時受信,,,,Local
+偏波,,12,,水平偏波（H）及び垂直偏波（V）交互発射交互受信,,,,Local
+偏波,,13-254,,Reserved,,,,Local
+偏波,,255,,Missing,,,,Local
