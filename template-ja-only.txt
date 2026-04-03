@@ -10,9 +10,12 @@
 
 テンプレート、符号表、及びフラグ表は
 WMO-No.306 Manual on Codes, Volume I.2 を参照。
-最新のファストトラック改正手続の結果は機械可読形式のデータとして
+最新の表は機械可読形式のデータとして
 https://github.com/wmo-im/GRIB2/
 において提供されている。
+このうちプロダクト定義テンプレートで用いられる
+Background generating process identifier として、
+我が国においては符号表JMA4.1（後述）を用いるものとする。
 
 これに加え、我が国国内で使用するものとして以下を定義する。
 
@@ -34,7 +37,7 @@ https://github.com/wmo-im/GRIB2/
 
 BUFR表、符号表、及びフラグ表は
 WMO-No.306 Manual on Codes, Volume I.2 を参照。
-最新のファストトラック改正手続の結果は機械可読形式のデータとして
+最新の表は機械可読形式のデータとして
 https://github.com/wmo-im/BUFR4/
 において提供されている。
 
