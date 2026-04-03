@@ -1,0 +1,3 @@
+ClassNo,ClassName_en,FXY,ElementName_en,BUFR_Unit,BUFR_Scale,BUFR_ReferenceValue,BUFR_DataWidth_Bits,CREX_Unit,CREX_Scale,CREX_DataWidth_Char,Note_en,noteIDs,Status
+12,温度,012192,気温の平年差,Ｋ,1,-250,9,,,,,,Local
+12,温度,012193,気温の平年差が予測階級に入る確率,％,0,0,7,,,,,,Local
