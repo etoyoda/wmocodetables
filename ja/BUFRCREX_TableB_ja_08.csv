@@ -1,0 +1,13 @@
+ClassNo,ClassName_en,FXY,ElementName_en,BUFR_Unit,BUFR_Scale,BUFR_ReferenceValue,BUFR_DataWidth_Bits,CREX_Unit,CREX_Scale,CREX_DataWidth_Char,Note_en,noteIDs,Status
+08,修飾子,008192,期間又は時刻の修飾,,,,,Code table,0,1,,,Local
+08,修飾子,008193,気象要素の修飾,,,,,Code table,0,2,,,Local
+08,修飾子,008194,現象の位置の修飾,,,,,Code table,0,2,,,Local
+08,修飾子,008195,時間の意味,,,,,Code table,0,1,,,Local
+08,修飾子,008196,噴煙の移動方向の修飾,,,,,Code table,0,1,,,Local
+08,修飾子,008197,潮位の基準,,,,,Code table,0,1,,,Local
+08,修飾子,008198,階級震度の強弱,Code table,0,0,2,,,,,,Local
+08,修飾子,008200,予測階級,Code table,0,0,3,,,,,,Local
+08,修飾子,008210,航空気象通報式で通報された気象要素,Flag table,0,0,12,,,,,,Local
+08,修飾子,008212,航空機の飛行状態,Code table,0,0,4,,,,,,Local
+08,修飾子,008220,潮位データに対する修飾子,Code table,0,0,6,,,,,,Local
+08,修飾子,008221,潮位平滑化フィルターのカットオフ周期,分,0,0,8,,,,,,Local
