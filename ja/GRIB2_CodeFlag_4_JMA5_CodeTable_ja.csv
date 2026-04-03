@@ -1,0 +1,8 @@
+Title_en,SubTitle_en,CodeFlag,Value,MeaningParameterDescription_en,Note_en,noteIDs,UnitComments_en,Status
+解析又は予報に使用した資料,,0,,Reserved,,,,Local
+解析又は予報に使用した資料,,1,,土壌雨量指数（解析値）,,,,Local
+解析又は予報に使用した資料,,2,,土壌雨量指数（予測値）,,,,Local
+解析又は予報に使用した資料,,3,,1時間降水量（解析値）,,,,Local
+解析又は予報に使用した資料,,4,,1時間降水量（予測値）,,,,Local
+解析又は予報に使用した資料,,5-254,,Reserved,,,,Local
+解析又は予報に使用した資料,,255,,Missing,,,,Local
