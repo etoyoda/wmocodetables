@@ -15,7 +15,10 @@ https://github.com/wmo-im/GRIB2/
 において提供されている。
 このうちプロダクト定義テンプレートで用いられる
 Background generating process identifier として、
-我が国においては符号表JMA4.1（後述）を用いるものとする。
+我が国においては符号表JMA4.1（後述）を、
+また
+Analysis or forecast generating process identifier として、
+我が国においては符号表JMA4.2（後述）を、それぞれ用いるものとする。
 
 これに加え、我が国国内で使用するものとして以下を定義する。
 
