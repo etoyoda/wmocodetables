@@ -1,0 +1,10 @@
+ClassNo,ClassName_en,FXY,ElementName_en,BUFR_Unit,BUFR_Scale,BUFR_ReferenceValue,BUFR_DataWidth_Bits,CREX_Unit,CREX_Scale,CREX_DataWidth_Char,Note_en,noteIDs,Status
+20,観測された現象,020192,噴煙の量,,,,,Code table,0,1,,,Local
+20,観測された現象,020193,噴石の量,,,,,Code table,0,1,,,Local
+20,観測された現象,020194,空震計の振れ,,,,,Pa,-1,3,,,Local
+20,観測された現象,020199,自動観測による現在天気,Code table,0,0,4,,,,,,Local
+20,観測された現象,020200,雲量,Code table,0,0,4,,,,,,Local
+20,観測された現象,020210,航空機の運航上重要な現象,Code table,0,0,4,,,,,,Local
+20,観測された現象,020211,航空機の運航上重要な現在天気,Code table,0,0,4,,,,,,Local
+20,観測された現象,020212,自動観測による天気,Code table,0,0,5,,,,,,Local
+20,観測された現象,020215,卓越視程又は最小視程,ｍ,-1,0,13,,,,,,Local
