@@ -1,0 +1,4 @@
+ClassNo,ClassName_en,FXY,ElementName_en,BUFR_Unit,BUFR_Scale,BUFR_ReferenceValue,BUFR_DataWidth_Bits,CREX_Unit,CREX_Scale,CREX_DataWidth_Char,Note_en,noteIDs,Status
+14,放射及び放射輝度,014192,日照時間の平年比,％,0,0,10,,,,,,Local
+14,放射及び放射輝度,014193,日照時間の平年比が予測階級に入る確率,％,0,0,7,,,,,,Local
+14,放射及び放射輝度,014200,日照のメーター値,分,0,0,11,,,,,,Local
