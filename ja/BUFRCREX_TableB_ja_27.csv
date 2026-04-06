@@ -1,0 +1,2 @@
+ClassNo,ClassName_en,FXY,ElementName_en,BUFR_Unit,BUFR_Scale,BUFR_ReferenceValue,BUFR_DataWidth_Bits,CREX_Unit,CREX_Scale,CREX_DataWidth_Char,Note_en,noteIDs,Status
+27,非座標位置（水平軸１）,027192,方位,,,,,度（真方位）,0,3,,,Local
