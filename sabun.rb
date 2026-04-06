@@ -598,7 +598,7 @@ class TDCSabun
           if @tt.ent_merge==h then
             ['EntryName_sub1_en','EntryName_sub2_en'].each{|k|
               n=row[k]
-              txt=txt.to_s+n if n
+              txt="#{txt} (#{n})" if n
             }
           end
           if @tt.note_target==h then
