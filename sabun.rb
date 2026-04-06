@@ -145,7 +145,7 @@ class TDCSabun
         raise "noteIDs=#{nids.inspect}"
       end
       nids=nids.split(/,/)
-      warn "pn #{[@ftyp,note,nids,nxs].inspect}" if $DEBUG
+      warn "pn #{[@ftyp,note,nids,nxs].inspect}" if $VERBOSE
       if nids.size!=nxs.size
         msg="size mismatch #{@ftyp} Note_en #{nxs.size} != noteIDs #{nids.size}"
         raise msg
@@ -1014,7 +1014,7 @@ HELP
   end
 
   def compare is, ii1, ii2
-    warn sprintf("%-25s %s %s\n", is, ii1, ii2) if $DEBUG
+    warn sprintf("%-25s %s %s\n", is, ii1, ii2) if $VERBOSE
     tabname=@db2.sectitle(is)
     if ii1 and ii2 then
       diff_itizi(is)
