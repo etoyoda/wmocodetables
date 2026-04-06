@@ -1,4 +1,14 @@
 FXY,ElementName_en,CodeFigure,EntryName_en,EntryName_sub1_en,EntryName_sub2_en,Note_en,noteIDs,Status
+B20192,噴煙の量,1,多量,,,,,Local
+B20192,噴煙の量,2,中量,,,,,Local
+B20192,噴煙の量,3,少量,,,,,Local
+B20192,噴煙の量,4-8,保留,,,,,Local
+B20192,噴煙の量,9,不明,,,,,Local
+B20193,噴石の量,1,多量,,,,,Local
+B20193,噴石の量,2,中量,,,,,Local
+B20193,噴石の量,3,少量,,,,,Local
+B20193,噴石の量,4-8,保留,,,,,Local
+B20193,噴石の量,9,不明,,,,,Local
 020199,自動観測による現在天気,1,晴れ,,,,,Local
 020199,自動観測による現在天気,2,曇り,,,,,Local
 020199,自動観測による現在天気,3,雨,,,,,Local
