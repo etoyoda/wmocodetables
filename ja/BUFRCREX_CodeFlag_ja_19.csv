@@ -13,13 +13,13 @@ B19193,予報部の有無及び表示指示フラグ,3,36（33）時間予報部
 B19193,予報部の有無及び表示指示フラグ,4,48（45）時間予報部の有無及び表示指示,,,,,Local
 B19193,予報部の有無及び表示指示フラグ,5,60（57）時間予報部の有無及び表示指示,,,,,Local
 B19193,予報部の有無及び表示指示フラグ,6,72（69）時間予報部の有無及び表示指示,,,,,Local
-B19194,台風の階級,TY,台風（Typhoon）,,,,,Local
-B19194,台風の階級,STS,台風（Severe Tropical Storm）,,,,,Local
-B19194,台風の階級,TS,台風（Tropical Storm）,,,,,Local
-B19194,台風の階級,HR,発達した熱帯低気圧（Hurricane/Severe Tropical Storm）,,,,,Local
-B19194,台風の階級,TD,熱帯低気圧（Tropical Depression）,,,,,Local
-B19194,台風の階級,LOW,低気圧（LOW）,,,,,Local
-B19194,台風の階級,///,不明又は階級を報じない（Unknown）,,,,,Local
+B19194,台風の階級,TY,台風,Typhoon,,,,Local
+B19194,台風の階級,STS,台風,Severe Tropical Storm,,,,Local
+B19194,台風の階級,TS,台風,Tropical Storm,,,,Local
+B19194,台風の階級,HR,発達した熱帯低気圧,Hurricane/Severe Tropical Storm,,,,Local
+B19194,台風の階級,TD,熱帯低気圧,Tropical Depression,,,,Local
+B19194,台風の階級,LOW,低気圧,LOW,,,,Local
+B19194,台風の階級,///,不明又は階級を報じない,Unknown,,,,Local
 B19195,台風の大きさ,LG,大型,,,,,Local
 B19195,台風の大きさ,LL,超大型,,,,,Local
 B19195,台風の大きさ,//,不明又は階級を報じない,,,,,Local
@@ -27,7 +27,6 @@ B19196,台風の強さ,ST,強い,,,,,Local
 B19196,台風の強さ,VS,非常に強い,,,,,Local
 B19196,台風の強さ,VI,猛烈な,,,,,Local
 B19196,台風の強さ,//,不明又は階級を報じない,,,,,Local
-FXY,ElementName_en,CodeFigure,EntryName_en,EntryName_sub1_en,EntryName_sub2_en,Note_en,noteIDs,Status
 B19197,台風の存在地域,50100,(北海道東部),,,,,Local
 B19197,台風の存在地域,50106,釧路市,,,,,Local
 B19197,台風の存在地域,50107,帯広市,,,,,Local
@@ -1196,7 +1195,7 @@ B19198,台風の存在方向,21,西部,,,,,Local
 B19198,台風の存在方向,22,北部,,,,,Local
 B19198,台風の存在方向,23,中部,,,,,Local
 B19198,台風の存在方向,0,距離を報じないことを示す,,,,,Local
-B19200,台風中心位置の決定精度,GOOD,正確,,,,,Local
-B19200,台風中心位置の決定精度,FAIR,ほぼ正確,,,,,Local
-B19200,台風中心位置の決定精度,POOR,不確実,,,,,Local
-B19200,台風中心位置の決定精度,////,不明,,,,,Local
+B19200,台風中心位置の決定精度,GOOD,正確,中心決定の確度が３０マイル以下,,,,Local
+B19200,台風中心位置の決定精度,FAIR,ほぼ正確,中心決定の確度が３０マイル超、６０マイル以下,,,,Local
+B19200,台風中心位置の決定精度,POOR,不確実,中心決定の確度が６０マイル超,,,,Local
+B19200,台風中心位置の決定精度,////,不明,台風が温帯低気圧又は熱帯低気圧に変わった,,,,Local
