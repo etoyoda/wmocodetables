@@ -1,0 +1,5 @@
+FXY,ElementName_en,CodeFigure,EntryName_en,EntryName_sub1_en,EntryName_sub2_en,Note_en,noteIDs,Status
+B11192,風の諸元記述部の識別符,WIND,最大風速等の記述を示す識別符,,,,,Local
+B11192,風の諸元記述部の識別符,STRM,風速25m/s以上の暴風域の記述を示す識別符,,,,,Local
+B11192,風の諸元記述部の識別符,GALE,風速15m/s以上の強風域の記述を示す識別符,,,,,Local
+B11192,風の諸元記述部の識別符,SWCA,暴風警戒域の記述を示す識別符,,,,,Local
