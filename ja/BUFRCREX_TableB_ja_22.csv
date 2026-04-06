@@ -1,0 +1,7 @@
+ClassNo,ClassName_en,FXY,ElementName_en,BUFR_Unit,BUFR_Scale,BUFR_ReferenceValue,BUFR_DataWidth_Bits,CREX_Unit,CREX_Scale,CREX_DataWidth_Char,Note_en,noteIDs,Status
+22,海洋要素,022192,最大潮位,,,,,ｍ,1,3,,,Local
+22,海洋要素,022193,地域的な基準面に対する潮位,m,2,0,14,,,,,,Local
+22,海洋要素,022194,東京湾平均海面（T.P.）に対する潮位,m,2,-10000,14,,,,,,Local
+22,海洋要素,022200,風浪の階級,Code table,0,0,4,,,,,,Local
+22,海洋要素,022201,うねりの階級,Code table,0,0,4,,,,,,Local
+22,海洋要素,022202,検潮所の観測基準面に対する潮位,Code table,0,-3000,15,,,,,,Local
