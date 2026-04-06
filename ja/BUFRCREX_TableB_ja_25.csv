@@ -1,0 +1,23 @@
+ClassNo,ClassName_en,FXY,ElementName_en,BUFR_Unit,BUFR_Scale,BUFR_ReferenceValue,BUFR_DataWidth_Bits,CREX_Unit,CREX_Scale,CREX_DataWidth_Char,Note_en,noteIDs,Status
+25,情報の処理,025192,ウィンドプロファイラーデータ品質管理情報,Flag table,0,0,8,,,,,,Local
+25,情報の処理,025199,障害状況識別符,Code table,0,0,5,,,,,,Local
+25,情報の処理,025200,障害状況の指示符,CCITT IA5,0,0,8,,,,,,Local
+25,情報の処理,025201,降水量のＡＱＣ識別符（AMeDAS）,Code table,0,0,4,,,,,,Local
+25,情報の処理,025202,風向の論理チェック識別符,Code table,0,0,4,,,,,,Local
+25,情報の処理,025203,風速のＡＱＣ識別符,Code table,0,0,4,,,,,,Local
+25,情報の処理,025204,気温のＡＱＣ識別符,Code table,0,0,4,,,,,,Local
+25,情報の処理,025205,日照の論理チェック識別符,Code table,0,0,4,,,,,,Local
+25,情報の処理,025206,積雪の深さのＡＱＣ識別符,Code table,0,0,4,,,,,,Local
+25,情報の処理,025207,積雪の深さの差のＡＱＣ識別符,Code table,0,0,4,,,,,,Local
+25,情報の処理,025208,最大瞬間風速のＡＱＣ識別符,Code table,0,0,4,,,,,,Local
+25,情報の処理,025209,最大瞬間風速の風向のＡＱＣ識別符,Code table,0,0,4,,,,,,Local
+25,情報の処理,025210,自動観測による現在天気のＡＱＣ識別符,Code table,0,0,4,,,,,,Local
+25,情報の処理,025211,降水量のＡＱＣ識別符,Code table,0,0,4,,,,,,Local
+25,情報の処理,025212,日照時間のＡＱＣ識別符,Code table,0,0,4,,,,,,Local
+25,情報の処理,025213,水位のＡＱＣ識別符,Code table,0,0,3,,,,,,Local
+25,情報の処理,025214,流量のＡＱＣ識別符,Code table,0,0,3,,,,,,Local
+25,情報の処理,025215,地域的な基準面に対する潮位のＡＱＣ識別符,Code table,0,0,3,,,,,,Local
+25,情報の処理,025216,潮位観測機器のサンプリング間隔,秒,0,0,8,,,,,,Local
+25,情報の処理,025217,潮位観測機器の平均時間,秒,0,0,8,,,,,,Local
+25,情報の処理,025218,検潮所の障害情報識別符,Code table,0,0,5,Code table,0,5,,,Local
+25,情報の処理,025219,観測値のAQC識別符,Code table,0,0,3,,,,,,Local
