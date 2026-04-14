@@ -335,14 +335,14 @@ class TDCSabun
         # not en 言語の言語パッチファイルがあれば読み込み適用する。
         if lang!='en' then
           if @fnams.include?(lang) then
-            warn "patching #{lang} #{@fnams.inspect}"
+            warn "patching #{lang} #{@fnams.inspect}" if $VERBOSE
             csvja=CSV.read(@fnams[lang],headers:true)
             patch(csvja)
             csvja=nil
           end
         end
       elsif @fnams[lang] then
-        warn "missing en file, use #{@fnams[lang]} instead"
+        warn "missing en file, use #{@fnams[lang]} instead" if $VERBOSE
         csv=CSV.read(@fnams[lang],headers:true)
         basename_en=File.basename(@fnams[lang])
         csv.each{|row|
