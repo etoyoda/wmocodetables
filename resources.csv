@@ -47,6 +47,7 @@ UnitComments_en,ja,単位
 ^B-A,ja,BUFR表A
 CodeFigure,en,Code Figure
 CodeFigure,ja,数字符号
+Bit No.,ja,ビット番号
 Meaning_en,en,Meaning
 Meaning_en,ja,意味
 ^bB-(\d+),en,BUFR/CREX Table B - Class %02u

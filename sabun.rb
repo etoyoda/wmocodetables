@@ -48,6 +48,16 @@ class TDCSabun
       @tnt=nil
       # 列名変換表
       @coln=nil
+      # FXY of flag tables
+      #@flagfxy=Hash.new
+      @flagfxy={
+      'B01195'=>1,
+      'B01205'=>1,
+      'B01206'=>1,
+      '008210'=>1,
+      'B19193'=>1,
+      '025192'=>1,
+      }
     end
 
     # CSV::Row 型の row に訂正パッチをあてる
@@ -62,7 +72,11 @@ class TDCSabun
     end
 
     # 列名の置換、未定義ならCSV上の列名 h そのもの
-    def colname h
+    def colname h, nzid=nil
+      if nzid and 'CodeFigure'==h and @flagfxy[nzid] then
+        warn "nzid=#{nzid} h=#{h} to Bit No."
+        h='Bit No.'
+      end
       @coln[h] or h
     end
     alias :xlate :colname
@@ -587,7 +601,7 @@ class TDCSabun
       scols=cols_spec(cols)
       buf.push "[cols=\"#{scols}\",option=\"header\"]\n"
       buf.push "|===\n"
-      cols_d=cols.map{|h| @resd.colname(h)}
+      cols_d=cols.map{|h| @resd.colname(h,nzid)}
       buf.push('|'+cols_d.join(' |')+"\n")
       table.each{|row|
         vv=cols.map{|h|
