@@ -35,3 +35,9 @@ BUFRCREX_TableB_en_33.csv,FXY,033045,noteIDs,"168,173","168,174",
 BUFRCREX_TableB_en_01.csv,FXY,001013,noteIDs,"60,125","125,60",
 CodeFlag_table.csv,tableNo,4.2.0.18,notation,3,4,パラメタ追加による繰り下げ
 CodeFlag_table.csv,noteID,118,tableNo,4.1.0.0,4.1,これは表全体にかかる注であった
+GRIB2_Template_3_3_GridDefinitionTemplate_en.csv,OctetNo,97-nn,Note_en,"(see Notes 3 and 4)","(see Notes 4 and 5)",semantic correction
+GRIB2_Template_3_3_GridDefinitionTemplate_en.csv,OctetNo,97-nn,noteIDs,"4,124","124,4",semantic correction
+Template_table.csv,templateName,Data representation template 5.2 - Grid point data - complex packing,noteID,34,23,
+Template_table.csv,templateName,Data representation template 5.51 - Spherical harmonics data - complex packing,notation,1,2,
+Template_table.csv,templateName,Grid definition template 3.90 - space view perspective or orthographic,noteID,41,42,
+GRIB2_Template_3_90_GridDefinitionTemplate_en.csv,OctetNo,69-72,noteIDs,"59,22,73","59,73,22",
