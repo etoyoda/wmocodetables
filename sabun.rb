@@ -49,15 +49,7 @@ class TDCSabun
       # 列名変換表
       @coln=nil
       # FXY of flag tables
-      #@flagfxy=Hash.new
-      @flagfxy={
-      'B01195'=>1,
-      'B01205'=>1,
-      'B01206'=>1,
-      '008210'=>1,
-      'B19193'=>1,
-      '025192'=>1,
-      }
+      @flagfxy=Hash.new
     end
 
     # CSV::Row 型の row に訂正パッチをあてる
@@ -107,6 +99,10 @@ class TDCSabun
         return format(txt,$1.to_i,$2.to_i) if re===ftyp
       }
       return ftyp
+    end
+
+    def set_flagtab fxy
+      @flagfxy[fxy]=2
     end
 
   end # class ResourceData
@@ -461,6 +457,14 @@ class TDCSabun
       end
     end
 
+    def find_flagtab
+      return unless /^bB/===@ftyp
+      self.each{|row|
+        yield row['FXY'] if 'Flag table'==row['BUFR_Unit']
+        yield row['FXY'].sub(/^0/,'B') if 'Flag table'==row['CREX_Unit']
+      }
+    end
+
     def each
       @table.each{|row| yield(row)}
     end
@@ -777,6 +781,7 @@ class TDCSabun
     # CSVデータを読み込むところまで
     def build_rev lang
       @cat.each{|ftyp,is| is.build(lang) }
+      @cat.each{|ftyp,is| is.find_flagtab{|nzid| @resd.set_flagtab(nzid)}}
       @cat.each{|ftyp,is|
         is.compile_notes(*find_note(ftyp))
       }
