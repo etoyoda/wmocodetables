@@ -66,7 +66,7 @@ class TDCSabun
     # 列名の置換、未定義ならCSV上の列名 h そのもの
     def colname h, nzid=nil
       if nzid and 'CodeFigure'==h and @flagfxy[nzid] then
-        warn "nzid=#{nzid} h=#{h} to Bit No."
+        warn "nzid=#{nzid} h=#{h} to Bit No." if $VERBOSE
         h='Bit No.'
       end
       @coln[h] or h
