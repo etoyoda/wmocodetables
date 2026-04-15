@@ -43,3 +43,6 @@ Template_table.csv,templateName,Grid definition template 3.90 - space view persp
 GRIB2_Template_3_90_GridDefinitionTemplate_en.csv,OctetNo,69-72,noteIDs,"59,22,73","59,73,22",
 Template_table.csv,templateName,Grid definition template 3.51 - rotated spherical harmonic coefficients,noteID,136,117,
 BUFR_TableD_table.csv,tableName,Location and identification sequences,noteID,62,5,
+BUFRCREX_CodeFlag_table.csv,tableNo,0 02 022,notation,4,1,
+GRIB2_CodeFlag_4_5_CodeTable_en.csv,CodeFlag,37,Note_en,(see Note 10),(see Note 11),10 duplicates
+GRIB2_CodeFlag_4_5_CodeTable_en.csv,CodeFlag,115,noteIds,74,75,
