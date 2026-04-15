@@ -37,6 +37,13 @@ do
       ln -s -f ../../${jafile} $gdir/notes/
     done
   ;;
+  CCT*)
+    for cdir in CCT*
+    do
+      echo $cdir
+      ln -s -f ../../${jafile} $cdir/notes/
+    done
+  ;;
   *)
     echo unsupported jabase=$jabase
     false
