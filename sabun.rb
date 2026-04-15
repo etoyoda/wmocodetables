@@ -175,7 +175,7 @@ class TDCSabun
       unless @cat.include?(nid)
         msg="missing #{@ftyp} note #{nid}"
         warn msg
-        @cat[nid]="(dummy text #{nid})"
+        @cat[nid]="(missing note text ##{nid} in #{@ftyp})"
       end
       db2[inote]=nid
     rescue NoMethodError =>e
