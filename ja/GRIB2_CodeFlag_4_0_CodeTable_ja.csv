@@ -2,7 +2,7 @@ Title_en,SubTitle_en,CodeFlag,Value,MeaningParameterDescription_en,Note_en,noteI
 Product definition template number,,32768-65534,,Reserved for local use,,,,Replace
 Product definition template number,,32768-49999,,Reserved for local use,,,,Local
 Product definition template number,,50000,,土砂災害警戒判定値,,,,Local
-Product definition template number,,50000-50007,,Reserved for local use,,,,Local
+Product definition template number,,50001-50007,,Reserved for local use,,,,Local
 Product definition template number,,50008,,解析雨量プロダクト (観測情報を付加した連続な時間間隔の水平面における積算),,,,Local
 Product definition template number,,50009,,降水短時間予報プロダクト (予測手法情報を付加した連続な時間間隔の水平面における積算),,,,Local
 Product definition template number,,50010,,実況雨量全国合成プロダクト (予測手法情報を付加した連続な時間間隔の水平面における積算),,,,Local
