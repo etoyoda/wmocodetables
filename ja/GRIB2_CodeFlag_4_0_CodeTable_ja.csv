@@ -10,7 +10,9 @@ Product definition template number,,50011,,Xバンドレーダーを使用した
 Product definition template number,,50012,,降水15時間予報プロダクト,,,,Local
 Product definition template number,,50013-50019,,Reserved for local use,,,,Local
 Product definition template number,,50020,,雨量換算係数,,,,Local
-Product definition template number,,50021-51019,,Reserved for local use,,,,Local
+Product definition template number,,50021-50030,,Reserved for local use,,,,Local
+Product definition template number,,50031,,台風の暴風域に入る確率プロダクト,,,,Local
+Product definition template number,,50032-51019,,Reserved for local use,,,,Local
 Product definition template number,,51020,,レーダープロダクト (高度別),,,,Local
 Product definition template number,,51021,,レーダープロダクト (仰角別),,,,Local
 Product definition template number,,51022,,レーダープロダクト (仰角別、磁気偏角付き),,,,Local
